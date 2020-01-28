@@ -4,8 +4,26 @@
 library(pROC)
 
 
+mROC_class_template<-list(p=NA,FPs=NA,TPs=NA)
 
-#Returns the TP/FP data for mROC given a vector of predicted risks
+class(mROC_class_template)<-"mROC"
+
+
+#' @export
+plot.mROC<-function(mROC_obj,...)
+{
+  #sf<-stepfun(mROC_obj$FPs,c(0,mROC_obj$TPs))
+  plot(mROC_obj$FPs,mROC_obj$TPs,xlim=c(0,1),ylim=c(0,1),type='l',xlab="Falst Positive",ylab="True Positive") #TODO: let possible xlim and ylim from ... override the default
+}
+
+
+
+#' Takes in a vector of probabilities and returns mROC values (Tp,TP, in an object of class mROC)
+#' @param p A numberic vector of probabilities.
+#' @param ordered Optional, if the vector p is ordered from small to large (if not the function will do it; TRUE is to facilitate fast computations).
+#' @return This function returns an object of class mROC.
+#' @examples
+#' @export
 mROC<-function(p, ordered=F)
 {
   if(min(p)<0 || max(p)>1) {stop("Error: invalid probability vector."); return(-1); }
@@ -25,21 +43,35 @@ mROC<-function(p, ordered=F)
   {
     fp<-fp+(1-p[i])/sumP0
     tp<-tp+p[i]/sumP1
-    roc[i,]<-c(fp,tp)
+    roc[n-i+1,]<-c(fp,tp)
   }
 
-  return(roc)
+  out<-mROC_class_template
+  out$p=p
+  out$FPs<-c(0,roc[,1])
+  out$TPs<-c(0,roc[,2])
+  
+  return(out)
 }
 
 
 
 
 
-calc_mAUC<-function(mROC_data)
+
+
+
+#' Takes in a mROC object and calculates the area under the curve
+#' @param mROC_obj An object of class mROC
+#' @return Returns the aurea under the mROC curve
+#' @export
+mAUC<-function(mROC_obj)
 {
-  z<-c(mROC_data[,1],0)
-  w<-z[-length(z)]-z[-1]
-  mAUC=sum(w*mROC_data[,2])/sum(w)
+  l<-length(mROC_obj$FPs)
+  x<-mROC_obj$FPs[-1]-mROC_obj$FPs[-l]
+  a<-sum(x*mROC_obj$TPs[-1])
+  b<-sum(x*mROC_obj$TPs[-l])
+  return((a+b)/2)
 }
 
 
