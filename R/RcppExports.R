@@ -2,14 +2,14 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 Ccalc_mROC_stats <- function(M, Y) {
-    .Call('_mROC_Ccalc_mROC_stats', PACKAGE = 'mROC', M, Y)
+    .Call(`_mROC_Ccalc_mROC_stats`, M, Y)
 }
 
 test <- function() {
-    .Call('_mROC_test', PACKAGE = 'mROC')
+    .Call(`_mROC_test`)
 }
 
 Csimulate_null_mROC_stats_unconditional <- function(M, n_sim) {
-    .Call('_mROC_Csimulate_null_mROC_stats_unconditional', PACKAGE = 'mROC', M, n_sim)
+    .Call(`_mROC_Csimulate_null_mROC_stats_unconditional`, M, n_sim)
 }
 
