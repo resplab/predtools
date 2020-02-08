@@ -4,8 +4,15 @@
 \alias{mROC_inference}
 \title{Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs}
 \usage{
-mROC_inference(p, y, n_sim = 1e+05, CI = FALSE, aux = FALSE,
-  fast = TRUE, conditional = FALSE)
+mROC_inference(
+  p,
+  y,
+  n_sim = 1e+05,
+  CI = FALSE,
+  aux = FALSE,
+  fast = TRUE,
+  conditional = FALSE
+)
 }
 \arguments{
 \item{p}{vector of probabilities}
