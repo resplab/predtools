@@ -217,8 +217,14 @@ aux<-environment()
 
 
 
+#' Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs
+#' @param p vector of probabilities
+#' @param y vector of binary response values
+#' @param n_sim number of Monte Carlo simulations to calculate p-value
+#' @param CI whether confidence interval should be alculated for each point of mROC
+#' @return Returns the aurea under the mROC curve
+#' @export
 
-#Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs
 mROC_inference<-function(p,y,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,conditional=FALSE)
 {
   out<-list()
