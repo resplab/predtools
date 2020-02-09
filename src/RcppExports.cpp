@@ -17,16 +17,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// test
-double test();
-RcppExport SEXP _mROC_test() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(test());
-    return rcpp_result_gen;
-END_RCPP
-}
 // Csimulate_null_mROC_stats_unconditional
 NumericMatrix Csimulate_null_mROC_stats_unconditional(NumericVector M, int n_sim);
 RcppExport SEXP _mROC_Csimulate_null_mROC_stats_unconditional(SEXP MSEXP, SEXP n_simSEXP) {
@@ -42,7 +32,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_mROC_Ccalc_mROC_stats", (DL_FUNC) &_mROC_Ccalc_mROC_stats, 2},
-    {"_mROC_test", (DL_FUNC) &_mROC_test, 0},
     {"_mROC_Csimulate_null_mROC_stats_unconditional", (DL_FUNC) &_mROC_Csimulate_null_mROC_stats_unconditional, 2},
     {NULL, NULL, 0}
 };

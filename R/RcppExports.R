@@ -5,10 +5,6 @@ Ccalc_mROC_stats <- function(M, Y) {
     .Call(`_mROC_Ccalc_mROC_stats`, M, Y)
 }
 
-test <- function() {
-    .Call(`_mROC_test`)
-}
-
 Csimulate_null_mROC_stats_unconditional <- function(M, n_sim) {
     .Call(`_mROC_Csimulate_null_mROC_stats_unconditional`, M, n_sim)
 }

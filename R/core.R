@@ -1,6 +1,5 @@
 #2020.01.27
 
-
 library(pROC)
 
 
@@ -13,7 +12,8 @@ class(mROC_class_template)<-"mROC"
 plot.mROC<-function(mROC_obj,...)
 {
   #sf<-stepfun(mROC_obj$FPs,c(0,mROC_obj$TPs))
-  plot(mROC_obj$FPs,mROC_obj$TPs,xlim=c(0,1),ylim=c(0,1),type='l',xlab="Falst Positive",ylab="True Positive") #TODO: let possible xlim and ylim from ... override the default
+  #TODO: let possible xlim and ylim from ... override the default
+  plot(mROC_obj$FPs,mROC_obj$TPs,xlim=c(0,1),ylim=c(0,1),type='l',xlab="Falst Positive",ylab="True Positive") 
 }
 
 
@@ -22,7 +22,6 @@ plot.mROC<-function(mROC_obj,...)
 #' @param p A numberic vector of probabilities.
 #' @param ordered Optional, if the vector p is ordered from small to large (if not the function will do it; TRUE is to facilitate fast computations).
 #' @return This function returns an object of class mROC.
-#' @examples
 #' @export
 mROC<-function(p, ordered=F)
 {

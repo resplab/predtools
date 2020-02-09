@@ -213,13 +213,6 @@ int *conditional_sample_crazy(int n, double *p, int size)
 
 
 
-// [[Rcpp::export]]
-double test()
-{
-  return(runif(1)[0]);
-}
-
-
 
 
 
