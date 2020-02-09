@@ -453,6 +453,7 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
                 text(0.5,0.3, sprintf("mAUC:%s",format(mAUC, digits = 2)),cex=1)
                 text(0.5,0.1, sprintf("B:%s",format(B, digits = 2)),cex=1)
                 lines(tmp$FPs,tmp$TPs,col="red")
+                lines(c(0,1),c(0,1),col="grey")
                 #title(sprintf("b0=%s,b1=%s",format(b0,3),format(b1,3)))
               }
             }
