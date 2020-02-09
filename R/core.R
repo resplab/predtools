@@ -384,9 +384,9 @@ mROC_analysis<-function(p,y,inference=0, n_sim, fast=TRUE)
   res<-mROC(p)
   out$mROC_data<-res
   
-  message("mAUC is ",calc_mAUC(res))
+  message("mAUC is ",mAUC(res))
 
-  lines(1-res[,'fp'],res[,'tp'],col='red')
+  lines(1-res$FPs,res$TPs,col='red')
 
   if(inference)
   {

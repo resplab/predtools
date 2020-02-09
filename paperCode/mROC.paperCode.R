@@ -13,6 +13,7 @@
 
 
 library(mROC)
+library(pROC)
 library(sqldf)
 #library(GRcomp)
 
@@ -446,14 +447,12 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
                 plot(1-tmp$specificities,tmp$sensitivities, type='l', ann=FALSE, xaxt='n', yaxt='n')
                 AUC=tmp$auc*1
                 tmp<-mROC(pi_star)
-                z<-c(tmp[,1],0)
-                w<-z[-length(z)]-z[-1]
-                mAUC=sum(w*tmp[,2])/sum(w)
+                mAUC=mAUC(tmp)
                 B=calc_mROC_stats(pi_star,y)['B']
-                text(0.5,0.5, sprintf("AUC:%s",format(AUC, digits = 2)),cex = 1)
+                #text(0.5,0.5, sprintf("AUC:%s",format(AUC, digits = 2)),cex = 1) AUC is constant! 
                 text(0.5,0.3, sprintf("mAUC:%s",format(mAUC, digits = 2)),cex=1)
                 text(0.5,0.1, sprintf("B:%s",format(B, digits = 2)),cex=1)
-                lines(tmp[,1],tmp[,2],col="red")
+                lines(tmp$FPs,tmp$TPs,col="red")
                 #title(sprintf("b0=%s,b1=%s",format(b0,3),format(b1,3)))
               }
             }
@@ -693,11 +692,9 @@ new_case_study<-function(covars=c("gender","age10","oxygen","hosp1yr","sgrq10","
   plot(1-dev_roc$specificities,dev_roc$sensitivities,col='blue',xlim=c(0,1),ylim=c(0,1),lwd=2,type='l',xlab="False Positive",ylab="True Positive")
   lines(1-val_roc$specificities,val_roc$sensitivities,lwd=2,type='l')
   mres<-mROC(val_preds)
-  lines(mres[,1],mres[,2],col="red",lwd=2,type='l')
+  lines(mres$FPs,mres$TPs,col="red",lwd=2,type='l')
   lines(c(0,1),c(0,1),col="gray",type='l')
   #tmp<-mROC_analysis(val_preds,y = (val_data[,'event_bin'])[[1]])
-  
-
   
   results$Pexac_p_dev<-mean(dev_preds)
   results$Oexac_p_dev<-mean(dev_data[,'event_bin'])
@@ -705,7 +702,6 @@ new_case_study<-function(covars=c("gender","age10","oxygen","hosp1yr","sgrq10","
   results$Oexac_p_val<-mean(val_data[,'event_bin'])
   results$Dn=results$Oexac_p_val-results$Pexac_p_val
   results$ttest_p<-t.test(val_preds,val_data[,'event_bin'])$p.value
-  
   
   x<-mROC_analysis(p = val_preds, y=as.vector(val_data[,'event_bin']), n_sim = settings$n_sim_inference_fast, inference = 1)
 
