@@ -2,7 +2,8 @@
 % Please edit documentation in R/core.R
 \name{mROC}
 \alias{mROC}
-\title{Takes in a vector of probabilities and returns mROC values (Tp,TP, in an object of class mROC)}
+\title{Calculates mROC from the vector of predicted risks
+Takes in a vector of probabilities and returns mROC values (TPs,FPs in an object of class mROC)}
 \usage{
 mROC(p, ordered = F)
 }
@@ -12,8 +13,9 @@ mROC(p, ordered = F)
 \item{ordered}{Optional, if the vector p is ordered from small to large (if not the function will do it; TRUE is to facilitate fast computations).}
 }
 \value{
-This function returns an object of class mROC.
+This function returns an object of class mROC. It has three vectos: thresholds on predicted risks (which is the ordered vector of input probabilities), false positive rates (FPs), and true positive rates (TPs). You can directly call the plot function on this object to draw the mROC
 }
 \description{
-Takes in a vector of probabilities and returns mROC values (Tp,TP, in an object of class mROC)
+Calculates mROC from the vector of predicted risks
+Takes in a vector of probabilities and returns mROC values (TPs,FPs in an object of class mROC)
 }

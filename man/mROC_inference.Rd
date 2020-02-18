@@ -5,8 +5,8 @@
 \title{Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs}
 \usage{
 mROC_inference(
-  p,
   y,
+  p,
   n_sim = 1e+05,
   CI = FALSE,
   aux = FALSE,
@@ -15,9 +15,9 @@ mROC_inference(
 )
 }
 \arguments{
-\item{p}{vector of probabilities}
-
 \item{y}{vector of binary response values}
+
+\item{p}{vector of probabilities}
 
 \item{n_sim}{number of Monte Carlo simulations to calculate p-value}
 

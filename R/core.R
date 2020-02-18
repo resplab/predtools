@@ -8,20 +8,39 @@ mROC_class_template<-list(p=NA,FPs=NA,TPs=NA)
 class(mROC_class_template)<-"mROC"
 
 
+aux<-environment()
+
+
 #' @export
 plot.mROC<-function(mROC_obj,...)
 {
   #sf<-stepfun(mROC_obj$FPs,c(0,mROC_obj$TPs))
   #TODO: let possible xlim and ylim from ... override the default
-  plot(mROC_obj$FPs,mROC_obj$TPs,xlim=c(0,1),ylim=c(0,1),type='l',xlab="Falst Positive",ylab="True Positive") 
+  plot(1-mROC_obj$FPs,mROC_obj$TPs,xlim=c(1,0),ylim=c(0,1),type='l',xlab="Specificity",ylab="Sensitivity",...) 
+}
+
+
+#' @export
+lines.mROC<-function(mROC_obj,...)
+{
+  #sf<-stepfun(mROC_obj$FPs,c(0,mROC_obj$TPs))
+  #TODO: let possible xlim and ylim from ... override the default
+  xlim<-par("usr")[1:2]
+  
+  x<-mROC_obj$FPs
+  
+  if(xlim[1]>xlim[2]) x<-1-x
+  
+  lines(x,mROC_obj$TPs,type='l',...) 
 }
 
 
 
-#' Takes in a vector of probabilities and returns mROC values (Tp,TP, in an object of class mROC)
+#' @title Calculates mROC from the vector of predicted risks
+#' Takes in a vector of probabilities and returns mROC values (TPs,FPs in an object of class mROC)
 #' @param p A numberic vector of probabilities.
 #' @param ordered Optional, if the vector p is ordered from small to large (if not the function will do it; TRUE is to facilitate fast computations).
-#' @return This function returns an object of class mROC.
+#' @return This function returns an object of class mROC. It has three vectos: thresholds on predicted risks (which is the ordered vector of input probabilities), false positive rates (FPs), and true positive rates (TPs). You can directly call the plot function on this object to draw the mROC
 #' @export
 mROC<-function(p, ordered=F)
 {
@@ -77,72 +96,13 @@ mAUC<-function(mROC_obj)
 
 
 
-#Calculates the asolute surface between the empirical and expected ROCs
-calc_mROC_stats_old<-function(p,y, ordered=F, fast=T)
-{
-  if(!ordered)
-  {
-    o<-order(p)
-    p<-p[o]
-    y<-y[o]
-  }
-
-  if(fast)
-  {
-    tmp<-Ccalc_mROC_stats(p,y)
-    return(c(A=tmp[1],B=tmp[2]))
-  }
-
-  n0<-length(which(y==0))
-  n1<-length(which(y==1))
-
-  n<-n0+n1
-
-  tpO<-0
-  fpO<-0
-
-  sumP1<-sum(p)
-  sumP0<-sum(1-p)
-  tpE<-0
-  fpE<-0
-
-  j<-n
-
-  delta<-0
-
-  for(i in (n0+n1):1)
-  {
-    if(y[i]==1)
-    {
-      tpO<-tpO+1/n1
-    }
-    else
-    {
-      fpO<-fpO+1/n0
-
-      while(fpO>fpE && j>0)
-      {
-        fpE<-fpE+(1-p[j])/sumP0
-        tpE<-tpE+p[j]/sumP1
-        j<-j-1
-        delta<-delta+abs(tpO-tpE)
-        #cat(paste(fpO,",",fpE,";"))
-      }
-      #cat("\n")
-    }
-  }
-  return(delta/n)
-}
-
-
-
 
 
 
 
 
 #Calculates the asolute surface between the empirical and expected ROCs
-calc_mROC_stats<-function(p,y, ordered=F, fast=T)
+calc_mROC_stats<-function(y, p, ordered=F, fast=T)
 {
   if(!ordered)
   {
@@ -153,7 +113,7 @@ calc_mROC_stats<-function(p,y, ordered=F, fast=T)
   
   if(fast)
   {
-    tmp<-Ccalc_mROC_stats(p,y)
+    tmp<-Ccalc_mROC_stats(p,y)  #Warning: The C code still takes p as first argument
     return(c(A=tmp[1],B=tmp[2]))
   }
   
@@ -211,12 +171,11 @@ calc_mROC_stats<-function(p,y, ordered=F, fast=T)
 
 
 
-aux<-environment()
-
 
 
 
 #' Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs
+#' 
 #' @param p vector of probabilities
 #' @param y vector of binary response values
 #' @param n_sim number of Monte Carlo simulations to calculate p-value
@@ -224,7 +183,7 @@ aux<-environment()
 #' @return Returns the aurea under the mROC curve
 #' @export
 
-mROC_inference<-function(p,y,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,conditional=FALSE)
+mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,conditional=FALSE)
 {
   out<-list()
 
@@ -264,7 +223,7 @@ mROC_inference<-function(p,y,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
     {
       tmp=Csimulate_null_ds_conditional_crazy(p,n1,n_sim)
       #tmp=Csimulate_null_ds_conditional(q,n_sim)
-      stats<-calc_mROC_stats(p,y)
+      stats<-calc_mROC_stats(y,p)
       out$stats<-stats
       
       out$null_stats<-c(distance.se=sqrt(var(tmp[,1]/length(tmp[,1]))),surface.mu=mean(tmp[,2]),surface.se=sqrt(var(tmp[,2]/length(tmp[,2]))))
@@ -295,7 +254,7 @@ mROC_inference<-function(p,y,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
       
       tmp<-Csimulate_null_mROC_stats_unconditional(p,n_sim)
       
-      stats<-calc_mROC_stats(p,y)
+      stats<-calc_mROC_stats(y,p)
       out$stats<-stats
   
       out$null_stats<-c(A.mu=mean(tmp[,1]),A.se=sqrt(var(tmp[,1]/length(tmp[,1]))),B.mu=mean(tmp[,2]),B.se=sqrt(var(tmp[,2]/length(tmp[,2]))))
@@ -341,7 +300,7 @@ mROC_inference<-function(p,y,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
           res<-roc(y,p,quiet = T)
           sns[,i]<-coords(res,(0:n)/n,input="specificity",transpose=FALSE)[,"sensitivity",]
         }
-        tmp[i,]<-calc_mROC_stats(p,y,ordered = TRUE)
+        tmp[i,]<-calc_mROC_stats(y,p,ordered = TRUE)
   
         if(aux)
         {
@@ -368,7 +327,7 @@ mROC_inference<-function(p,y,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
 
 
 #Main eRoc analysis: draws the ROC and eROC. inference=0: no inference, inference=1: p-value, inference=2: p-value and 95%CI
-mROC_analysis<-function(p,y,inference=0, n_sim, fast=TRUE)
+mROC_analysis<-function(y,p,inference=0, n_sim, fast=TRUE)
 {
   if(inference==2 && fast) stop("Confidence intervals are currently only available when fast=FALSE")
   
@@ -389,7 +348,7 @@ mROC_analysis<-function(p,y,inference=0, n_sim, fast=TRUE)
 
   if(inference)
   {
-    inf<-mROC_inference(p=p, y=y, CI=(inference==2), n_sim = n_sim,  fast=fast)
+    inf<-mROC_inference(y=y, p=p, CI=(inference==2), n_sim = n_sim,  fast=fast)
     if(inference==2)
     {
       n<-length(p)

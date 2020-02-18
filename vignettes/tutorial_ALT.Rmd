@@ -1,0 +1,103 @@
+---
+title: "Tutorial for model-based ROC (mROC) analysis"
+output: rmarkdown::html_vignette
+
+vignette: >
+  %\VignetteIndexEntry{Tutorial for mROC analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(mROC)
+```
+
+
+This tutotial provides background information and stepwise tutorial for model-based ROC (mROC) methodology.
+
+## What is mROC?
+
+Imagine you have developed a risk prediction model using some development dataset. The risk prediction model takes in some predictors (e.g., sex, age, previous disease history) and returns the risk of an event (e.g., risk of disease relapse in the next 12 months). You would like to evaluate the performance of the risk model in a new (external) validation sample. Among other things, you typically evaluate the Receiver Operating Characteristic (ROC) curve of the risk prediciton model in the new sample.
+
+Now, ‘model-based’ ROC (mROC) curve is the ROC curve that should be observed if the prediction model is calibrated in the external population. Comparing the empirical ROC and mROC curves in the new sample can be informative on if the model is calibrated in the new sample.
+
+## Installation
+
+You can install the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("msadatsafavi/mROC")
+```
+
+## How the package works
+The package provides simple functions for mROC-related methods. It also comes with exemplary datasets. Below we provide a step-by-step illustration
+
+
+## A step-by-step guide.
+
+Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient's age, disease severity level, sex, and whether the patient has comorbidity. Our risk prediction model estimated from some development data if of the form:
+
+
+```{R echo=FALSE}
+covars<-colnames(val_data)
+covars<-covars[-length(covars)]
+str_formula<-paste0("y~",paste0(covars,collapse="+"))
+reg<-glm(str_formula,data=val_data,family=binomial(link="logit"))
+cfs<-coefficients(reg)
+str<-paste0(round(cfs[1],2),"+",paste0(round(cfs[-1],2),"*",names(cfs[-1]),collapse="+"))
+str<-gsub("+-","-",str,fixed=T)
+```
+
+
+$\bf{ logit(p)=`r str`}$.
+
+
+There is a hypothetical dataset included in the package called val_data which we will use to externally validate this model.
+
+```{R}
+
+data(val_data)
+
+```
+
+It has `r dim(mROC::val_data)[1]` rows. Here are the first few rows of val_data:
+
+```{R echo=FALSE}
+knitr::kable(dev_data[1:7,])
+```
+
+
+
+Now lets calculate the predicted probabilities for each subject in the validation dataset given the prediction equation. Let's first turn the prediction model into a function
+
+```{R echo=FALSE, comment=""}
+str_risk_model<-paste(
+"risk_model<-function(covars){",
+paste0(covars,"=covars['",covars,"']",collapse=";"),
+"; lin_pred=",str,";",
+"return(1/(1+exp(-lin_pred)))",
+"}"
+)
+
+risk_model<-eval(parse(text=str_risk_model))
+
+print("risk_model<-"); print(risk_model)
+```
+
+And then apply it to each row of the validation data:
+
+```{R}
+pred<-apply(val_data,1,risk_model)
+```
+
+
+Here is a summary of predicted risks:
+```{R}
+summary(pred)
+
+hist(pred)
+```
