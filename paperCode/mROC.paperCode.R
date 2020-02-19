@@ -116,6 +116,7 @@ stylized_example<-function()
 
   #ROC
   plot(t,2*sqrt(t)-t,type='l',xlab = "False Positive", ylab="True Positive", lwd=2)
+  lines(c(0,1),c(0,1),type="l",col="grey")
 
   #If pi* = sqrt(pi):
   for(i in 1:length(y))
@@ -293,7 +294,7 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
               break 
             else
             {
-                message("Shit!")
+                message("OUCH - bad sample, too few outcomes, repeat!")
             }
           }
           
@@ -305,8 +306,8 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
                 o<-order(pi_star)
                 pi_<-pi[o]
                 pi_star_<-pi_star[o]
-                plot(pi_star_,pi_,xlab=(paste(ss,b0,b1,sep=",")), ann=FALSE, xaxt='n', yaxt='n', type='l', xlim=c(0,1), ylim=c(0,1), col="blue", lwd=2)
-                lines(c(0,0),c(1,1),col="gray",type='l')
+                plot(c(0,pi_star_,1),c(0,pi_,1),xlab=(paste(ss,b0,b1,sep=",")), ann=FALSE, xaxt='n', yaxt='n', type='l', xlim=c(0,1), ylim=c(0,1), col="blue", lwd=2)
+                lines(c(0,1),c(0,1),col="gray",type='l')
                 text(0.50,0.075, sprintf("E(\U03C0*)=%s",format(mean(pi_star),digits =  3)))
                 #text(0.75,0.5, sprintf("E(pi)=%s",format(mean(pi),digits = 3)))
                 title(sprintf(paste0("\U03B2","0=%s,\U03B2","1=%s"),format(b0,3),format(b1,3)))
@@ -509,6 +510,9 @@ new_case_study<-function(covars=c("gender","age10","oxygen","hosp1yr","sgrq10","
   results$model<-reg$coefficients
   
   message(paste(round(results$model,3),names(results$model),sep="*",collapse="+"))
+  
+  write.table(apply(round(summary(reg)$coefficients[,c(1,2)],3),1,paste0,collapse=" / "),"clipboard")
+  message("Reg table copied to clipboard")
   
   dev_preds<-predict(reg,type="response")
   dev_roc<-roc(as.vector(dev_data[,'event_bin']),dev_preds)

@@ -38,7 +38,6 @@ The package provides simple functions for mROC-related methods. It also comes wi
 
 
 ## A step-by-step guide.
-
 Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient's age, disease severity level, sex, and whether the patient has comorbidity. 
 
 The package comes with two exemplary datasets. dev_data and val_data. We use the dev_data as the development sample and the val_data as the external validation sample.
@@ -148,3 +147,4 @@ res<-mROC_inference(val_data[,'y'],pred)
 res
 
 ```
+
