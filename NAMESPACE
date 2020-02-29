@@ -4,6 +4,7 @@ S3method(lines,mROC)
 S3method(plot,mROC)
 export(mAUC)
 export(mROC)
+export(mROC_analysis)
 export(mROC_inference)
 
 useDynLib(mROC, .registration=TRUE)
