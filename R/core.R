@@ -4,8 +4,13 @@ library(pROC)
 
 
 mROC_class_template<-list(p=NA,FPs=NA,TPs=NA)
-
 class(mROC_class_template)<-"mROC"
+
+
+mROC_inference_template<-list(n_sim=NA,stats=c(A=NA,B=NA),pvals=c(A=NA,B=NA),null_stats=c(A.mu=NA,A.se=NA,B.mu=NA,b.se=NA),stat=c(value=NA,df=NA),pvals=c(A=NA,B=NA),pval=NA)
+class(mROC_inference_template)<-"mROC_inference"
+
+
 
 
 aux<-environment()
@@ -185,7 +190,9 @@ calc_mROC_stats<-function(y, p, ordered=F, fast=T)
 
 mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,conditional=FALSE)
 {
-  out<-list()
+  out<-mROC_inference_template
+  
+  out$n_sim<-n_sim
 
   n<-length(p)
 
@@ -319,6 +326,8 @@ mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
 
   return(out)
 }
+
+
 
 
 
