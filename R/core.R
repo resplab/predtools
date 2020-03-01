@@ -7,9 +7,15 @@ mROC_class_template<-list(p=NA,FPs=NA,TPs=NA)
 class(mROC_class_template)<-"mROC"
 
 
-mROC_inference_template<-list(n_sim=NA,stats=c(A=NA,B=NA),pvals=c(A=NA,B=NA),null_stats=c(A.mu=NA,A.se=NA,B.mu=NA,b.se=NA),stat=c(value=NA,df=NA),pvals=c(A=NA,B=NA),pval=NA)
+mROC_inference_template<-list(n_sim=NA,stats=c(A=NA,B=NA,A.dir=NA),pvals=c(A=NA,B=NA),null_stats=c(A.mu=NA,A.se=NA,B.mu=NA,b.se=NA),stat=c(value=NA,df=NA),pvals=c(A=NA,B=NA),pval=NA)
 class(mROC_inference_template)<-"mROC_inference"
 
+#' @export
+print.mROC_inference<-function(obj,...)
+{
+  cat("Mean calibration statistic (A):",obj$stats['A'],"(",ifelse(obj$stats['A.dir'],"Obs>Pred","Obs<Pred") ,") (p:",obj$pvals['A'],")\nmROC/ROC equality statsitic (B):",obj$stats['B']," (p:",obj$pvals['B'],")\nUnified statistic:",obj$stat['value']," (df:",obj$stat['df'],",p:",obj$pval,")",sep ="")
+  return(invisible(obj$pval))
+}
 
 
 
@@ -119,7 +125,7 @@ calc_mROC_stats<-function(y, p, ordered=F, fast=T)
   if(fast)
   {
     tmp<-Ccalc_mROC_stats(p,y)  #Warning: The C code still takes p as first argument
-    return(c(A=tmp[1],B=tmp[2]))
+    return(c(A=tmp[1],B=tmp[2],A.dir=(mean(y-p)>0)))
   }
   
   n0<-length(which(y==0))
@@ -170,7 +176,9 @@ calc_mROC_stats<-function(y, p, ordered=F, fast=T)
     #lines(xo,yo,type='o')
   }
   
-  return(list(A=abs(mean(p-y)),B=B))
+  tmp<-mean(y-p)
+  
+  return(list(A=abs(tmp),B=B,A.dir=(tmp>0)))
 }
 
 
