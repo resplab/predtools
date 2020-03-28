@@ -358,6 +358,128 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
 
 
 
+#X_dist:mean and SD of the distirbution of the simple predictor. If NULL, then directly samples pi from standard uniform. 
+detailed_sim_new<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(-1,-0.5,0,0.5,1),b1s=c(-1.41,0.7,0,0.7,1.41),n_sim=1000, draw_plots="", GRuse=FALSE)
+{
+  b1<-1 
+  pi<-runif(100)
+  y<-rbinom(100,1,pi)
+  template<-unlist(mROC_inference(y=y,p=pi,CI=FALSE, n_sim = 100,fast=TRUE))
+  
+  out<-as.data.frame(matrix(NA, nrow =n_sim*length(sample_sizes)*length(b0s)*length(b1s),ncol = 4+length(template)))
+  colnames(out)<-c("i_sim","sample_size", "b0", "b1", names(template))
+  
+  if(draw_plots!="")
+  {
+    par(mar=c(1,1,1,1))
+    par(mfrow=c(length(b0s),length(b1s)))
+  }
+  
+  index<-1
+  for(i in 1:n_sim)
+  {
+    cat(".")
+    for(j in 1:length(sample_sizes))
+    {
+      ss<-sample_sizes[j]
+      if(is.null(X_dist)) pi<-runif(ss) else  pi<-1/(1+exp(-rnorm(ss,X_dist[1],X_dist[2])))
+      for(k0 in 1:length(b0s))  
+      {
+        b0<-b0s[k0]
+        for(k1 in 1:length(b1s))
+        {
+          #message(paste(ss,b0,b1,sep=","))
+          b2<-b1s[k1]
+          pi_star<-1/(1+exp(-(b0+b1*log(pi/(1-pi))+b2*log(pi/(1-pi))*log(pi/(1-pi)))))
+          
+          repeat
+          {
+            y=rbinom(ss,size = 1,prob = pi)
+            if(sum(y)>=3 && sum(1-y)>=3) 
+              break 
+            else
+            {
+              message("OUCH - bad sample, too few outcomes, repeat!")
+            }
+          }
+          
+          if(draw_plots!="")
+            if(i==1 && j==length(sample_sizes))
+            {
+              if(draw_plots=="pp")
+              {
+                q<-(0:100)/100
+                q_x<-log(q/(1-q))
+                
+                if(b2==0)
+                {
+                  root<-(q_x-b0)/b1
+                  q_p<-1/(1+exp(-root))
+                }
+                else
+                {
+                  delta<- b1^2-4*b2*(b0-q_x)
+                  good<-which(delta>0)
+                  q_p<-q
+                  q_p[-good]<-NA
+                  root1 <- (-b1-sqrt(delta[good]))/2/b2
+                  root2 <- (-b1+sqrt(delta[good]))/2/b2
+                  q_p[good] <- (dnorm(root1)*1/(1+exp(-root1))+dnorm(root2)*1/(1+exp(-root2)))/(dnorm(root1)+dnorm(root2))
+                }
+                
+                plot(q,q_p,xlab=(paste(ss,b0,b1,sep=",")), ann=FALSE, xaxt='n', yaxt='n', type='l', xlim=c(0,1), ylim=c(0,1), col="blue", lwd=2)
+                lines(c(0,1),c(0,1),col="gray",type='l')
+                text(0.50,0.075, sprintf("E(\U03C0*)=%s",format(mean(pi_star),digits =  3)))
+                #text(0.75,0.5, sprintf("E(pi)=%s",format(mean(pi),digits = 3)))
+                title(sprintf(paste0("\U03B2","0=%s,\U03B2","1=%s"),format(b0,3),format(b2,3)))
+              }
+              if(draw_plots=="roc")
+              {
+                tmp<-pROC::roc(y,pi_star)
+                plot(1-tmp$specificities,tmp$sensitivities, type='l', ann=FALSE, xaxt='n', yaxt='n')
+                AUC=tmp$auc*1
+                tmp<-mROC(pi_star)
+                mAUC=mAUC(tmp)
+                B=calc_mROC_stats(y,pi_star)['B']
+                #text(0.5,0.5, sprintf("AUC:%s",format(AUC, digits = 2)),cex = 1) AUC is constant! 
+                text(0.5,0.3, sprintf("mAUC:%s",format(mAUC, digits = 2)),cex=1)
+                text(0.5,0.1, sprintf("B:%s",format(B, digits = 2)),cex=1)
+                lines(tmp$FPs,tmp$TPs,col="red")
+                lines(c(0,1),c(0,1),col="grey")
+                #title(sprintf("b0=%s,b1=%s",format(b0,3),format(b1,3)))
+              }
+            }
+          
+          #message(paste(ss,b0,b1,sep=","))
+          
+          tmp<-unlist(mROC_inference(y=y,p=pi_star,CI=FALSE, n_sim = settings$n_sim_inference_fast, fast=TRUE))
+          out[index,1]<-i
+          out[index,2]<-ss
+          out[index,3]<-b0
+          out[index,4]<-b1
+          out[index,5:(5+length(template)-1)]<-tmp
+          index<-index+1
+        }
+      }
+    }
+    
+    if((i%%10)==0 && GRuse)
+    {
+      GRpush(out,overWrite = T)
+      cat("Pushed at i=",i," \n")
+    }
+  }
+  
+  aux$out<<-out
+  
+  return(out)
+}
+
+
+
+
+
+
 process_detailed_sim_results<-function(detailed=F,dec_points=3)
 {
   internal_formatter<-function(data)

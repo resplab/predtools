@@ -3,6 +3,7 @@
 S3method(lines,mROC)
 S3method(plot,mROC)
 S3method(print,mROC_inference)
+export(calc_mROC_stats)
 export(mAUC)
 export(mROC)
 export(mROC_analysis)

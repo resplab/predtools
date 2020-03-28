@@ -131,7 +131,7 @@ mROC_stats calc_mROC_stats(int n, double *M, int *Y)
 
 
 
-// [[Rcpp::export]]
+// [[Rcpp::export]] 
 std::vector<double> Ccalc_mROC_stats(NumericVector M, NumericVector Y)
 {
   int n=M.size();

@@ -113,6 +113,7 @@ mAUC<-function(mROC_obj)
 
 
 #Calculates the asolute surface between the empirical and expected ROCs
+#' @export
 calc_mROC_stats<-function(y, p, ordered=F, fast=T)
 {
   if(!ordered)
