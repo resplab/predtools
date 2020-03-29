@@ -261,8 +261,8 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
   y<-rbinom(100,1,pi)
   template<-unlist(mROC_inference(y=y,p=pi,CI=FALSE, n_sim = 100,fast=TRUE))
   
-  out<-as.data.frame(matrix(NA, nrow =n_sim*length(sample_sizes)*length(b0s)*length(b1s),ncol = 4+length(template)))
-  colnames(out)<-c("i_sim","sample_size", "b0", "b1", names(template))
+  out<-as.data.frame(matrix(NA, nrow =n_sim*length(sample_sizes)*length(b0s)*length(b1s),ncol = 4+length(template)+1))
+  colnames(out)<-c("i_sim","sample_size", "b0", "b1", names(template),"pval.LRT")
   
   if(draw_plots!="")
   {
@@ -337,6 +337,13 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
           out[index,3]<-b0
           out[index,4]<-b1
           out[index,5:(5+length(template)-1)]<-tmp
+          logit.pi_star<-log(pi_star/(1-pi_star))
+          f.0<-glm(y~ -1+offset(logit.pi_star),family="binomial")
+          #f.a<-glm(y~offset(logit.pi_star),family="binomial")
+          f.ab<-glm(y~logit.pi_star,family="binomial")
+          #message(coefficients(f.ab))
+          p.val.ab<-1-pchisq(f.0$deviance-f.ab$deviance,2)
+          out[index,"pval.LRT"]<-p.val.ab
           index<-index+1
         }
       }
@@ -359,15 +366,14 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
 
 
 #X_dist:mean and SD of the distirbution of the simple predictor. If NULL, then directly samples pi from standard uniform. 
-detailed_sim_new<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(-1,-0.5,0,0.5,1),b1s=c(-1.41,0.7,0,0.7,1.41),n_sim=1000, draw_plots="", GRuse=FALSE)
+detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(-1,-0.5,0,0.5,1),b1s=c(0.25,0.5,1,2,4), k=1, n_sim=1000, draw_plots="", GRuse=FALSE)
 {
-  b1<-1 
   pi<-runif(100)
   y<-rbinom(100,1,pi)
   template<-unlist(mROC_inference(y=y,p=pi,CI=FALSE, n_sim = 100,fast=TRUE))
   
-  out<-as.data.frame(matrix(NA, nrow =n_sim*length(sample_sizes)*length(b0s)*length(b1s),ncol = 4+length(template)))
-  colnames(out)<-c("i_sim","sample_size", "b0", "b1", names(template))
+  out<-as.data.frame(matrix(NA, nrow =n_sim*length(sample_sizes)*length(b0s)*length(b1s),ncol = 4+length(template)+1))
+  colnames(out)<-c("i_sim","sample_size", "b0", "b1", names(template), "pval.LRT")
   
   if(draw_plots!="")
   {
@@ -389,8 +395,10 @@ detailed_sim_new<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(-1
         for(k1 in 1:length(b1s))
         {
           #message(paste(ss,b0,b1,sep=","))
-          b2<-b1s[k1]
-          pi_star<-1/(1+exp(-(b0+b1*log(pi/(1-pi))+b2*log(pi/(1-pi))*log(pi/(1-pi)))))
+          b1<-b1s[k1]
+          x<-log(pi/(1-pi))
+          xx<-b0+sign(x)*(abs(x)^b1)*k
+          pi_star<-1/(1+exp(-xx))
           
           repeat
           {
@@ -411,27 +419,15 @@ detailed_sim_new<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(-1
                 q<-(0:100)/100
                 q_x<-log(q/(1-q))
                 
-                if(b2==0)
-                {
-                  root<-(q_x-b0)/b1
-                  q_p<-1/(1+exp(-root))
-                }
-                else
-                {
-                  delta<- b1^2-4*b2*(b0-q_x)
-                  good<-which(delta>0)
-                  q_p<-q
-                  q_p[-good]<-NA
-                  root1 <- (-b1-sqrt(delta[good]))/2/b2
-                  root2 <- (-b1+sqrt(delta[good]))/2/b2
-                  q_p[good] <- (dnorm(root1)*1/(1+exp(-root1))+dnorm(root2)*1/(1+exp(-root2)))/(dnorm(root1)+dnorm(root2))
-                }
+                p_x<-(abs(q_x-b0)/k)^(1/b1)
+                p_x[which(q_x-b0<0)]<- -abs(p_x[which(q_x-b0<0)])
+                p<-1/(1+exp(-p_x))
                 
-                plot(q,q_p,xlab=(paste(ss,b0,b1,sep=",")), ann=FALSE, xaxt='n', yaxt='n', type='l', xlim=c(0,1), ylim=c(0,1), col="blue", lwd=2)
+                plot(q,p ,xlab=(paste(ss,b0,b1,sep=",")), ann=FALSE, xaxt='n', yaxt='n', type='l', xlim=c(0,1), ylim=c(0,1), col="blue", lwd=2)
                 lines(c(0,1),c(0,1),col="gray",type='l')
                 text(0.50,0.075, sprintf("E(\U03C0*)=%s",format(mean(pi_star),digits =  3)))
                 #text(0.75,0.5, sprintf("E(pi)=%s",format(mean(pi),digits = 3)))
-                title(sprintf(paste0("\U03B2","0=%s,\U03B2","1=%s"),format(b0,3),format(b2,3)))
+                title(sprintf(paste0("\U03B2","0=%s,\U03B2","1=%s"),format(b0,3),format(b1,3)))
               }
               if(draw_plots=="roc")
               {
@@ -448,6 +444,14 @@ detailed_sim_new<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(-1
                 lines(c(0,1),c(0,1),col="grey")
                 #title(sprintf("b0=%s,b1=%s",format(b0,3),format(b1,3)))
               }
+              if(draw_plots=="logit")
+              {
+                plot(log(pi_star/(1-pi_star)),log(pi/(1-pi)),xlim=c(-3,3),ylim=c(-3,3))
+                lines(c(-3,3),c(-3,3))
+                text(0.50,0.075, sprintf("E(\U03C0*)=%s",format(mean(pi_star),digits =  3)))
+                #text(0.75,0.5, sprintf("E(pi)=%s",format(mean(pi),digits = 3)))
+                title(sprintf(paste0("\U03B2","0=%s,\U03B2","1=%s"),format(b0,3),format(b1,3)))
+              }
             }
           
           #message(paste(ss,b0,b1,sep=","))
@@ -458,6 +462,14 @@ detailed_sim_new<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(-1
           out[index,3]<-b0
           out[index,4]<-b1
           out[index,5:(5+length(template)-1)]<-tmp
+          
+          logit.pi_star<-log(pi_star/(1-pi_star))
+          f.0<-glm(y~ -1+offset(logit.pi_star),family="binomial")
+          #f.a<-glm(y~offset(logit.pi_star),family="binomial")
+          f.ab<-glm(y~logit.pi_star,family="binomial")
+          message(coefficients(f.ab))
+          p.val.ab<-1-pchisq(f.0$deviance-f.ab$deviance,2)
+          out[index,"pval.LRT"]<-p.val.ab
           index<-index+1
         }
       }
@@ -474,6 +486,8 @@ detailed_sim_new<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(-1
   
   return(out)
 }
+
+
 
 
 
@@ -510,7 +524,7 @@ process_detailed_sim_results<-function(detailed=F,dec_points=3)
     return(out)
   }
   
-  out<-GRformatOutput(aux$out, rGroupVars = c("b0") , cGroupVars = c("b1"),func = internal_formatter)
+  out<-GRcomp:::GRformatOutput(aux$out, rGroupVars = c("b0") , cGroupVars = c("b1"),func = internal_formatter)
   write.table(out,"clipboard")
   return(out)
 }
@@ -539,11 +553,11 @@ process_detailed_sim_results_graph<-function(detailed=F,dec_points=3)
     }
     
     #browser()
-    y<-sqldf("SELECT sample_size, AVG([pvals.A]<0.05), AVG([pvals.B]<0.05), AVG([pval]<0.05) FROM data GROUP BY sample_size")
+    y<-sqldf("SELECT sample_size, AVG([pvals.A]<0.05), AVG([pvals.B]<0.05), AVG([pval]<0.05), AVG([pval.LRT]<0.05) FROM data GROUP BY sample_size")
     y[,1]<-0
     #y<-rbind(y,y/2,y)
     y<-as.vector(t(y))[-1]
-    bp<-barplot(y,xaxt='n', yaxt='n', space=rep(0,11), ylim=c(-0.25,1.5),col=rep(c("pink","orange","purple","white"),3))
+    bp<-barplot(y,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("white","pink","orange","purple","black"))
     text(x=0.4+c(0:10)*1,y=y+0.25,ifelse(y==0,"",format(y,3,3)),cex=1, srt=90)
     text(x=c(1.5,5.5,10),y=-0.1,paste(t(sample_sizes)))
     return("")

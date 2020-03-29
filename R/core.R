@@ -7,7 +7,7 @@ mROC_class_template<-list(p=NA,FPs=NA,TPs=NA)
 class(mROC_class_template)<-"mROC"
 
 
-mROC_inference_template<-list(n_sim=NA,stats=c(A=NA,B=NA,A.dir=NA),pvals=c(A=NA,B=NA),null_stats=c(A.mu=NA,A.se=NA,B.mu=NA,b.se=NA),stat=c(value=NA,df=NA),pvals=c(A=NA,B=NA),pval=NA)
+mROC_inference_template<-list(n_sim=NA,stats=c(A=NA,B=NA,A.dir=NA),pvals=c(A=NA,B=NA),null_stats=c(A.mu=NA,A.se=NA,B.mu=NA,b.se=NA),stat=c(value=NA,df=NA),pval=NA)
 class(mROC_inference_template)<-"mROC_inference"
 
 #' @export
