@@ -23,11 +23,18 @@ aux<-environment()
 
 
 #' @export
-plot.mROC<-function(mROC_obj,...)
+plot.mROC<-function(mROC_obj,step=F,...)
 {
-  #sf<-stepfun(mROC_obj$FPs,c(0,mROC_obj$TPs))
-  #TODO: let possible xlim and ylim from ... override the default
-  plot(1-mROC_obj$FPs,mROC_obj$TPs,xlim=c(1,0),ylim=c(0,1),type='l',xlab="Specificity",ylab="Sensitivity",...) 
+  if(step)
+  {
+    sf<-stepfun(mROC_obj$FPs,c(0,mROC_obj$TPs))
+    plot(sf,xlim=c(1,0),ylim=c(0,1),type='l',xlab="Specificity",ylab="Sensitivity",...) 
+  }
+  else
+  {
+    #TODO: let possible xlim and ylim from ... override the default
+    plot(1-mROC_obj$FPs,mROC_obj$TPs,xlim=c(1,0),ylim=c(0,1),type='l',xlab="Specificity",ylab="Sensitivity",...) 
+  }
 }
 
 
