@@ -759,8 +759,8 @@ internal_formatter<-function(data)
   sample_sizes<-y[,1]
   z<-as.vector(t(cbind(y[,-1],0)))
   bp<-barplot(z,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("white","pink","orange","purple","black"))
-  text(x=0.4+c(0:15)*1,y=z+0.25,ifelse(z==0,"",format(z,3,3)),cex=1, srt=90)
-  text(x=c(1.5,5.5,10),y=-0.1,paste(t(sample_sizes)))
+  text(x=0.4+c(0:15)*1,y=z+0.25,ifelse(z==0,"",round(z,2)),cex=1, srt=90)
+  text(x=c(1.5,6,12),y=-0.1,paste(t(sample_sizes)))
   return("")
 }
 
