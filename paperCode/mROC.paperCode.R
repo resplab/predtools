@@ -366,7 +366,7 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
 
 
 #X_dist:mean and SD of the distirbution of the simple predictor. If NULL, then directly samples pi from standard uniform. 
-detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0, b1s=c(0.5,0.75,1,1.5,2), b2s=c(0.5,2), n_sim=1000, draw_plots="", GRuse=FALSE)
+detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(0,0.25,0.5), b1s=c(0.5,0.75,1,1.5,2), b2s=NULL, n_sim=1000, draw_plots="", GRuse=FALSE)
 {
   pi<-runif(100)
   y<-rbinom(100,1,pi)
@@ -387,7 +387,7 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0,
   index<-1
   for(i in 1:n_sim)
   {
-    #cat(sprintf("b0=%3f,b1=%3f,b2=%3f",b0s,b1,b2))
+    cat(".")
     for(j in 1:length(sample_sizes))
     {
       ss<-sample_sizes[j]
@@ -402,7 +402,7 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0,
           for(k2 in 1:length(b2s))
           {
             b2<-abs(b2s[k2])
-            message(paste(ss,b1,b2,sep=","))
+            
             x<-log(pi/(1-pi))
             xx<-b0+sign(x)*b1*(abs(x)^b2)
             pi_star<-1/(1+exp(-xx))
