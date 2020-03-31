@@ -366,7 +366,7 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
 
 
 #X_dist:mean and SD of the distirbution of the simple predictor. If NULL, then directly samples pi from standard uniform. 
-detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0, b1s=c(0.5,2), b2s=c(0.5,0.75,1,1.5,2), n_sim=1000, draw_plots="", GRuse=FALSE)
+detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0, b1s=c(0.5,0.75,1,1.5,2), b2s=c(0.5,2), n_sim=1000, draw_plots="", GRuse=FALSE)
 {
   pi<-runif(100)
   y<-rbinom(100,1,pi)
@@ -375,10 +375,19 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0,
   out<-as.data.frame(matrix(NA, nrow =n_sim*length(sample_sizes)*length(b0s)*length(b1s),ncol = 5+length(template)+1))
   colnames(out)<-c("i_sim","sample_size", "b0", "b1", "b2", names(template), "pval.LRT")
   
+  if(draw_plots!="")
+  {
+    par(mar=c(1,1,1,1))
+    if(is.null(b2s)) 
+      par(mfrow=c(length(b0s),length(b1s)))
+    else
+      par(mfrow=c(length(b1s),length(b2s)))
+  }
+
   index<-1
   for(i in 1:n_sim)
   {
-    cat(".")
+    #cat(sprintf("b0=%3f,b1=%3f,b2=%3f",b0s,b1,b2))
     for(j in 1:length(sample_sizes))
     {
       ss<-sample_sizes[j]
@@ -389,12 +398,13 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0,
         for(k1 in 1:length(b1s))
         {
           b1<-b1s[k1]
+          if(is.null(b2s) || b2s<0) b2s<- -1/b1   #If b2s is null, it is set as reciprocal of b1
           for(k2 in 1:length(b2s))
           {
-            b2<-b2s[k2]
-            #message(paste(ss,b0,b1,sep=","))
+            b2<-abs(b2s[k2])
+            message(paste(ss,b1,b2,sep=","))
             x<-log(pi/(1-pi))
-            xx<-b0+sign(x)*(abs(x)^b1)*b2
+            xx<-b0+sign(x)*b1*(abs(x)^b2)
             pi_star<-1/(1+exp(-xx))
             
             repeat
@@ -411,9 +421,6 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0,
             if(draw_plots!="")
               if(i==1 && j==length(sample_sizes))
               {
-                #par(mar=c(1,1,1,1))
-                #par(mfrow=c(length(b0s),length(b1s)))
-                
                 aux$y <<- y
                 aux$pi_star <<- pi_star
                 aux$pi <<- pi
@@ -423,7 +430,7 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0,
                   q<-(0:100)/100
                   q_x<-log(q/(1-q))
                   
-                  p_x<-(abs(q_x-b0)/b2)^(1/b1)
+                  p_x<-(abs(q_x-b0)/b1)^(1/b2)
                   p_x[which(q_x-b0<0)]<- -abs(p_x[which(q_x-b0<0)])
                   p<-1/(1+exp(-p_x))
                   
@@ -431,16 +438,16 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0,
                   lines(c(0,1),c(0,1),col="gray",type='l')
                   text(0.50,0.075, sprintf("E(\U03C0*)=%s",format(mean(pi_star),digits =  3)))
                   #text(0.75,0.5, sprintf("E(pi)=%s",format(mean(pi),digits = 3)))
-                  title(sprintf(paste0("\U03B2","0=%s,\U03B2","1=%s"),format(b0,3),format(b1,3)))
+                  title(sprintf(paste0("a=%s,b=%s"),format(b0,3),format(b1,3)))
                 }
                 if(draw_plots=="roc")
                 {
                   plot(c(0,1),c(0,1),col="grey")
-                  for(i in 1:100)
+                  #for(i in 1:100)
                   {
-                    yy<-rbinom(length(pi_star),1,pi_star)
-                    tmp<-roc(yy,pi_star)
-                    lines(1-tmp$specificities,tmp$sensitivities,col="grey")
+                  #  yy<-rbinom(length(pi_star),1,pi_star)
+                  #  tmp<-roc(yy,pi_star)
+                  #  lines(1-tmp$specificities,tmp$sensitivities,col="grey")
                   }
                   tmp<-pROC::roc(y,pi_star)
                   lines(1-tmp$specificities,tmp$sensitivities, type='l', ann=FALSE, xaxt='n', yaxt='n')
@@ -462,7 +469,7 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0,
                   lines(c(-3,3),c(-3,3))
                   text(0.50,0.075, sprintf("E(\U03C0*)=%s",format(mean(pi_star),digits =  3)))
                   #text(0.75,0.5, sprintf("E(pi)=%s",format(mean(pi),digits = 3)))
-                  title(sprintf(paste0("\U03B2","0=%s,\U03B2","1=%s","\U03B2","2=%s"),format(b0,3),format(b1,3),format(b2,3)))
+                  title(sprintf("a=%s,b=%s",format(b0,3),format(b1,3)))
                 }
               }
             
@@ -480,7 +487,7 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=0,
             f.0<-glm(y~ -1+offset(logit.pi_star),family="binomial")
             #f.a<-glm(y~offset(logit.pi_star),family="binomial")
             f.ab<-glm(y~logit.pi_star,family="binomial")
-            message(coefficients(f.ab))
+            #message(coefficients(f.ab))
             p.val.ab<-1-pchisq(f.0$deviance-f.ab$deviance,2)
             out[index,"pval.LRT"]<-p.val.ab
             index<-index+1
@@ -721,39 +728,42 @@ process_detailed_sim_results<-function(detailed=F,dec_points=3)
 
 
 
-process_detailed_sim_results_graph<-function(detailed=F,dec_points=3)
+process_detailed_sim_results_graph<-function(data=aux$out, detailed=F, dec_points=3, dim1="b0", dim2="b1")
 {
-  data<-aux$out
-    
-  n_b0<-dim(sqldf("SELECT DISTINCT b0 FROM data"))[1]
-  n_b1<-dim(sqldf("SELECT DISTINCT b1 FROM data"))[1]
+  n_d1<-dim(sqldf(paste0("SELECT DISTINCT ",dim1," FROM data")))[1]
+  n_d2<-dim(sqldf(paste0("SELECT DISTINCT ",dim2," FROM data")))[1]
+  
   sample_sizes<-sqldf("SELECT DISTINCT sample_size FROM data")
   
-  par(mfrow=c(n_b0,n_b1))
+  par(mfrow=c(n_d1,n_d2))
   par(mar=0.25*c(1,1,1,1))
   
-  internal_formatter<-function(data)
-  {
-    beautify<-function(value)
-    {
-      return(format(round(value,dec_points),digits = dec_points,nsmall=dec_points))
-    }
-    
-    #browser()
-    y<-sqldf("SELECT sample_size, AVG([pvals.A]<0.05), AVG([pvals.B]<0.05), AVG([pval]<0.05), AVG([pval.LRT]<0.05) FROM data GROUP BY sample_size")
-    y[,1]<-0
-    #y<-rbind(y,y/2,y)
-    y<-as.vector(t(y))[-1]
-    bp<-barplot(y,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("white","pink","orange","purple","black"))
-    text(x=0.4+c(0:10)*1,y=y+0.25,ifelse(y==0,"",format(y,3,3)),cex=1, srt=90)
-    text(x=c(1.5,5.5,10),y=-0.1,paste(t(sample_sizes)))
-    return("")
-  }
-  
-  out<-GRcomp:::GRformatOutput(aux$out, rGroupVars = c("b0") , cGroupVars = c("b1"),func = internal_formatter)
+  out<-GRcomp:::GRformatOutput(data, rGroupVars = c(dim1) , cGroupVars = c(dim2),func = internal_formatter)
   write.table(out,"clipboard")
   return(out)
 }
+
+
+
+internal_formatter<-function(data)
+{
+  beautify<-function(value)
+  {
+    return(format(round(value,dec_points),digits = dec_points,nsmall=dec_points))
+  }
+  
+  #browser()
+  y<-sqldf("SELECT sample_size, AVG([pvals.A]<0.05), AVG([pvals.B]<0.05), AVG([pval]<0.05), AVG([pval.LRT]<0.05) FROM data GROUP BY sample_size")
+  #y[,1]<-0
+  #y<-rbind(y,y/2,y)
+  sample_sizes<-y[,1]
+  z<-as.vector(t(cbind(y[,-1],0)))
+  bp<-barplot(z,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("white","pink","orange","purple","black"))
+  text(x=0.4+c(0:15)*1,y=z+0.25,ifelse(z==0,"",format(z,3,3)),cex=1, srt=90)
+  text(x=c(1.5,5.5,10),y=-0.1,paste(t(sample_sizes)))
+  return("")
+}
+
 
 
 

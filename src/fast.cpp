@@ -107,6 +107,7 @@ mROC_stats calc_mROC_stats(int n, double *M, int *Y)
       else
       {
         step=(double)1/n0;
+        //B=B+fabs(yo-ye)*std::min(step,xe-xo);
         B=B+fabs(yo-ye)*std::min(step,xe-xo);
       }
       xo=xo+step;
