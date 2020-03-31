@@ -1,30 +1,146 @@
 ---
-title: "mROC tutorial"
+title: "Tutorial for model-based ROC (mROC) analysis"
 output: github_document
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(mROC)
 ```
 
-## GitHub Documents
 
-This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+This tutotial provides background information and stepwise tutorial for model-based ROC (mROC) methodology.
 
-## Including Code
+## What is mROC?
 
-You can include R code in the document as follows:
+Imagine you have developed a risk prediction model using some development dataset. The risk prediction model takes in some predictors (e.g., sex, age, previous disease history) and returns the risk of an event (e.g., risk of disease relapse in the next 12 months). You would like to evaluate the performance of the risk model in a new (external) validation sample. Among other things, you typically evaluate the Receiver Operating Characteristic (ROC) curve of the risk prediciton model in the new sample.
 
-```{r cars}
-summary(cars)
+Now, ‘model-based’ ROC (mROC) curve is the ROC curve that should be observed if the prediction model is calibrated in the external population. Comparing the empirical ROC and mROC curves in the new sample can be informative on if the model is calibrated in the new sample.
+
+## Installation
+
+You can install the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("msadatsafavi/mROC")
 ```
 
-## Including Plots
+## How the package works
+The package provides simple functions for mROC-related methods. It also comes with exemplary datasets. Below we provide a step-by-step illustration
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+## A step-by-step guide.
+Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient's age, disease severity level, sex, and whether the patient has comorbidity. 
+
+The package comes with two exemplary datasets. dev_data and val_data. We use the dev_data as the development sample and the val_data as the external validation sample.
+
+
+```{R}
+data(dev_data)
+data(val_data)
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+dev_data has `r dim(mROC::dev_data)[1]` rows. val_data has `r dim(mROC::val_data)[1]` rows. 
+
+Here are the first few rows of dev_data:
+
+```{R echo=FALSE}
+knitr::kable(dev_data[1:7,])
+```
+
+
+We use the development data to fit a logistic regression model as our risk prediction model:
+
+
+```{R}
+reg<-glm(y~sex+age+severity+comorbidity,data=dev_data,family=binomial(link="logit"))
+summary(reg)
+```
+
+Given this, our risk prediction model can be written as:
+
+```{R echo=FALSE}
+cfs<-coefficients(reg)
+str<-paste0(round(cfs[1],4),"+",paste0(round(cfs[-1],4),"*",names(cfs[-1]),collapse="+"))
+str_risk_model<-gsub("+-","-",str,fixed=T)
+```
+
+$\bf{ logit(p)=`r str_risk_model`}$.
+
+
+First, let's compare the ROC and mROC in the development data
+```{R}
+pred<-predict.glm(reg, type='response')
+
+library(pROC)
+
+dev_roc<-roc(response=dev_data[,'y'], predictor=pred)
+
+plot(dev_roc)
+title("ROC in the development dataset")
+```
+
+And now the much-awaited mROC using these data. Note that we use the line function to add the mROC on top
+
+```{R}
+dev_mroc<-mROC(p=pred)
+```
+
+
+```{R}
+plot(dev_roc)
+lines(dev_mroc, col="red")
+```
+
+### Important note: the statistical inference on comparing mROC and ROC cannot be used for internal validation. Such a test is made for external validation.
+
+
+Now lets calculate the predicted probabilities for each subject in the validation dataset given the prediction equation. 
+
+```{R}
+pred<-predict.glm(reg,newdata = val_data, type="response")
+
+summary(pred)
+```
+
+
+Using the package pROC, let's draw the validation ROC curve
+
+```{R Comments=FALSE}
+
+val_roc<-roc(response=val_data[,'y'], predictor=pred)
+
+plot(val_roc)
+
+```
+
+
+And now the much-awaited mROC using these data. Note that we use the line function to add the mROC on top
+
+```{R}
+val_mroc<-mROC(p=pred)
+```
+
+Notice that the mROC function only requires the vector of predicted probabilities. 
+
+To compare the ROC and mROC plots, we juxtapose them next to each other:
+
+
+```{R}
+plot(val_roc)
+lines(val_mroc, col="red")
+```
+
+Here, it is obvious that the mROC and ROC curve are not compatible, indicating that the model is not calibrated.
+
+```{R}
+res<-mROC_inference(val_data[,'y'],pred)
+
+res
+
+```
+
