@@ -745,7 +745,7 @@ process_detailed_sim_results_graph<-function(data=aux$out, detailed=F, dec_point
 
 
 
-internal_formatter<-function(data)
+internal_formatter<-function(data, n_col=3)
 {
   beautify<-function(value)
   {
@@ -753,14 +753,26 @@ internal_formatter<-function(data)
   }
   
   #browser()
-  y<-sqldf("SELECT sample_size, AVG([pvals.A]<0.05), AVG([pvals.B]<0.05), AVG([pval]<0.05), AVG([pval.LRT]<0.05) FROM data GROUP BY sample_size")
-  #y[,1]<-0
-  #y<-rbind(y,y/2,y)
-  sample_sizes<-y[,1]
-  z<-as.vector(t(cbind(y[,-1],0)))
-  bp<-barplot(z,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("white","pink","orange","purple","black"))
-  text(x=0.4+c(0:15)*1,y=z+0.25,ifelse(z==0,"",round(z,2)),cex=1, srt=90)
-  text(x=c(1.5,6,12),y=-0.1,paste(t(sample_sizes)))
+  if(n_col==3)
+  {
+    y<-sqldf("SELECT sample_size, AVG([pvals.A]<0.05), AVG([pvals.B]<0.05), AVG([pval]<0.05) FROM data GROUP BY sample_size")
+    sample_sizes<-y[,1]
+    z<-as.vector(t(cbind(y[,-1],0)))
+    bp<-barplot(z,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("pink","orange","purple","black"))
+    text(x=0.4+c(0:11)*1,y=z+0.25,ifelse(z==0,"",round(z,2)),cex=1, srt=90)
+    text(x=c(1.5,6,10),y=-0.1,paste(t(sample_sizes)))
+  }
+  else
+  {
+    sample_sizes<-y[,1]
+    z<-as.vector(t(cbind(y[,-1],0)))
+    bp<-barplot(z,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("white","pink","orange","purple","black"))
+    y<-sqldf("SELECT sample_size, AVG([pvals.A]<0.05), AVG([pvals.B]<0.05), AVG([pval]<0.05), AVG([pval.LRT]<0.05) FROM data GROUP BY sample_size")
+    text(x=0.4+c(0:14)*1,y=z+0.25,ifelse(z==0,"",round(z,2)),cex=1, srt=90)
+    text(x=c(1.5,6,11),y=-0.1,paste(t(sample_sizes)))
+  }
+  
+  
   return("")
 }
 
