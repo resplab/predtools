@@ -210,6 +210,6 @@ res<-mROC_inference(val_data[,'y'],pred)
 res
 ```
 
-    ## Mean calibration statistic (A):0.08187776(Obs<Pred) (p:0.00021)
-    ## mROC/ROC equality statsitic (B):0.06583836 (p:0.00366)
-    ## Unified statistic:28.31557 (df:4.010288,p:1.089226e-05)
+    ## Mean calibration statistic (A):0.08187776(Obs<Pred) (p:0.00018)
+    ## mROC/ROC equality statsitic (B):0.06583836 (p:0.00364)
+    ## Unified statistic:28.6539 (df:4.012765,p:9.326834e-06)
