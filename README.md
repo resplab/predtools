@@ -1,8 +1,16 @@
 Tutorial for model-based ROC (mROC) analysis
 ================
 
-This tutotial provides background information and stepwise tutorial for
-model-based ROC (mROC) methodology.
+This document provides background information and stepwise tutorial for
+the R package on model-based ROC (mROC) methodology. This is related to
+the manuscript “Model-based ROC (mROC) curve: examining the effect of
+case-mix and model calibration on the ROC plot”, currently available
+from <https://arxiv.org/abs/2003.00316>
+
+Authors: Mohsen Sadatsafavi, Paramita Saha-Chaudhuri, John Petkau
+
+For inquiries and reporting bugs, please contact Mohsen Sadatsafavi
+(<msafavi@mail.ubc.ca>)
 
 ## What is mROC?
 
@@ -210,6 +218,6 @@ res<-mROC_inference(val_data[,'y'],pred)
 res
 ```
 
-    ## Mean calibration statistic (A):0.08187776(Obs<Pred) (p:0.00018)
-    ## mROC/ROC equality statsitic (B):0.06583836 (p:0.00364)
-    ## Unified statistic:28.6539 (df:4.012765,p:9.326834e-06)
+    ## Mean calibration statistic (A):0.08187776(Obs<Pred) (p:0.00011)
+    ## mROC/ROC equality statsitic (B):0.06583836 (p:0.00303)
+    ## Unified statistic:29.90896 (df:3.998648,p:5.099713e-06)

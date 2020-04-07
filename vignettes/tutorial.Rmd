@@ -16,7 +16,12 @@ library(mROC)
 ```
 
 
-This tutotial provides background information and stepwise tutorial for model-based ROC (mROC) methodology.
+This document provides background information and stepwise tutorial for the R package on model-based ROC (mROC) methodology. This is related to the manuscript "Model-based ROC (mROC) curve: examining the effect of case-mix and model calibration on the ROC plot", currently available from https://arxiv.org/abs/2003.00316
+
+Authors: Mohsen Sadatsafavi, Paramita Saha-Chaudhuri, John Petkau
+
+For inquiries and reporting bugs, please contact Mohsen Sadatsafavi (msafavi@mail.ubc.ca)
+
 
 ## What is mROC?
 

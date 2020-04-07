@@ -255,7 +255,7 @@ stylized_simulation<-function(n=10000)
 
 
 #X_dist:mean and SD of the distirbution of the simple predictor. If NULL, then directly samples pi from standard uniform. 
-detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.25,-0.125,0,0.125,0.25),b1s=c(0.5,0.75,1,1.5,2),n_sim=1000, draw_plots="", GRuse=FALSE)
+detailed_sim_linear<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.25,-0.125,0,0.125,0.25),b1s=c(0.5,0.75,1,1.5,2),n_sim=1000, draw_plots="", GRuse=FALSE)
 {
   pi<-runif(100)
   y<-rbinom(100,1,pi)
@@ -308,9 +308,9 @@ detailed_sim<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=2*c(-0.2
                 pi_star_<-pi_star[o]
                 plot(c(0,pi_star_,1),c(0,pi_,1),xlab=(paste(ss,b0,b1,sep=",")), ann=FALSE, xaxt='n', yaxt='n', type='l', xlim=c(0,1), ylim=c(0,1), col="blue", lwd=2)
                 lines(c(0,1),c(0,1),col="gray",type='l')
-                text(0.50,0.075, sprintf("E(\U03C0*)=%s",format(mean(pi_star),digits =  3)))
+                text(0.50,0.075, sprintf("E(\U03C0*)=%0.2f",ifelse(b0==0 & b1==1, 0.5, mean(pi_star))))
                 #text(0.75,0.5, sprintf("E(pi)=%s",format(mean(pi),digits = 3)))
-                title(sprintf(paste0("\U03B2","0=%s,\U03B2","1=%s"),format(b0,3),format(b1,3)))
+                title(sprintf(paste0("a=%s,b=%s"),format(b0,3),format(b1,3)))
               }
               if(draw_plots=="roc")
               {
@@ -436,7 +436,7 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(
                   
                   plot(q,p ,xlab=(paste(ss,b0,b1,b2,sep=",")), ann=FALSE, xaxt='n', yaxt='n', type='l', xlim=c(0,1), ylim=c(0,1), col="blue", lwd=2)
                   lines(c(0,1),c(0,1),col="gray",type='l')
-                  text(0.50,0.075, sprintf("E(\U03C0*)=%s",format(mean(pi_star),digits =  3)))
+                  text(0.50,0.075, sprintf("E(\U03C0*)=%0.2f",ifelse(b0==0, 0.5, mean(pi_star))))
                   #text(0.75,0.5, sprintf("E(pi)=%s",format(mean(pi),digits = 3)))
                   title(sprintf(paste0("a=%s,b=%s"),format(b0,3),format(b1,3)))
                 }
@@ -456,8 +456,8 @@ detailed_sim_power<-function(sample_sizes=c(100,250,1000), X_dist=c(0,1), b0s=c(
                   mAUC=mAUC(tmp)
                   B=calc_mROC_stats(y,pi_star)['B']
                   #text(0.5,0.5, sprintf("AUC:%s",format(AUC, digits = 2)),cex = 1) AUC is constant! 
-                  text(0.5,0.3, sprintf("mAUC:%s",format(mAUC, digits = 2)),cex=1)
-                  text(0.5,0.1, sprintf("B:%s",format(B, digits = 2)),cex=1)
+                  text(0.5,0.3, sprintf("mAUC:%0.3f",mAUC),cex=1)
+                  text(0.5,0.1, sprintf("B:%0.3f",B),cex=1)
                   sf<-stepfun(tmp$FPs,c(0,tmp$TPs))
                   lines(sf,col="red")
                   #lines(tmp$FPs,tmp$TPs,col="red")
@@ -758,7 +758,7 @@ internal_formatter<-function(data, n_col=4)
     y<-sqldf("SELECT sample_size, AVG([pvals.A]<0.05), AVG([pvals.B]<0.05), AVG([pval]<0.05) FROM data GROUP BY sample_size")
     sample_sizes<-y[,1]
     z<-as.vector(t(cbind(y[,-1],0)))
-    bp<-barplot(z,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("pink","orange","purple","black"))
+    bp<-barplot(z,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("pink","orange","purple","white"))
     text(x=0.4+c(0:11)*1,y=z+0.25,ifelse(z==0,"",round(z,2)),cex=1, srt=90)
     text(x=c(1.5,6,10),y=-0.1,paste(t(sample_sizes)))
   }
@@ -767,7 +767,7 @@ internal_formatter<-function(data, n_col=4)
     y<-sqldf("SELECT sample_size, AVG([pvals.A]<0.05), AVG([pvals.B]<0.05), AVG([pval]<0.05), AVG([pval.LRT]<0.05) FROM data GROUP BY sample_size")
     sample_sizes<-y[,1]
     z<-as.vector(t(cbind(y[,-1],0)))
-    bp<-barplot(z,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("white","pink","orange","purple","black"))
+    bp<-barplot(z,xaxt='n', yaxt='n', space=0, ylim=c(-0.25,1.5),col=c("pink","orange","purple","white","black"))
     text(x=0.4+c(0:14)*1,y=z+0.25,ifelse(z==0,"",round(z,2)),cex=1, srt=90)
     text(x=c(1.5,6,11),y=-0.1,paste(t(sample_sizes)))
   }
