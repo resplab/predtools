@@ -28,7 +28,7 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("msadatsafavi/mROC")
+devtools::install_github("Shoodood/mROC")
 ```
 
 ## How the package works
