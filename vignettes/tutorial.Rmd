@@ -16,11 +16,7 @@ library(mROC)
 ```
 
 
-This document provides background information and stepwise tutorial for the R package on model-based ROC (mROC) methodology. This is related to the manuscript "Model-based ROC (mROC) curve: examining the effect of case-mix and model calibration on the ROC plot", currently available from https://arxiv.org/abs/2003.00316
-
-Authors: Mohsen Sadatsafavi, Paramita Saha-Chaudhuri, John Petkau
-
-For inquiries and reporting bugs, please contact Mohsen Sadatsafavi (msafavi@mail.ubc.ca)
+This document provides background information and stepwise tutorial for the R package on model-based ROC (mROC) methodology. 
 
 
 ## What is mROC?
@@ -35,7 +31,7 @@ You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("msadatsafavi/mROC")
+devtools::install_github("Shoodood/mROC")
 ```
 
 ## How the package works
