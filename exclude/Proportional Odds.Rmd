@@ -1,6 +1,6 @@
 ---
 title: "Investigating the proportional odds transformation of risks and its effect on mROC"
-author: "Mohsen Sadatsafavi"
+author: "TBD"
 date: "2/19/2020"
 output: pdf_document
 ---
@@ -45,7 +45,7 @@ lines(mROC(p),col="red")
 ```
 
 
-## But mROC is not transformation-invariant. Consider this one, based on 'shrunk' beta distirbution for risks (I agre it is a bit extreme):
+## But mROC is not transformation-invariant. Consider this one, based on 'shrunk' beta distirbution for risks (I agree it is a bit extreme):
 
 
 ```{R}
