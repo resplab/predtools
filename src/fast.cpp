@@ -3,7 +3,6 @@ using namespace Rcpp;
 
 
 
-
 enum errors
 {
   ERR_INCORRECT_SETTING_VARIABLE=-1,
