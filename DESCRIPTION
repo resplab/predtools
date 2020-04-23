@@ -2,11 +2,11 @@ Package: mROC
 Title: Model-based ROC (mROC) curves
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Mohsen",
-           family = "Sadatsafavi",
+    person(given = "Anonymized",
+           family = "Per journal policy",
            role = c("aut", "cre"),
-           email = "msafavi@mail.ubc.ca",
-           comment = c(ORCID = "0000-0002-0419-7862"))
+           email = "xxx@yyy.com",
+           comment = c(ORCID = "0000-0000-0000-0000"))
 Description: This package provides function for mROC analyses.
 License: GPL
 Encoding: UTF-8
