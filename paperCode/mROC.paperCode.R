@@ -1,5 +1,5 @@
 #Code for the main paper
-#Authors: Mohsen Sadatsafavi
+#Authors: Anonymized
 #Last update: 2020.02.17
 
 
