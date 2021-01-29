@@ -1,4 +1,4 @@
-set.seed(3344)
+set.seed(3344 )
 
 create_data<-function(n,c_mus=c(0,1),c_sds=c(1,2),b_ps=c(0.25,0.5),covar_betas=c(b0=-1,b1=0.1,b2=0.2,b3=0.3,b4=0.4),covar_names=c("age","severity","sex","comorbidity"))
 {
