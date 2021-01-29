@@ -2,7 +2,7 @@ Tutorial for model-based ROC (mROC) analysis
 ================
 
 This document provides background information and stepwise tutorial for
-the R package on model-based ROC (mROC) methodology. 
+the R package on model-based ROC (mROC) methodology.
 
 ## What is mROC?
 
