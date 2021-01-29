@@ -8,4 +8,3 @@ Ccalc_mROC_stats <- function(M, Y) {
 Csimulate_null_mROC_stats_unconditional <- function(M, n_sim) {
     .Call(`_mROC_Csimulate_null_mROC_stats_unconditional`, M, n_sim)
 }
-
