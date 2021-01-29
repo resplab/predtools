@@ -29,6 +29,7 @@ You can install the development version from
 ``` r
 # install.packages("devtools")
 devtools::install_github("Shoodood/mROC")
+library("mROC")
 ```
 
 ## How the package works
