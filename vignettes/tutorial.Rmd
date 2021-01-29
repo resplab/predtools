@@ -15,7 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(mROC)
 ```
 
-
 This document provides background information and stepwise tutorial for the R package on model-based ROC (mROC) methodology. 
 
 
