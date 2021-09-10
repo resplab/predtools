@@ -22,3 +22,7 @@ Imports:
     stats,
     graphics
 LinkingTo: Rcpp
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr

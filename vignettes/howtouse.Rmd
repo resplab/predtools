@@ -1,21 +1,24 @@
 ---
-title: "Tutorial for model-based ROC (mROC) analysis"
+title: "howtouse"
 output: rmarkdown::html_vignette
-
 vignette: >
-  %\VignetteIndexEntry{Tutorial for mROC analysis}
+  %\VignetteIndexEntry{howtouse}
   %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
+```{r setup}
 library(predtools)
 ```
 
-This document provides background information and stepwise tutorial for the R package on model-based ROC (mROC) methodology. 
+This document provides background information and step-wise tutorial for using the `predtools` R package for the model-based ROC (mROC) methodology. 
 
 
 ## What is mROC?
