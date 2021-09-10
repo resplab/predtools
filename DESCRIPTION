@@ -1,9 +1,9 @@
 Package: predtools
 Title: Model-based ROC (mROC) curves
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given = "Mohsen",
-           family = "adatsafavi",
+           family = "Sadatsafavi",
            role = c("aut", "cre"),
            email = "msafavi@mail.ubc.ca",
            comment = c(ORCID = "0000-0002-0419-7862"))
@@ -12,5 +12,7 @@ License: GPL
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
-Imports: Rcpp (>= 1.0.3)
+Imports: 
+  Rcpp (>= 1.0.3),
+  pROC
 LinkingTo: Rcpp
