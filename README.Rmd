@@ -1,3 +1,7 @@
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/resplab/predtools/workflows/R-CMD-check/badge.svg)](https://github.com/resplab/predtools/actions)
+<!-- badges: end -->
+
 ---
 title: "Tutorial for model-based ROC (mROC) analysis"
 output: github_document
