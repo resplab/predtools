@@ -8,6 +8,5 @@ export(mAUC)
 export(mROC)
 export(mROC_analysis)
 export(mROC_inference)
-
-useDynLib(mROC, .registration=TRUE)
-importFrom(Rcpp, evalCpp)
+import(pROC)
+useDynLib(predtools)

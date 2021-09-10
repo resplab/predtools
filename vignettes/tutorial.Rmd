@@ -12,7 +12,7 @@ vignette: >
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-library(mROC)
+library(predtools)
 ```
 
 This document provides background information and stepwise tutorial for the R package on model-based ROC (mROC) methodology. 
@@ -30,7 +30,7 @@ You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("Shoodood/mROC")
+devtools::install_github("resplab/predtools")
 ```
 
 ## How the package works
@@ -49,7 +49,7 @@ data(val_data)
 
 ```
 
-dev_data has `r dim(mROC::dev_data)[1]` rows. val_data has `r dim(mROC::val_data)[1]` rows. 
+dev_data has `r dim(predtools::dev_data)[1]` rows. val_data has `r dim(predtools::val_data)[1]` rows. 
 
 Here are the first few rows of dev_data:
 

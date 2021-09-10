@@ -10,7 +10,7 @@ mAUC(mROC_obj)
 \item{mROC_obj}{An object of class mROC}
 }
 \value{
-Returns the area under the mROC curve
+Returns the aurea under the mROC curve
 }
 \description{
 Takes in a mROC object and calculates the area under the curve

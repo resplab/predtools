@@ -5,9 +5,14 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // Ccalc_mROC_stats
 std::vector<double> Ccalc_mROC_stats(NumericVector M, NumericVector Y);
-RcppExport SEXP _mROC_Ccalc_mROC_stats(SEXP MSEXP, SEXP YSEXP) {
+RcppExport SEXP _predtools_Ccalc_mROC_stats(SEXP MSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -19,7 +24,7 @@ END_RCPP
 }
 // Csimulate_null_mROC_stats_unconditional
 NumericMatrix Csimulate_null_mROC_stats_unconditional(NumericVector M, int n_sim);
-RcppExport SEXP _mROC_Csimulate_null_mROC_stats_unconditional(SEXP MSEXP, SEXP n_simSEXP) {
+RcppExport SEXP _predtools_Csimulate_null_mROC_stats_unconditional(SEXP MSEXP, SEXP n_simSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -31,12 +36,12 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_mROC_Ccalc_mROC_stats", (DL_FUNC) &_mROC_Ccalc_mROC_stats, 2},
-    {"_mROC_Csimulate_null_mROC_stats_unconditional", (DL_FUNC) &_mROC_Csimulate_null_mROC_stats_unconditional, 2},
+    {"_predtools_Ccalc_mROC_stats", (DL_FUNC) &_predtools_Ccalc_mROC_stats, 2},
+    {"_predtools_Csimulate_null_mROC_stats_unconditional", (DL_FUNC) &_predtools_Csimulate_null_mROC_stats_unconditional, 2},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_mROC(DllInfo *dll) {
+RcppExport void R_init_predtools(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

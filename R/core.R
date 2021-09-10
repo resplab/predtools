@@ -1,6 +1,3 @@
-#2021.01.27 
-
-library(pROC)
 
 
 mROC_class_template<-list(p=NA,FPs=NA,TPs=NA)
