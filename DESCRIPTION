@@ -14,5 +14,7 @@ LazyData: true
 RoxygenNote: 7.1.1
 Imports: 
   Rcpp (>= 1.0.3),
-  pROC
+  pROC,
+  stats,
+  graphics
 LinkingTo: Rcpp
