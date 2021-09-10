@@ -17,8 +17,8 @@ BugReports: https://github.com/resplab/predtools/issues
 Depends:
     R (>= 3.6)
 Imports: 
-  Rcpp (>= 1.0.3),
-  pROC,
-  stats,
-  graphics
+    Rcpp,
+    pROC,
+    stats,
+    graphics
 LinkingTo: Rcpp
