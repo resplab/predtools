@@ -20,8 +20,8 @@ install.packages("predtools")
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("resplab/predtools")
+# install.packages("remotes")
+remotes::install_github("resplab/predtools")
 ```
 
 ## Example
@@ -203,7 +203,7 @@ indicating that the model is not calibrated.
 res<-mROC_inference(val_data[,'y'],pred)
 
 res
-#> Mean calibration statistic (A):0.08187776(Obs<Pred) (p:0.00016)
-#> mROC/ROC equality statsitic (B):0.06583836 (p:0.00367)
-#> Unified statistic:28.9616 (df:4.024929,p:8.192045e-06)
+#> Mean calibration statistic (A):0.08187776(Obs<Pred) (p:0.00019)
+#> mROC/ROC equality statsitic (B):0.06583836 (p:0.00371)
+#> Unified statistic:28.50314 (df:4.012282,p:1.000175e-05)
 ```

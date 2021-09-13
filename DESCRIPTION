@@ -8,7 +8,7 @@ Authors@R: c(
            email = "msafavi@mail.ubc.ca",
            comment = c(ORCID = "0000-0002-0419-7862")),
     person("Amin", "Adibi", email = "adibi@alumni.ubc.ca", role = c("cre")),
-    person("Abdollah", "Safari", email = "asafari@mail.ubc.ca", role = c("aut")),
+    person("Abdollah", "Safari", email = "asafari@mail.ubc.ca", role = c("aut"))
            )
 Description: This package provides functions for mROC analyses.
 License: GPL
