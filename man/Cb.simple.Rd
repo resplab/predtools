@@ -16,5 +16,6 @@ This function returns Cb as 1-E(B1)/E(max(B2,B3)), where B1, B2, and B3 are rand
 Simple, parametric calculation of Cb.
 }
 \examples{
-B<-runif(1000)); Cb.simple(B)
+b <- runif(1000)
+Cb.simple(b)
 }

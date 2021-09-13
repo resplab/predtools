@@ -5,21 +5,21 @@ Cb_output.template<-list(Cb=NA,e_b=NA,e_max_b1b2=NA,Gini=NA,AUCi=NA,p=NA,q=NA)
 class(Cb_output.template)<-"Cb_output"
 
 #' @export
-print.Cb_output<-function(x)
+print.Cb_output<-function(x, ...)
 {
   cat("Cb=",x$Cb,"\ne_b=",x$e_b,"\ne_max_b1b2=",x$e_max_b1b2,"\nGini=",x$Gini,"\nAUCi=",x$AUCi,"\nData length:",length(x$q))
   return(invisible(x$Cb))
 }
 
 #' @export
-plot.Cb_output<-function(x)
+plot.Cb_output<-function(x, ...)
 {
   plot(x$p,x$q,type='l',xlab="p",ylab="q")
 }
 
 
 #' @export
-lines.Cb_output<-function(x)
+lines.Cb_output<-function(x, ...)
 {
   lines(x$p,x$q,type='l',xlab="p",ylab="q")
 }
@@ -54,15 +54,12 @@ e_max_b1_b2<-function(B, dumb=FALSE, ordered=FALSE)
 
 
 
-
-
-
-
 #' Simple, parametric calculation of Cb.
 #' @param B A numberic vector.
 #' @return This function returns Cb as 1-E(B1)/E(max(B2,B3)), where B1, B2, and B3 are random draws from the empirical distribution of B.
 #' @examples
-#' B<-runif(1000)); Cb.simple(B)
+#' b <- runif(1000)
+#' Cb.simple(b)
 #' @export
 Cb.simple<-function(B)
 {

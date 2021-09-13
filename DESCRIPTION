@@ -1,5 +1,5 @@
 Package: predtools
-Title: Model-based ROC (mROC) curves
+Title: Prediction Model Tools
 Version: 0.0.2
 Authors@R: c(
     person(given = "Mohsen",
@@ -10,7 +10,7 @@ Authors@R: c(
     person("Amin", "Adibi", email = "adibi@alumni.ubc.ca", role = c("cre")),
     person("Abdollah", "Safari", email = "asafari@mail.ubc.ca", role = c("aut"))
            )
-Description: This package provides functions for mROC analyses.
+Description: Provides functions for mROC analyses.
 License: GPL
 Encoding: UTF-8
 LazyData: true
@@ -23,7 +23,8 @@ Imports:
     Rcpp,
     pROC,
     stats,
-    graphics
+    graphics,
+    survival
 LinkingTo: Rcpp
 Suggests: 
     rmarkdown,
