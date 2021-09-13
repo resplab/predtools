@@ -220,51 +220,7 @@ mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
   
   if(conditional)
   {
-    p1<-t.test(p-y)$p.value
-    
-    n1<-sum(y)
-    a<-p
-    b<-p
-    
-    for(i in 1:n)
-    {
-      a[i]<-p[i]*dpoisbinom(n1-1,p[-i])
-      b[i]<-(1-p[i])*dpoisbinom(n1,p[-i])
-    }
-    
-    pik<-a/(a+b)
-    
-    pikt=UPMEpiktildefrompik(pik)
-  
-    w=pikt/(1-pikt)
-    q=UPMEqfromw(w,n1)
-    
-    if(fast)
-    {
-      tmp=Csimulate_null_ds_conditional_crazy(p,n1,n_sim)
-      #tmp=Csimulate_null_ds_conditional(q,n_sim)
-      stats<-calc_mROC_stats(y,p)
-      out$stats<-stats
-      
-      out$null_stats<-c(distance.se=sqrt(var(tmp[,1]/length(tmp[,1]))),surface.mu=mean(tmp[,2]),surface.se=sqrt(var(tmp[,2]/length(tmp[,2]))))
-      
-      cdf2<-ecdf(x = tmp[,2])
-      
-      p2<-1-cdf2(stats[2])
-      d<- -2*(log(p1)+log(p2))
-      
-      out$stat<-c(value=d,df=4)
-      
-      p3<-1-pchisq(q = d, df = 4)
-      
-      out$pval<-p3
-      out$pvals<-c(distance=p1,surface=p2)
-      
-    }
-    else
-    {
-      #TODO
-    }
+    stop("Not implemented yet.")
   }
   else #If conditional
   {
