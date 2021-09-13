@@ -326,7 +326,9 @@ Cb.poisson<-function(reg_object,tx_var,semi_parametric=FALSE,time=1)
 #' rct_data[ids,'tte']<-rct_data[ids,'time']
 #' rct_data['event']<-event
 #'
-#' reg.coxph<-coxph(Surv(time=tte,event=event) ~ tx + tx:female + tx:age + sgrq + prev_hosp + prev_ster + fev1, data=rct_data, model=TRUE)
+#' reg.coxph<-coxph(Surv(time=tte,event=event) ~ 
+#' tx + tx:female + tx:age + sgrq + prev_hosp + prev_ster + fev1, 
+#' data=rct_data, model=TRUE)
 #' res.coxph<-Cb.coxph(reg.coxph,tx_var = "tx",semi_parametric = T)
 #' @export
 Cb.cox<-function(reg_object,tx_var,semi_parametric=FALSE, time=1)

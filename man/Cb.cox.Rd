@@ -30,6 +30,8 @@ ids<-which(event==0)
 rct_data[ids,'tte']<-rct_data[ids,'time']
 rct_data['event']<-event
 
-reg.coxph<-coxph(Surv(time=tte,event=event) ~ tx + tx:female + tx:age + sgrq + prev_hosp + prev_ster + fev1, data=rct_data, model=TRUE)
+reg.coxph<-coxph(Surv(time=tte,event=event) ~ 
+tx + tx:female + tx:age + sgrq + prev_hosp + prev_ster + fev1, 
+data=rct_data, model=TRUE)
 res.coxph<-Cb.coxph(reg.coxph,tx_var = "tx",semi_parametric = T)
 }
