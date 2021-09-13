@@ -2,7 +2,7 @@
 % Please edit documentation in R/core.R
 \name{mROC_analysis}
 \alias{mROC_analysis}
-\title{Main eRoc analysis, plots ROC and eROC}
+\title{Main eRoc analysis that plots ROC and eROC}
 \usage{
 mROC_analysis(y, p, inference = 0, n_sim, fast = TRUE)
 }
@@ -17,6 +17,9 @@ mROC_analysis(y, p, inference = 0, n_sim, fast = TRUE)
 
 \item{fast}{defaults to true}
 }
+\value{
+plot and analysis dooshvari
+}
 \description{
-Main eRoc analysis, plots ROC and eROC
+Main eRoc analysis that plots ROC and eROC
 }

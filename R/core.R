@@ -296,12 +296,14 @@ mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
 
 
 
-#' Main eRoc analysis, plots ROC and eROC
+#' Main eRoc analysis that plots ROC and eROC
+#' 
 #' @param y y dooshvari
 #' @param p p dooshvari
 #' @param inference 0 for no inference, 1 for p-value only, and 2 for p-value and 95%CI.
 #' @param n_sim number of simulations
 #' @param fast defaults to true
+#' @return plot and analysis dooshvari
 #' @export
 mROC_analysis<-function(y,p,inference=0, n_sim, fast=TRUE)
 {
