@@ -8,12 +8,12 @@ mROC_inference_template<-list(n_sim=NA,stats=c(A=NA,B=NA,A.dir=NA),pvals=c(A=NA,
 class(mROC_inference_template)<-"mROC_inference"
 
 #' @export
-print.mROC_inference<-function(obj,...)
+print.mROC_inference<-function(x,...)
 {
+  obj <- x
   cat("Mean calibration statistic (A):",obj$stats['A'],"(",ifelse(obj$stats['A.dir'],"Obs>Pred","Obs<Pred") ,") (p:",obj$pvals['A'],")\nmROC/ROC equality statsitic (B):",obj$stats['B']," (p:",obj$pvals['B'],")\nUnified statistic:",obj$stat['value']," (df:",obj$stat['df'],",p:",obj$pval,")",sep ="")
   return(invisible(obj$pval))
 }
-
 
 
 aux<-environment()
