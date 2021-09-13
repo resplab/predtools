@@ -107,7 +107,10 @@ Cb.simple<-function(B)
 #' rct_data[,'b_exac']<-rct_data[,'tte']<0.5
 #' rct_data[which(is.na(rct_data[,'b_exac'])),'b_exac']<-FALSE
 #'
-#' reg.logostic<-glm(formula = b_exac ~ tx + sgrq + prev_hosp + prev_ster + fev1, data = rct_data, family = binomial(link="logit"))
+#' reg.logostic<-glm(formula = b_exac ~ 
+#'                   tx + sgrq + prev_hosp + prev_ster + fev1, 
+#'                   data = rct_data, 
+#'                   family = binomial(link="logit"))
 #' res.logistic<-Cb.logistic(reg.logostic,tx_var = "tx", semi_parametric = T)
 #' print(res.logistic)
 #' @export
@@ -209,7 +212,10 @@ Cb.logistic<-function(reg_object,tx_var,semi_parametric=FALSE)
 #' @return This function returns an object of class Cb_output, which includes Cb as a member.
 #' @examples
 #' data("rct_data")
-#' reg<-glm(formula = n_exac ~ tx + sgrq + prev_hosp + prev_ster + fev1, data = rct_data, family = poisson(link="log"), offset=ln_time)
+#' reg<-glm(formula = n_exac ~ tx + sgrq + prev_hosp + prev_ster + fev1, 
+#'          data = rct_data, 
+#'          family = poisson(link="log"), 
+#'          offset=ln_time)
 #' res.Poisson<-Cb.Poisson(reg,tx_var = "tx", semi_parametric = T)
 #' res.Poisson
 #' @export
@@ -313,7 +319,8 @@ Cb.poisson<-function(reg_object,tx_var,semi_parametric=FALSE,time=1)
 #' @return This function returns an object of class Cb_output, which includes Cb as a member.
 #' @examples
 #' data("rct_data")
-#' #Create an event indicator and update the tte (time-to-event) variable to be equal to follpow-up time for censored individuals.
+#' # Create an event indicator and update the tte (time-to-event) variable to be 
+#' # equal to follow-up time for censored individuals.
 #' event<-(!is.na(rct_data[,'tte']))*1
 #' ids<-which(event==0)
 #' rct_data[ids,'tte']<-rct_data[ids,'time']

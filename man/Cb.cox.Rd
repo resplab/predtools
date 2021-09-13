@@ -23,7 +23,8 @@ Cb calculations for a Cox proportional hazard model.
 }
 \examples{
 data("rct_data")
-#Create an event indicator and update the tte (time-to-event) variable to be equal to follpow-up time for censored individuals.
+# Create an event indicator and update the tte (time-to-event) variable to be 
+# equal to follow-up time for censored individuals.
 event<-(!is.na(rct_data[,'tte']))*1
 ids<-which(event==0)
 rct_data[ids,'tte']<-rct_data[ids,'time']

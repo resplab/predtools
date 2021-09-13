@@ -26,7 +26,10 @@ data("rct_data")
 rct_data[,'b_exac']<-rct_data[,'tte']<0.5
 rct_data[which(is.na(rct_data[,'b_exac'])),'b_exac']<-FALSE
 
-reg.logostic<-glm(formula = b_exac ~ tx + sgrq + prev_hosp + prev_ster + fev1, data = rct_data, family = binomial(link="logit"))
+reg.logostic<-glm(formula = b_exac ~ 
+                  tx + sgrq + prev_hosp + prev_ster + fev1, 
+                  data = rct_data, 
+                  family = binomial(link="logit"))
 res.logistic<-Cb.logistic(reg.logostic,tx_var = "tx", semi_parametric = T)
 print(res.logistic)
 }

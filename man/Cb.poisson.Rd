@@ -23,7 +23,10 @@ Cb calculations for a Poisson (or negative binomial) regression model.
 }
 \examples{
 data("rct_data")
-reg<-glm(formula = n_exac ~ tx + sgrq + prev_hosp + prev_ster + fev1, data = rct_data, family = poisson(link="log"), offset=ln_time)
+reg<-glm(formula = n_exac ~ tx + sgrq + prev_hosp + prev_ster + fev1, 
+         data = rct_data, 
+         family = poisson(link="log"), 
+         offset=ln_time)
 res.Poisson<-Cb.Poisson(reg,tx_var = "tx", semi_parametric = T)
 res.Poisson
 }
