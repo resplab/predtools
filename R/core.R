@@ -194,7 +194,7 @@ calc_mROC_stats<-function(y, p, ordered=F, fast=T)
 #' @param n_sim number of Monte Carlo simulations to calculate p-value
 #' @param CI whether confidence interval should be alculated for each point of mROC
 #' @param aux aux dooshvari
-#' @param fast runs faster
+#' @param fast runs faster dooshvari
 #' @param conditional conditional, not implemented yet.
 #' @return Returns the aurea under the mROC curve
 #' @export
