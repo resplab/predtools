@@ -4,15 +4,7 @@
 \alias{mROC_inference}
 \title{Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs}
 \usage{
-mROC_inference(
-  y,
-  p,
-  n_sim = 1e+05,
-  CI = FALSE,
-  aux = FALSE,
-  fast = TRUE,
-  conditional = FALSE
-)
+mROC_inference(y, p, n_sim = 1e+05, CI = FALSE, aux = FALSE, fast = TRUE)
 }
 \arguments{
 \item{y}{vector of binary response values}
@@ -21,16 +13,14 @@ mROC_inference(
 
 \item{n_sim}{number of Monte Carlo simulations to calculate p-value}
 
-\item{CI}{whether confidence interval should be alculated for each point of mROC}
+\item{CI}{optional. Whether confidence interval should be calculated for each point of mROC. Default is FALSE.}
 
-\item{aux}{aux dooshvari}
+\item{aux}{aux optional. whether additional results (component-wise p-values etc) should be written in the package's aux variable. Default is FALSE.}
 
-\item{fast}{runs faster}
-
-\item{conditional}{conditional, not implemented yet.}
+\item{fast}{fast optional. Whether the fast code (C++) or slow code (R) should be called. Default is TRUE (R code will be slow unless the dataset is samll)}
 }
 \value{
-Returns the aurea under the mROC curve
+Returns an object of type mROC_inference containing the results of statistical inferennce for the mROC curve
 }
 \description{
 Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs

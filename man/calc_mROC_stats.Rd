@@ -7,9 +7,9 @@
 calc_mROC_stats(y, p, ordered = F, fast = T)
 }
 \arguments{
-\item{y}{y dooshvari}
+\item{y}{y vector of binary responses}
 
-\item{p}{p dooshvari}
+\item{p}{p vector of predicted probabilities (same length as y)}
 
 \item{ordered}{defaults to false}
 

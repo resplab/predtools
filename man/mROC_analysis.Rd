@@ -7,9 +7,9 @@
 mROC_analysis(y, p, inference = 0, n_sim, fast = TRUE)
 }
 \arguments{
-\item{y}{y dooshvari}
+\item{y}{y vector of observed responses.}
 
-\item{p}{p dooshvari}
+\item{p}{p vector of predicted probabilities (the same length as observed rsponses)}
 
 \item{inference}{0 for no inference, 1 for p-value only, and 2 for p-value and 95 percent CI.}
 
@@ -18,7 +18,7 @@ mROC_analysis(y, p, inference = 0, n_sim, fast = TRUE)
 \item{fast}{defaults to true}
 }
 \value{
-plot and analysis dooshvari
+returns a list containing the results of mROC analysis.
 }
 \description{
 Main eRoc analysis that plots ROC and eROC
