@@ -318,6 +318,7 @@ Cb.poisson<-function(reg_object,tx_var,semi_parametric=FALSE,time=1)
 #' @param time Optional (default=1). The value of time at which Cb is calculated.
 #' @return This function returns an object of class Cb_output, which includes Cb as a member.
 #' @examples
+#' library(survival)
 #' data("rct_data")
 #' # Create an event indicator and update the tte (time-to-event) variable to be 
 #' # equal to follow-up time for censored individuals.

@@ -22,6 +22,7 @@ This function returns an object of class Cb_output, which includes Cb as a membe
 Cb calculations for a Cox proportional hazard model.
 }
 \examples{
+library(survival)
 data("rct_data")
 # Create an event indicator and update the tte (time-to-event) variable to be 
 # equal to follow-up time for censored individuals.
