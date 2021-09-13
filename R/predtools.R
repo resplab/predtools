@@ -3,7 +3,5 @@
 #' @import pROC
 #' @importFrom graphics lines par
 #' @importFrom stats ecdf pchisq quantile rbinom stepfun t.test
-#' @docType package
-#' @name predtools
 #' @useDynLib predtools, .registration = TRUE
 NULL
