@@ -2,10 +2,21 @@
 % Please edit documentation in R/core.R
 \name{mROC_analysis}
 \alias{mROC_analysis}
-\title{Main eRoc analysis: draws the ROC and eROC. inference=0: no inference, inference=1: p-value, inference=2: p-value and 95%CI}
+\title{Main eRoc analysis, plots ROC and eROC}
 \usage{
 mROC_analysis(y, p, inference = 0, n_sim, fast = TRUE)
 }
+\arguments{
+\item{y}{y dooshvari}
+
+\item{p}{p dooshvari}
+
+\item{inference}{0 for no inference, 1 for p-value only, and 2 for p-value and 95%CI.}
+
+\item{n_sim}{number of simulations}
+
+\item{fast}{defaults to true}
+}
 \description{
-Main eRoc analysis: draws the ROC and eROC. inference=0: no inference, inference=1: p-value, inference=2: p-value and 95%CI
+Main eRoc analysis, plots ROC and eROC
 }

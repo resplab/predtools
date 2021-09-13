@@ -56,7 +56,6 @@ lines.mROC<-function(x,...)
 }
 
 
-
 #' @title Calculates mROC from the vector of predicted risks
 #' Takes in a vector of probabilities and returns mROC values (TPs,FPs in an object of class mROC)
 #' @param p A numberic vector of probabilities.
@@ -95,11 +94,6 @@ mROC<-function(p, ordered=F)
 
 
 
-
-
-
-
-
 #' Takes in a mROC object and calculates the area under the curve
 #' @param mROC_obj An object of class mROC
 #' @return Returns the aurea under the mROC curve
@@ -116,13 +110,11 @@ mAUC<-function(mROC_obj)
 
 
 
-
-
-
-
-
-
-#' Calculates the asolute surface between the empirical and expected ROCs
+#' Calculates the absolute surface between the empirical and expected ROCs
+#' @param y y dooshvari
+#' @param p p dooshvari
+#' @param ordered defaults to false
+#' @param fast defaults to true
 #' @export
 calc_mROC_stats<-function(y, p, ordered=F, fast=T)
 {
@@ -195,16 +187,13 @@ calc_mROC_stats<-function(y, p, ordered=F, fast=T)
 
 
 
-
-
-
 #' Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs
 #' 
 #' @param p vector of probabilities
 #' @param y vector of binary response values
 #' @param n_sim number of Monte Carlo simulations to calculate p-value
 #' @param CI whether confidence interval should be alculated for each point of mROC
-#' @param aux
+#' @param aux aux dooshvari
 #' @param fast runs faster
 #' @param conditional conditional, not implemented yet.
 #' @return Returns the aurea under the mROC curve
@@ -307,13 +296,12 @@ mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
 
 
 
-
-
-
-
-
-
-#' Main eRoc analysis: draws the ROC and eROC. inference=0: no inference, inference=1: p-value, inference=2: p-value and 95%CI
+#' Main eRoc analysis, plots ROC and eROC
+#' @param y y dooshvari
+#' @param p p dooshvari
+#' @param inference 0 for no inference, 1 for p-value only, and 2 for p-value and 95%CI.
+#' @param n_sim number of simulations
+#' @param fast defaults to true
 #' @export
 mROC_analysis<-function(y,p,inference=0, n_sim, fast=TRUE)
 {

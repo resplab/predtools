@@ -23,6 +23,8 @@ mROC_inference(
 
 \item{CI}{whether confidence interval should be alculated for each point of mROC}
 
+\item{aux}{aux dooshvari}
+
 \item{fast}{runs faster}
 
 \item{conditional}{conditional, not implemented yet.}

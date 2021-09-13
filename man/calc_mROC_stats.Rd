@@ -2,10 +2,19 @@
 % Please edit documentation in R/core.R
 \name{calc_mROC_stats}
 \alias{calc_mROC_stats}
-\title{Calculates the asolute surface between the empirical and expected ROCs}
+\title{Calculates the absolute surface between the empirical and expected ROCs}
 \usage{
 calc_mROC_stats(y, p, ordered = F, fast = T)
 }
+\arguments{
+\item{y}{y dooshvari}
+
+\item{p}{p dooshvari}
+
+\item{ordered}{defaults to false}
+
+\item{fast}{defaults to true}
+}
 \description{
-Calculates the asolute surface between the empirical and expected ROCs
+Calculates the absolute surface between the empirical and expected ROCs
 }
