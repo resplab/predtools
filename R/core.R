@@ -122,7 +122,7 @@ mAUC<-function(mROC_obj)
 
 
 
-#Calculates the asolute surface between the empirical and expected ROCs
+#' Calculates the asolute surface between the empirical and expected ROCs
 #' @export
 calc_mROC_stats<-function(y, p, ordered=F, fast=T)
 {
@@ -204,6 +204,9 @@ calc_mROC_stats<-function(y, p, ordered=F, fast=T)
 #' @param y vector of binary response values
 #' @param n_sim number of Monte Carlo simulations to calculate p-value
 #' @param CI whether confidence interval should be alculated for each point of mROC
+#' @param aux
+#' @param fast runs faster
+#' @param conditional conditional, not implemented yet.
 #' @return Returns the aurea under the mROC curve
 #' @export
 
@@ -310,7 +313,7 @@ mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
 
 
 
-#Main eRoc analysis: draws the ROC and eROC. inference=0: no inference, inference=1: p-value, inference=2: p-value and 95%CI
+#' Main eRoc analysis: draws the ROC and eROC. inference=0: no inference, inference=1: p-value, inference=2: p-value and 95%CI
 #' @export
 mROC_analysis<-function(y,p,inference=0, n_sim, fast=TRUE)
 {

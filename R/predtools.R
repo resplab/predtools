@@ -1,4 +1,3 @@
-#' predtools: A package for various methods in predictive analytics.
 #' @importFrom Rcpp sourceCpp
 #' @import pROC
 #' @importFrom graphics lines par

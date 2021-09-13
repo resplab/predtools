@@ -22,6 +22,10 @@ mROC_inference(
 \item{n_sim}{number of Monte Carlo simulations to calculate p-value}
 
 \item{CI}{whether confidence interval should be alculated for each point of mROC}
+
+\item{fast}{runs faster}
+
+\item{conditional}{conditional, not implemented yet.}
 }
 \value{
 Returns the aurea under the mROC curve
