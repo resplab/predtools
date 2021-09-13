@@ -4,11 +4,11 @@
 #'
 #' @format A data frame with 500 rows and 5 variables:
 #' \itemize{
-#'   \item{age}{price, in US dollars}
-#'   \item{severity}{weight of the diamond, in carats}
-#'   \item{sex}{weight of the diamond, in carats}
-#'   \item{comorbidity}{weight of the diamond, in carats}
-#'   \item{y}{weight of the diamond, in carats}
+#'   \item{age}{age}
+#'   \item{severity}{dooshvari}
+#'   \item{sex}{dooshvari}
+#'   \item{comorbidity}{dooshvari}
+#'   \item{y}{dooshvari}
 #' }
 #' @docType data
 #' @keywords datasets
