@@ -1,4 +1,6 @@
 #include <Rcpp.h>
+#include <R.h>
+
 using namespace Rcpp;
 
 
@@ -49,7 +51,7 @@ errors<-c(
 
 double rand_unif()
 {
-  return((double)rand()/RAND_MAX);
+  return((double)unif_rand());
 }
 
 
