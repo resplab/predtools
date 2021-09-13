@@ -111,8 +111,8 @@ mAUC<-function(mROC_obj)
 
 
 #' Calculates the absolute surface between the empirical and expected ROCs
-#' @param y y dooshvari
-#' @param p p dooshvari
+#' @param y y vector of binary responses
+#' @param p p vector of predicted probabilities (same length as y)
 #' @param ordered defaults to false
 #' @param fast defaults to true
 #' @export
@@ -192,15 +192,15 @@ calc_mROC_stats<-function(y, p, ordered=F, fast=T)
 #' @param p vector of probabilities
 #' @param y vector of binary response values
 #' @param n_sim number of Monte Carlo simulations to calculate p-value
-#' @param CI whether confidence interval should be alculated for each point of mROC
-#' @param aux aux dooshvari
-#' @param fast runs faster dooshvari
-#' @param conditional conditional, not implemented yet.
-#' @return Returns the aurea under the mROC curve
+#' @param CI optional. Whether confidence interval should be calculated for each point of mROC. Default is FALSE.
+#' @param aux aux optional. whether additional results (component-wise p-values etc) should be written in the package's aux variable. Default is FALSE.
+#' @param fast fast optional. Whether the fast code (C++) or slow code (R) should be called. Default is TRUE (R code will be slow unless the dataset is samll)
+#' @return Returns an object of type mROC_inference containing the results of statistical inferennce for the mROC curve
 #' @export
 
-mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,conditional=FALSE)
+mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE)
 {
+  conditional <- FALSE
   out<-mROC_inference_template
   
   out$n_sim<-n_sim
@@ -298,12 +298,12 @@ mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
 
 #' Main eRoc analysis that plots ROC and eROC
 #' 
-#' @param y y dooshvari
-#' @param p p dooshvari
+#' @param y y vector of observed responses.
+#' @param p p vector of predicted probabilities (the same length as observed rsponses)
 #' @param inference 0 for no inference, 1 for p-value only, and 2 for p-value and 95 percent CI.
 #' @param n_sim number of simulations
 #' @param fast defaults to true
-#' @return plot and analysis dooshvari
+#' @return returns a list containing the results of mROC analysis.
 #' @export
 mROC_analysis<-function(y,p,inference=0, n_sim, fast=TRUE)
 {
