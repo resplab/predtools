@@ -6,7 +6,7 @@
 \title{model validation data}
 \format{
 A data frame with 400 rows and 5 variables:
-\describe{
+\itemize{
   \item{age}{price, in US dollars}
   \item{severity}{weight of the diamond, in carats}
   \item{sex}{weight of the diamond, in carats}
@@ -16,9 +16,6 @@ A data frame with 400 rows and 5 variables:
 }
 \source{
 Simulated
-}
-\usage{
-val_data
 }
 \description{
 A dataset containing sample model validation data
