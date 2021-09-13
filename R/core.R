@@ -23,6 +23,10 @@ aux<-environment()
 plot.mROC<-function(x,...)
 {
   mROC_obj <- x
+  step <- list(...)$step
+  
+  if(is.null(step)) step <- FALSE
+  
   if(step)
   {
     sf<-stepfun(mROC_obj$FPs,c(0,mROC_obj$TPs))
@@ -37,8 +41,9 @@ plot.mROC<-function(x,...)
 
 
 #' @export
-lines.mROC<-function(mROC_obj,...)
+lines.mROC<-function(x,...)
 {
+  mROC_obj <- x
   #sf<-stepfun(mROC_obj$FPs,c(0,mROC_obj$TPs))
   #TODO: let possible xlim and ylim from ... override the default
   xlim<-par("usr")[1:2]
