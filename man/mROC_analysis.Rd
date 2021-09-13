@@ -11,7 +11,7 @@ mROC_analysis(y, p, inference = 0, n_sim, fast = TRUE)
 
 \item{p}{p dooshvari}
 
-\item{inference}{0 for no inference, 1 for p-value only, and 2 for p-value and 95%CI.}
+\item{inference}{0 for no inference, 1 for p-value only, and 2 for p-value and 95 percent CI.}
 
 \item{n_sim}{number of simulations}
 
