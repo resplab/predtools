@@ -20,8 +20,9 @@ aux<-environment()
 
 
 #' @export
-plot.mROC<-function(mROC_obj,step=F,...)
+plot.mROC<-function(x,...)
 {
+  mROC_obj <- x
   if(step)
   {
     sf<-stepfun(mROC_obj$FPs,c(0,mROC_obj$TPs))
@@ -280,7 +281,7 @@ mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE,condition
   
         if(aux)
         {
-          aux$AB[i,]<<-c(mean(y)-mean(m),tmp[i])
+          aux$AB[i,]<<-c(mean(y)-mean(p),tmp[i])
         }
       }
     }
