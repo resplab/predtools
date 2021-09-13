@@ -37,7 +37,7 @@ validation sample. Among other things, you typically evaluate the
 Receiver Operating Characteristic (ROC) curve of the risk prediciton
 model in the new sample.
 
-Now, ‘model-based’ ROC (mROC) curve is the ROC curve that should be
+Now, model-based ROC (mROC) curve is the ROC curve that should be
 observed if the prediction model is calibrated in the external
 population. Comparing the empirical ROC and mROC curves in the new
 sample can be informative on if the model is calibrated in the new
@@ -203,7 +203,7 @@ indicating that the model is not calibrated.
 res<-mROC_inference(val_data[,'y'],pred)
 
 res
-#> Mean calibration statistic (A):3.779087e-315(Obs<Pred) (p:1)
-#> mROC/ROC equality statsitic (B):0.4306098 (p:0.98995)
-#> Unified statistic:0.004431077 (df:0.03098128,p:0.08237918)
+#> Mean calibration statistic (A):0.08187776(Obs<Pred) (p:0.00016)
+#> mROC/ROC equality statsitic (B):0.06583836 (p:0.00367)
+#> Unified statistic:28.9616 (df:4.024929,p:8.192045e-06)
 ```

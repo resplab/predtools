@@ -1,12 +1,15 @@
 Package: predtools
 Title: Model-based ROC (mROC) curves
-Version: 0.0.1
-Authors@R: 
+Version: 0.0.2
+Authors@R: c(
     person(given = "Mohsen",
            family = "Sadatsafavi",
-           role = c("aut", "cre"),
+           role = c("aut", "cph"),
            email = "msafavi@mail.ubc.ca",
-           comment = c(ORCID = "0000-0002-0419-7862"))
+           comment = c(ORCID = "0000-0002-0419-7862")),
+    person("Amin", "Adibi", email = "adibi@alumni.ubc.ca", role = c("cre")),
+    person("Abdollah", "Safari", email = "asafari@mail.ubc.ca", role = c("aut")),
+           )
 Description: This package provides functions for mROC analyses.
 License: GPL
 Encoding: UTF-8
