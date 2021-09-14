@@ -23,8 +23,7 @@ Imports:
     Rcpp,
     pROC,
     stats,
-    graphics,
-    survival
+    graphics
 LinkingTo: Rcpp
 Suggests: 
     rmarkdown,
