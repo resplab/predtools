@@ -3,7 +3,7 @@ Tutorial for model-based ROC (mROC) analysis
 
 # predtools
 
-<!-- badges: start -->
+<!-- badges: starts -->
 
 [![R-CMD-check](https://github.com/resplab/predtools/workflows/R-CMD-check/badge.svg)](https://github.com/resplab/predtools/actions)
 <!-- badges: end -->
@@ -70,15 +70,15 @@ dev\_data has 500 rows. val\_data has 400 rows.
 
 Here are the first few rows of dev\_data:
 
-|        age |   severity | sex | comorbidity |   y |
-|-----------:|-----------:|----:|------------:|----:|
-|  0.5160477 |  0.2593806 |   0 |           1 |   1 |
-|  0.1572608 | -1.2302576 |   0 |           0 |   0 |
-|  1.2804923 |  1.8332095 |   1 |           1 |   1 |
-|  1.1347625 |  1.3272407 |   0 |           0 |   1 |
-|  0.8355657 |  0.3424236 |   0 |           0 |   1 |
-|  0.3522012 |  2.1135965 |   0 |           1 |   1 |
-| -0.5431004 | -2.9125308 |   0 |           1 |   0 |
+| age | severity | sex | comorbidity |   y |
+|----:|---------:|----:|------------:|----:|
+|  55 |        0 |   0 |           1 |   1 |
+|  52 |        1 |   0 |           0 |   0 |
+|  63 |        0 |   0 |           1 |   0 |
+|  61 |        1 |   1 |           1 |   1 |
+|  58 |        0 |   1 |           0 |   0 |
+|  54 |        1 |   0 |           0 |   1 |
+|  45 |        0 |   0 |           0 |   0 |
 
 We use the development data to fit a logistic regression model as our
 risk prediction model:
@@ -93,30 +93,30 @@ summary(reg)
 #> 
 #> Deviance Residuals: 
 #>     Min       1Q   Median       3Q      Max  
-#> -2.3801  -0.9824   0.4624   0.8912   2.2420  
+#> -1.2904  -0.8272  -0.6373   1.1570   2.1050  
 #> 
 #> Coefficients:
-#>             Estimate Std. Error z value Pr(>|z|)    
-#> (Intercept)  -0.9094     0.1752  -5.192 2.08e-07 ***
-#> sex           1.1167     0.2545   4.388 1.14e-05 ***
-#> age           0.5434     0.1136   4.785 1.71e-06 ***
-#> severity      0.4414     0.0599   7.368 1.73e-13 ***
-#> comorbidity   0.8953     0.2079   4.306 1.66e-05 ***
+#>              Estimate Std. Error z value Pr(>|z|)    
+#> (Intercept) -1.728929   0.565066  -3.060  0.00222 ** 
+#> sex          0.557178   0.223631   2.492  0.01272 *  
+#> age          0.005175   0.010654   0.486  0.62717    
+#> severity    -0.557335   0.227587  -2.449  0.01433 *  
+#> comorbidity  1.091936   0.209944   5.201 1.98e-07 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
 #> (Dispersion parameter for binomial family taken to be 1)
 #> 
-#>     Null deviance: 686.86  on 499  degrees of freedom
-#> Residual deviance: 564.21  on 495  degrees of freedom
-#> AIC: 574.21
+#>     Null deviance: 602.15  on 499  degrees of freedom
+#> Residual deviance: 560.41  on 495  degrees of freedom
+#> AIC: 570.41
 #> 
 #> Number of Fisher Scoring iterations: 4
 ```
 
 Given this, our risk prediction model can be written as:
 
-*l**o**g**i**t*(*p*) =  − 0.9094 + 1.1167 \* *s**e**x* + 0.5434 \* *a**g**e* + 0.4414 \* *s**e**v**e**r**i**t**y* + 0.8953 \* *c**o**m**o**r**b**i**d**i**t**y*.
+*l**o**g**i**t*(*p*) =  − 1.7289 + 0.5572 \* *s**e**x* + 0.0052 \* *a**g**e* − 0.5573 \* *s**e**v**e**r**i**t**y* + 1.0919 \* *c**o**m**o**r**b**i**d**i**t**y*.
 
 First, let’s compare the ROC and mROC in the development data
 
@@ -163,7 +163,7 @@ pred<-predict.glm(reg,newdata = val_data, type="response")
 
 summary(pred)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#> 0.02774 0.37566 0.57743 0.55688 0.73410 0.98611
+#>  0.1008  0.1853  0.2794  0.2891  0.4053  0.5714
 ```
 
 Using the package pROC, let’s draw the validation ROC curve
@@ -203,7 +203,7 @@ indicating that the model is not calibrated.
 res<-mROC_inference(val_data[,'y'],pred)
 
 res
-#> Mean calibration statistic (A):0.08187776(Obs<Pred) (p:0.00019)
-#> mROC/ROC equality statsitic (B):0.06583836 (p:0.00371)
-#> Unified statistic:28.50314 (df:4.012282,p:1.000175e-05)
+#> Mean calibration statistic (A):0.00835868(Obs>Pred) (p:0.7237)
+#> mROC/ROC equality statsitic (B):0.05910898 (p:0.04791)
+#> Unified statistic:6.778506 (df:4.025799,p:0.1501357)
 ```

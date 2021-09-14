@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 # predtools
 
-<!-- badges: start -->
+<!-- badges: starts -->
 [![R-CMD-check](https://github.com/resplab/predtools/workflows/R-CMD-check/badge.svg)](https://github.com/resplab/predtools/actions)
 <!-- badges: end -->
 
