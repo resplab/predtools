@@ -23,7 +23,8 @@ Imports:
     Rcpp,
     pROC,
     stats,
-    graphics
+    graphics,
+    RConics
 LinkingTo: Rcpp
 Suggests: 
     rmarkdown,
