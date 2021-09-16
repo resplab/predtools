@@ -28,12 +28,6 @@ pred_summary_stat <- function(calibVector) {
 odds_adjust <- function(p0, p1, v)
 {
 
-  if ((is.null(p) | is.null(v)) & is.null(calibVector)) stop("Either p and v, or calibration vector needs to be given.")
-  else {
-    if (is.null(p)) p <- mean(calibVector)
-    if (is.null(v)) v <- mean((calibVector - mean(calibVector)) ^ 2)
-  }
-    
   if(v > p0 * (1 - p0)) stop("Variance cannot be larger than p0*(1-p0).")
   
   A <- p0 ^ 3 - p1 * p0 ^ 3
