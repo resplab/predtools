@@ -1,4 +1,4 @@
-Tutorial for model-based ROC (mROC) analysis
+Additional Tools for Predictive Analytics
 ================
 
 # predtools
@@ -203,7 +203,7 @@ indicating that the model is not calibrated.
 res<-mROC_inference(val_data[,'y'],pred)
 
 res
-#> Mean calibration statistic (A):0.00835868(Obs>Pred) (p:0.7237)
-#> mROC/ROC equality statsitic (B):0.05910898 (p:0.04791)
-#> Unified statistic:6.778506 (df:4.025799,p:0.1501357)
+#> Mean calibration statistic (A):0.00835868(Obs>Pred) (p:0.72403)
+#> mROC/ROC equality statsitic (B):0.05910898 (p:0.04724)
+#> Unified statistic:6.769447 (df:4.00412,p:0.1489155)
 ```
