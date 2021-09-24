@@ -8,15 +8,13 @@ calibration_plot(
   data,
   obs,
   follow_up = NULL,
-  pred_1,
-  pred_2 = NULL,
+  pred,
+  group = NULL,
   nTiles = 10,
   legendPosition = "right",
   title = NULL,
   x_lim = NULL,
   y_lim = NULL,
-  model_label_1 = NULL,
-  model_label_2 = NULL,
   xlab = "Prediction",
   ylab = "Observation",
   points_col_list = NULL,
@@ -30,9 +28,9 @@ calibration_plot(
 
 \item{follow_up}{Name of follow-up time (if applicable) in the input data.}
 
-\item{pred_1}{Name of first predicted outcome in the input data.}
+\item{pred}{Name of first predicted outcome in the input data.}
 
-\item{pred_2}{Name of second (if applicable) predicted outcome in the input data.}
+\item{group}{Name of grouping column (if  applicable) in the input data.}
 
 \item{nTiles}{Number of tiles (e.g., 10 for deciles) in the calibration plot.}
 
@@ -43,10 +41,6 @@ calibration_plot(
 \item{x_lim}{Limits of x-axis on the calibration plot.}
 
 \item{y_lim}{Limits of y-axis on the calibration plot.}
-
-\item{model_label_1}{Label of the first prediction set.}
-
-\item{model_label_2}{Label of the first prediction set.}
 
 \item{xlab}{Label of x-axis on the calibration plot.}
 
@@ -69,6 +63,6 @@ library(predtools)
 library(dplyr)
 x <- rnorm(100, 10, 2)
 y <- x + rnorm(100,0, 1)
-data <- tibble(x,y)
-calibration_plot(data, obs = "x", pred_1 = "y")
+data <- data.frame(x, y)
+calibration_plot(data, obs = "x", pred = "y")
 }

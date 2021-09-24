@@ -1,0 +1,93 @@
+---
+title: "Calibration Plot"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Calibration Plot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+```
+
+```{r setup}
+
+library(predtools)
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+
+```
+
+## What is calibration plot?
+
+Calibration plot is a visual tool to assess the agreement between predictions and observations in different percentiles (mostly deciles) of the predicted values.
+
+
+`calibration_plot` function constructs calibration plots based on provided predictions and observations columns of a given dataset. Among other options implemented in the function, one can evaluate prediction calibration according to a grouping factor (or even from multiple prediction models) in one calibration plot.
+
+
+## A step-by-step guide.
+Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient's age, disease severity level, sex, and whether the patient has a comorbidity. 
+
+The package comes with two exemplary datasets. `dev_data` and `val_data`. We use the dev_data as the development sample and the `val_data` as the external validation sample.
+
+```{R}
+
+data(dev_data)
+data(val_data)
+
+```
+
+
+`dev_data` has `r dim(predtools::dev_data)[1]` rows. `val_data` has `r dim(predtools::val_data)[1]` rows. 
+
+Here are the first few rows of `dev_data`:
+
+```{R echo=FALSE}
+
+knitr::kable(dev_data[1:7,])
+
+```
+
+
+We use the development data to fit a logistic regression model as our risk prediction model:
+
+
+```{R}
+
+reg <- glm(y~sex+age+severity+comorbidity,data=dev_data,family=binomial(link="logit"))
+summary(reg)
+
+```
+
+Given this, our risk prediction model can be written as:
+
+```{R echo=FALSE}
+
+cfs <- coefficients(reg)
+str<-paste0(round(cfs[1],4),"+",paste0(round(cfs[-1],4),"*",names(cfs[-1]),collapse="+"))
+str_risk_model <- gsub("+-", "-", str, fixed = T)
+
+```
+
+$\bf{ logit(p)=`r str_risk_model`}$.
+
+
+Now, we can create the calibration plot in development and validation datasets by using `calibration_plot` function.
+```{R}
+
+dev_data$pred <- predict.glm(reg, type = 'response')
+val_data$pred <- predict.glm(reg, newdata = val_data, type = 'response')
+
+calibration_plot(data = dev_data, obs = "y", pred = "pred", title = "Calibration plot for development data")
+calibration_plot(data = val_data, obs = "y", pred = "pred", y_lim = c(0, 0.6),
+                 title = "Calibration plot for validation data", group = "sex")
+
+```
