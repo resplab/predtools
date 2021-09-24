@@ -58,9 +58,9 @@ lines.mROC<-function(x,...)
 
 #' @title Calculates mROC from the vector of predicted risks
 #' Takes in a vector of probabilities and returns mROC values (TPs,FPs in an object of class mROC)
-#' @param p A numberic vector of probabilities.
+#' @param p A numeric vector of probabilities.
 #' @param ordered Optional, if the vector p is ordered from small to large (if not the function will do it; TRUE is to facilitate fast computations).
-#' @return This function returns an object of class mROC. It has three vectos: thresholds on predicted risks (which is the ordered vector of input probabilities), false positive rates (FPs), and true positive rates (TPs). You can directly call the plot function on this object to draw the mROC
+#' @return This function returns an object of class mROC. It has three vectors: thresholds on predicted risks (which is the ordered vector of input probabilities), false positive rates (FPs), and true positive rates (TPs). You can directly call the plot function on this object to draw the mROC
 #' @export
 mROC<-function(p, ordered=F)
 {
@@ -96,7 +96,7 @@ mROC<-function(p, ordered=F)
 
 #' Takes in a mROC object and calculates the area under the curve
 #' @param mROC_obj An object of class mROC
-#' @return Returns the aurea under the mROC curve
+#' @return Returns the area under the mROC curve
 #' @export
 mAUC<-function(mROC_obj)
 {
@@ -187,15 +187,15 @@ calc_mROC_stats<-function(y, p, ordered=F, fast=T)
 
 
 
-#' Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs
+#' Statistical inference for comparing empirical and expected ROCs. If CI=TRUE then also returns pointwise CIs
 #' 
 #' @param p vector of probabilities
 #' @param y vector of binary response values
 #' @param n_sim number of Monte Carlo simulations to calculate p-value
 #' @param CI optional. Whether confidence interval should be calculated for each point of mROC. Default is FALSE.
 #' @param aux aux optional. whether additional results (component-wise p-values etc) should be written in the package's aux variable. Default is FALSE.
-#' @param fast fast optional. Whether the fast code (C++) or slow code (R) should be called. Default is TRUE (R code will be slow unless the dataset is samll)
-#' @return Returns an object of type mROC_inference containing the results of statistical inferennce for the mROC curve
+#' @param fast fast optional. Whether the fast code (C++) or slow code (R) should be called. Default is TRUE (R code will be slow unless the dataset is small)
+#' @return Returns an object of type mROC_inference containing the results of statistical inference for the mROC curve
 #' @export
 
 mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE)
@@ -296,10 +296,10 @@ mROC_inference<-function(y,p,n_sim=100000,CI=FALSE,aux=FALSE,fast=TRUE)
 
 
 
-#' Main eRoc analysis that plots ROC and eROC
+#' Main eROC analysis that plots ROC and eROC
 #' 
 #' @param y y vector of observed responses.
-#' @param p p vector of predicted probabilities (the same length as observed rsponses)
+#' @param p p vector of predicted probabilities (the same length as observed responses)
 #' @param inference 0 for no inference, 1 for p-value only, and 2 for p-value and 95 percent CI.
 #' @param n_sim number of simulations
 #' @param fast defaults to true

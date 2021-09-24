@@ -70,5 +70,5 @@ library(dplyr)
 x <- rnorm(100, 10, 2)
 y <- x + rnorm(100,0, 1)
 data <- tibble(x,y)
-calibration_plot(data, obs = x, pred_1 = y)
+calibration_plot(data, obs = "x", pred_1 = "y")
 }

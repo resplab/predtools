@@ -114,9 +114,9 @@
 <div id="a-step-by-step-guide-" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-step-by-step-guide-" class="anchor"></a>A step-by-step guide.</h2>
-<p>Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient’s age, disease severity level, sex, and whether the patient has comorbidity.</p>
-<p>The package comes with two exemplary datasets. dev_data and val_data. We use the dev_data as the development sample and the val_data as the external validation sample.</p>
-<p>Model updating matters when there is a considerable difference between mean of the observed risks in development and validation sets. The average of y in the above two datasets are almost identical. Therefore, to have a meaningful scenario, we create a secondary (arbitrary) outcome (y_alt) in val_data with a lower average (by ~ 50%).</p>
+<p>Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient’s age, disease severity level, sex, and whether the patient has a comorbidity.</p>
+<p>The package comes with two exemplary datasets. <code>dev_data</code> and <code>val_data</code>. We use the dev_data as the development sample and the <code>val_data</code> as the external validation sample.</p>
+<p>Model updating matters when there is a considerable difference between mean of the observed risks in development and validation sets. The average of y in the above two datasets are almost identical. Therefore, to have a meaningful scenario, we create a secondary (arbitrary) outcome (y_alt) in <code>val_data</code> with a lower average (by ~ 50%).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dev_data</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">val_data</span><span class="op">)</span></code></pre></div>
@@ -159,8 +159,8 @@
 </tr>
 </tbody>
 </table>
-<p>dev_data has 500 rows. val_data has 400 rows.</p>
-<p>Here are the first few rows of dev_data:</p>
+<p><code>dev_data</code> has 500 rows. <code>val_data</code> has 400 rows.</p>
+<p>Here are the first few rows of <code>dev_data</code>:</p>
 <table class="table">
 <thead><tr class="header">
 <th align="right">age</th>
@@ -253,7 +253,7 @@
 <span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></code></pre></div>
 <p>Given this, our risk prediction model can be written as:</p>
 <p><span class="math inline">\(\bf{ logit(p)=-1.7289+0.5572*sex+0.0052*age-0.5573*severity+1.0919*comorbidity}\)</span>.</p>
-<p>First, let’s see the calibration plot in development and validation datasets. We use ‘calibration_plot’ from our package to create calibration plots.</p>
+<p>First, let’s see the calibration plot in development and validation datasets. We use <code>calibration_plot</code> from our package to create calibration plots.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dev_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, type <span class="op">=</span> <span class="st">'response'</span><span class="op">)</span>
 <span class="va">val_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, newdata <span class="op">=</span> <span class="va">val_data</span>, type <span class="op">=</span> <span class="st">'response'</span><span class="op">)</span>
@@ -266,7 +266,7 @@
                  title <span class="op">=</span> <span class="st">"Calibration plot for validation data"</span><span class="op">)</span>
 <span class="co">#&gt; $calibration_plot</span></code></pre></div>
 <p><img src="interceptAdj_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
-<p>To adjust the predicted risks for the validation set, we estimate the correction factor by using function ‘odds_adjust’</p>
+<p>To adjust the predicted risks for the validation set, we estimate the correction factor by using function <code>odds_adjust</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">odds_correction_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/odds_adjust.html">odds_adjust</a></span><span class="op">(</span>p0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dev_data</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>, p1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">val_data</span><span class="op">$</span><span class="va">y_alt</span><span class="op">)</span>, v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">dev_data</span><span class="op">$</span><span class="va">pred</span><span class="op">)</span><span class="op">)</span>
 <span class="va">odds_correction_factor</span>

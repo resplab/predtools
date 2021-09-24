@@ -2,7 +2,7 @@
 % Please edit documentation in R/mROC.R
 \name{mROC_inference}
 \alias{mROC_inference}
-\title{Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs}
+\title{Statistical inference for comparing empirical and expected ROCs. If CI=TRUE then also returns pointwise CIs}
 \usage{
 mROC_inference(y, p, n_sim = 1e+05, CI = FALSE, aux = FALSE, fast = TRUE)
 }
@@ -17,11 +17,11 @@ mROC_inference(y, p, n_sim = 1e+05, CI = FALSE, aux = FALSE, fast = TRUE)
 
 \item{aux}{aux optional. whether additional results (component-wise p-values etc) should be written in the package's aux variable. Default is FALSE.}
 
-\item{fast}{fast optional. Whether the fast code (C++) or slow code (R) should be called. Default is TRUE (R code will be slow unless the dataset is samll)}
+\item{fast}{fast optional. Whether the fast code (C++) or slow code (R) should be called. Default is TRUE (R code will be slow unless the dataset is small)}
 }
 \value{
-Returns an object of type mROC_inference containing the results of statistical inferennce for the mROC curve
+Returns an object of type mROC_inference containing the results of statistical inference for the mROC curve
 }
 \description{
-Statistical inference for comparing empirical and expectec ROCs. If CI=TRUE then also returns pointwise CIs
+Statistical inference for comparing empirical and expected ROCs. If CI=TRUE then also returns pointwise CIs
 }

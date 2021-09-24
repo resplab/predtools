@@ -2,14 +2,14 @@
 % Please edit documentation in R/mROC.R
 \name{mROC_analysis}
 \alias{mROC_analysis}
-\title{Main eRoc analysis that plots ROC and eROC}
+\title{Main eROC analysis that plots ROC and eROC}
 \usage{
 mROC_analysis(y, p, inference = 0, n_sim, fast = TRUE)
 }
 \arguments{
 \item{y}{y vector of observed responses.}
 
-\item{p}{p vector of predicted probabilities (the same length as observed rsponses)}
+\item{p}{p vector of predicted probabilities (the same length as observed responses)}
 
 \item{inference}{0 for no inference, 1 for p-value only, and 2 for p-value and 95 percent CI.}
 
@@ -21,5 +21,5 @@ mROC_analysis(y, p, inference = 0, n_sim, fast = TRUE)
 returns a list containing the results of mROC analysis.
 }
 \description{
-Main eRoc analysis that plots ROC and eROC
+Main eROC analysis that plots ROC and eROC
 }

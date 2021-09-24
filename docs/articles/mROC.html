@@ -99,7 +99,7 @@
 <h2 class="hasAnchor">
 <a href="#what-is-mroc" class="anchor"></a>What is mROC?</h2>
 <p>Imagine you have developed a risk prediction model using some development dataset. The risk prediction model takes in some predictors (e.g., sex, age, previous disease history) and returns the risk of an event (e.g., risk of disease relapse in the next 12 months). You would like to evaluate the performance of the risk model in a new (external) validation sample. Among other things, you typically evaluate the Receiver Operating Characteristic (ROC) curve of the risk prediciton model in the new sample.</p>
-<p>Now, ‘model-based’ ROC (mROC) curve is the ROC curve that should be observed if the prediction model is calibrated in the external population. Comparing the empirical ROC and mROC curves in the new sample can be informative on if the model is calibrated in the new sample.</p>
+<p>Now, model-based ROC (mROC) curve is the ROC curve that should be observed if the prediction model is calibrated in the external population. Comparing the empirical ROC and mROC curves in the new sample can be informative on if the model is calibrated in the new sample.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -271,8 +271,8 @@
 <code class="sourceCode R"><span class="va">res</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/mROC_inference.html">mROC_inference</a></span><span class="op">(</span><span class="va">val_data</span><span class="op">[</span>,<span class="st">'y'</span><span class="op">]</span>,<span class="va">pred</span><span class="op">)</span>
 
 <span class="va">res</span>
-<span class="co">#&gt; Mean calibration statistic (A):6.34889e-315(Obs&gt;Pred) (p:0)</span>
-<span class="co">#&gt; mROC/ROC equality statsitic (B):0.5479497 (p:0)</span>
+<span class="co">#&gt; Mean calibration statistic (A):4.879387e-315(Obs&gt;Pred) (p:0)</span>
+<span class="co">#&gt; mROC/ROC equality statsitic (B):0.5375044 (p:0)</span>
 <span class="co">#&gt; Unified statistic:NaN (df:NaN,p:NaN)</span></code></pre></div>
 </div>
 </div>

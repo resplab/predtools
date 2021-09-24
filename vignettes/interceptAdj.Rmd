@@ -32,11 +32,11 @@ In clinical prediction modeling, model updating refers to the practice of modify
 
 
 ## A step-by-step guide.
-Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient's age, disease severity level, sex, and whether the patient has comorbidity. 
+Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient's age, disease severity level, sex, and whether the patient has a comorbidity. 
 
-The package comes with two exemplary datasets. dev_data and val_data. We use the dev_data as the development sample and the val_data as the external validation sample.
+The package comes with two exemplary datasets. `dev_data` and `val_data`. We use the dev_data as the development sample and the `val_data` as the external validation sample.
 
-Model updating matters when there is a considerable difference between mean of the observed risks in development and validation sets. The average of y in the above two datasets are almost identical. Therefore, to have a meaningful scenario, we create a secondary (arbitrary) outcome (y_alt) in val_data with a lower average (by ~ 50%).
+Model updating matters when there is a considerable difference between mean of the observed risks in development and validation sets. The average of y in the above two datasets are almost identical. Therefore, to have a meaningful scenario, we create a secondary (arbitrary) outcome (y_alt) in `val_data` with a lower average (by ~ 50%).
 
 ```{R}
 data(dev_data)
@@ -55,9 +55,9 @@ val_data %>%
 
 ```
 
-dev_data has `r dim(predtools::dev_data)[1]` rows. val_data has `r dim(predtools::val_data)[1]` rows. 
+`dev_data` has `r dim(predtools::dev_data)[1]` rows. `val_data` has `r dim(predtools::val_data)[1]` rows. 
 
-Here are the first few rows of dev_data:
+Here are the first few rows of `dev_data`:
 
 ```{R echo=FALSE}
 knitr::kable(dev_data[1:7,])
@@ -83,7 +83,7 @@ str_risk_model <- gsub("+-", "-", str, fixed = T)
 $\bf{ logit(p)=`r str_risk_model`}$.
 
 
-First, let's see the calibration plot in development and validation datasets. We use ‘calibration_plot’ from our package to create calibration plots.
+First, let's see the calibration plot in development and validation datasets. We use `calibration_plot` from our package to create calibration plots.
 ```{R}
 dev_data$pred <- predict.glm(reg, type = 'response')
 val_data$pred <- predict.glm(reg, newdata = val_data, type = 'response')
@@ -95,7 +95,7 @@ calibration_plot(data = val_data, obs = "y_alt", pred_1 = "pred", y_lim = c(0, 0
 ```
 
 
-To adjust the predicted risks for the validation set, we estimate the correction factor by using function ‘odds_adjust’
+To adjust the predicted risks for the validation set, we estimate the correction factor by using function `odds_adjust`:
 ```{R}
 odds_correction_factor <- odds_adjust(p0 = mean(dev_data$y), p1 = mean(val_data$y_alt), v = var(dev_data$pred))
 odds_correction_factor
