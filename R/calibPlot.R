@@ -55,18 +55,18 @@ calibration_plot <- function(data,
   if (! is.null(pred_2)) {
     data %>%
       group_by(.data$decile) %>%
-      summarise(obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
+      summarise(.data$obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
                 obsRate_SE = sd(!!sym(obs) / follow_up, na.rm = T) / sqrt(n()),
                 obsNo = n(),
-                model = ifelse(is.null(model_label_1), "Model 1", model_label_1),
-                predRate = mean(!!sym(pred_1), na.rm = T)) -> dataDec_mod_1
+                .data$model = ifelse(is.null(model_label_1), "Model 1", model_label_1),
+                .data$predRate = mean(!!sym(pred_1), na.rm = T)) -> dataDec_mod_1
     data %>%
       group_by(.data$decile) %>%
-      summarise(obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
+      summarise(.data$obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
                 obsRate_SE = sd(!!sym(obs) / follow_up, na.rm = T) / sqrt(n()),
                 obsNo = n(),
-                model = ifelse(is.null(model_label_1), "Model 2", model_label_2),
-                predRate = mean(!!sym(pred_2), na.rm = T)) -> dataDec_mod_2
+                .data$model = ifelse(is.null(model_label_1), "Model 2", model_label_2),
+                .data$predRate = mean(!!sym(pred_2), na.rm = T)) -> dataDec_mod_2
     dataDec_mods <- rbind(dataDec_mod_1, dataDec_mod_2)
   }
   else {
