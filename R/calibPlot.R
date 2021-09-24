@@ -48,35 +48,35 @@ calibration_plot <- function(data,
   if (! exists("obs") | ! exists("pred_1")) stop("obs and pred_1 can not be null.")
   
   data %<>%
-    mutate(decile = ntile(!!sym(pred_1), nTiles))
+    mutate(.data$decile = ntile(!!sym(pred_1), nTiles))
   
   if (is.null(follow_up)) data$follow_up <- 1
 
   if (! is.null(pred_2)) {
     data %>%
-      group_by(decile) %>%
-      summarise(obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
+      group_by(.data$decile) %>%
+      summarise(.data$obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
                 obsRate_SE = sd(!!sym(obs) / follow_up, na.rm = T) / sqrt(n()),
                 obsNo = n(),
-                model = ifelse(is.null(model_label_1), "Model 1", model_label_1),
+                .data$model = ifelse(is.null(model_label_1), "Model 1", model_label_1),
                 predRate = mean(!!sym(pred_1), na.rm = T)) -> dataDec_mod_1
     data %>%
-      group_by(decile) %>%
-      summarise(obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
+      group_by(.data$decile) %>%
+      summarise(.data$obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
                 obsRate_SE = sd(!!sym(obs) / follow_up, na.rm = T) / sqrt(n()),
                 obsNo = n(),
-                model = ifelse(is.null(model_label_1), "Model 2", model_label_2),
-                predRate = mean(!!sym(pred_2), na.rm = T)) -> dataDec_mod_2
+                .data$model = ifelse(is.null(model_label_1), "Model 2", model_label_2),
+                .data$predRate = mean(!!sym(pred_2), na.rm = T)) -> dataDec_mod_2
     dataDec_mods <- rbind(dataDec_mod_1, dataDec_mod_2)
   }
   else {
     data %>%
-      group_by(decile) %>%
-      summarise(obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
+      group_by(.data$decile) %>%
+      summarise(.data$obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
                 obsRate_SE = sd(!!sym(obs) / follow_up, na.rm = T) / sqrt(n()),
                 obsNo = n(),
-                model = model_label_1,
-                predRate = mean(!!sym(pred_1), na.rm = T)) -> dataDec_mods
+                .data$model = model_label_1,
+                .data$predRate = mean(!!sym(pred_1), na.rm = T)) -> dataDec_mods
   }
 
   dataDec_mods$obsRate_UCL <- dataDec_mods$obsRate + 1.96 * dataDec_mods$obsRate_SE
@@ -85,12 +85,12 @@ calibration_plot <- function(data,
   
   if (! is.null(pred_2)) {
     calibPlot_obj <-
-      ggplot(data = dataDec_mods, aes(y = obsRate, x = predRate, group = model, color = model)) +
+      ggplot(data = dataDec_mods, aes(y = .data$obsRate, x = .data$predRate, group = .data$model, color = model)) +
       geom_point() +
       lims(x = ifelse(c(is.null(x_lim), is.null(x_lim)), c(min(dataDec_mods$predRate), max(dataDec_mods$predRate)), x_lim),
            y = ifelse(c(is.null(y_lim), is.null(y_lim)),
                       c(min(dataDec_mods$obsRate_LCL), max(dataDec_mods$obsRate_UCL)), y_lim)) +
-      geom_errorbar(aes(ymax = obsRate_UCL, ymin = obsRate_LCL)) +
+      geom_errorbar(aes(ymax = .data$obsRate_UCL, ymin = .data$obsRate_LCL)) +
       geom_abline(intercept = 0, slope = 1) +
       scale_color_manual(values = ifelse(c(is.null(points_col_list), is.null(points_col_list)),
                                          c(ggplot2::scale_colour_brewer(palette = "Set3")$palette(8)[4],
@@ -112,7 +112,7 @@ calibration_plot <- function(data,
       lims(x = ifelse(c(is.null(x_lim), is.null(x_lim)), c(min(dataDec_mods$predRate), max(dataDec_mods$predRate)), x_lim),
            y = ifelse(c(is.null(y_lim),  is.null(y_lim)),
                       c(min(dataDec_mods$obsRate_LCL), max(dataDec_mods$obsRate_UCL)), y_lim)) +
-      geom_errorbar(aes(ymax = obsRate_UCL, ymin = obsRate_LCL),
+      geom_errorbar(aes(ymax = .data$obsRate_UCL, ymin = .data$),
                     col = ifelse(is.null(points_col_list),
                                  ggplot2::scale_colour_brewer(palette = "Set3")$palette(8)[5],
                                  points_col_list)) +
