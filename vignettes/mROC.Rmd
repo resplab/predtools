@@ -1,8 +1,8 @@
 ---
-title: "howtouse"
+title: "Model-based ROC"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{howtouse}
+  %\VignetteIndexEntry{mROC}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -1,12 +1,10 @@
 ---
-title: "howtouse"
-# output: rmarkdown::html_vignette
-# vignette: >
-  # %\VignetteIndexEntry{howtouse}
-  # %\VignetteEncoding{UTF-8}
-  # %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+title: "Intercept Adjustment"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{howtouse}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
@@ -24,9 +22,6 @@ library(dplyr)
 library(ggplot2)
 
 ```
-
-This document provides background information and step-wise tutorial for using the `predtools` R package for the model-based ROC (mROC) methodology. 
-
 
 ## What is intercept adjustment?
 
@@ -118,6 +113,6 @@ calibration_plot(data = val_data, obs = "y_alt", pred_1 = "pred_adj",
                  title = "Calibration plot for development data - after recalibration")
 calibration_plot(data = val_data, obs = "y_alt", pred_1 = "pred", pred_2 = "pred_adj",
                  model_label_1 = "Premitive", model_label_2 = "Adjusted",
-                 , title = "Calibration plot for development data - before and after recalibration")
+                 title = "Calibration plot for development data - before and after recalibration")
 ```
 
