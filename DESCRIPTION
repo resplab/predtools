@@ -24,7 +24,10 @@ Imports:
     pROC,
     stats,
     graphics,
-    RConics
+    RConics,
+    ggplot2,
+    dplyr,
+    magrittr
 LinkingTo: Rcpp
 Suggests: 
     rmarkdown,
