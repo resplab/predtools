@@ -2,6 +2,11 @@
 <!-- badges: starts -->
 
 [![R-CMD-check](https://github.com/resplab/predtools/workflows/R-CMD-check/badge.svg)](https://github.com/resplab/predtools/actions)
+[![metacran
+downloads](https://cranlogs.r-pkg.org/badges/predtools)](https://cran.r-project.org/package=predtools)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
 # Overview
