@@ -85,7 +85,7 @@ calibration_plot <- function(data,
   
   if (! is.null(pred_2)) {
     calibPlot_obj <-
-      ggplot(data = dataDec_mods, aes(y = .data$obsRate, x = .data$predRate, group = .data$model, color = model)) +
+      ggplot(data = dataDec_mods, aes(y = .data$obsRate, x = .data$predRate, group = .data$model, color = .data$model)) +
       geom_point() +
       lims(x = ifelse(c(is.null(x_lim), is.null(x_lim)), c(min(dataDec_mods$predRate), max(dataDec_mods$predRate)), x_lim),
            y = ifelse(c(is.null(y_lim), is.null(y_lim)),
