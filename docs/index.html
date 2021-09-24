@@ -82,15 +82,11 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="additional-tools-for-predictive-analytics" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#additional-tools-for-predictive-analytics" class="anchor"></a>Additional Tools for Predictive Analytics</h1></div>
-</div>
-<div id="overview" class="section level1">
-<h1 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h1>
-<!-- badges: starts -->
 
+<div id="overview" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h1></div>
+<p><code>predtools</code> provides miscellaneous tools for developing and evaluating prediction models.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -105,6 +101,16 @@
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
+<p>The function <code>calibration_plot</code> takes observed and predicted values from a prediction model and uses ggplot2 to produce a calibration plot:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(predtools)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">10</span>, <span class="dv">2</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(x,y)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">calibration_plot</span>(data, <span class="at">obs =</span> x, <span class="at">pred_1 =</span> y)</span></code></pre></div>
+<p>See vignettes for more advanced functions, including <a href="https://resplab.github.io/predtools/articles/mROC.html">model-based ROC</a> and <a href="https://resplab.github.io/predtools/articles/interceptAdj.html">intercept adjustment</a>.</p>
+<p>You can also access the vignettes from R:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">browseVignettes</span>(<span class="st">"predtools"</span>)</span></code></pre></div>
 </div>
 </div>
 

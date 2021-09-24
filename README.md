@@ -31,10 +31,17 @@ The function `calibration_plot` takes observed and predicted values from
 a prediction model and uses ggplot2 to produce a calibration plot:
 
     library(predtools)
+    library(dplyr)
     x <- rnorm(100, 10, 2)
     y <- x + rnorm(100,0, 1)
     data <- tibble(x,y)
     calibration_plot(data, obs = x, pred_1 = y)
 
-For more advanced functions, including `model-based ROC` and
-`intercept adjustment`, please refer to the vignettes:
+See vignettes for more advanced functions, including [model-based
+ROC](https://resplab.github.io/predtools/articles/mROC.html) and
+[intercept
+adjustment](https://resplab.github.io/predtools/articles/interceptAdj.html).
+
+You can also access the vignettes from R:
+
+    browseVignettes("predtools")

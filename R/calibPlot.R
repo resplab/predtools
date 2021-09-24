@@ -19,6 +19,7 @@
 #' needs to be included in the output.
 #' @examples 
 #' library(predtools)
+#' library(dplyr)
 #' x <- rnorm(100, 10, 2)
 #' y <- x + rnorm(100,0, 1)
 #' data <- tibble(x,y)
