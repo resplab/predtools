@@ -1,0 +1,123 @@
+---
+title: "howtouse"
+# output: rmarkdown::html_vignette
+# vignette: >
+  # %\VignetteIndexEntry{howtouse}
+  # %\VignetteEncoding{UTF-8}
+  # %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+
+library(predtools)
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+
+```
+
+This document provides background information and step-wise tutorial for using the `predtools` R package for the model-based ROC (mROC) methodology. 
+
+
+## What is intercept adjustment?
+
+In clinical prediction modeling, model updating refers to the practice of modifying a prediction model before it is used in a new setting to improve its performance. One of the simplest updating methods for risk predication models is a fixed odds-ratio transformation of predicted risks to improve the model’s calibration-in-the-large.
+
+
+‘interceptAdj’ function uses an approximate equation for recovering the conditional odds-ratio from the observed mean and predicted variance of risks in validation and development sets, respectively.
+
+
+## A step-by-step guide.
+Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient's age, disease severity level, sex, and whether the patient has comorbidity. 
+
+The package comes with two exemplary datasets. dev_data and val_data. We use the dev_data as the development sample and the val_data as the external validation sample.
+
+Model updating matters when there is a considerable difference between mean of the observed risks in development and validation sets. The average of y in the above two datasets are almost identical. Therefore, to have a meaningful scenario, we create a secondary (arbitrary) outcome (y_alt) in val_data with a lower average (by ~ 50%).
+
+```{R}
+data(dev_data)
+data(val_data)
+```
+
+```{R echo=FALSE}
+set.seed(1)
+val_data$y_alt <- ifelse(val_data$y == 0, 0,
+                         ifelse(runif(n = nrow(val_data)) <= 0.5, 0, 1))
+
+val_data %>%
+  select(y, y_alt) %>%
+  summary() %>%
+  knitr::kable()
+
+```
+
+dev_data has `r dim(predtools::dev_data)[1]` rows. val_data has `r dim(predtools::val_data)[1]` rows. 
+
+Here are the first few rows of dev_data:
+
+```{R echo=FALSE}
+knitr::kable(dev_data[1:7,])
+```
+
+
+We use the development data to fit a logistic regression model as our risk prediction model:
+
+
+```{R}
+reg<-glm(y~sex+age+severity+comorbidity,data=dev_data,family=binomial(link="logit"))
+summary(reg)
+```
+
+Given this, our risk prediction model can be written as:
+
+```{R echo=FALSE}
+cfs <- coefficients(reg)
+str<-paste0(round(cfs[1],4),"+",paste0(round(cfs[-1],4),"*",names(cfs[-1]),collapse="+"))
+str_risk_model <- gsub("+-", "-", str, fixed = T)
+```
+
+$\bf{ logit(p)=`r str_risk_model`}$.
+
+
+First, let's see the calibration plot in development and validation datasets. We use ‘calibration_plot’ from our package to create calibration plots.
+```{R}
+dev_data$pred <- predict.glm(reg, type = 'response')
+val_data$pred <- predict.glm(reg, newdata = val_data, type = 'response')
+
+calibration_plot(data = dev_data, obs = "y", pred_1 = "pred", title = "Calibration plot for development data")
+calibration_plot(data = val_data, obs = "y_alt", pred_1 = "pred", y_lim = c(0, 0.6),
+                 title = "Calibration plot for validation data")
+
+```
+
+
+To adjust the predicted risks for the validation set, we estimate the correction factor by using function ‘odds_adjust’
+```{R}
+odds_correction_factor <- odds_adjust(p0 = mean(dev_data$y), p1 = mean(val_data$y_alt), v = var(dev_data$pred))
+odds_correction_factor
+```
+
+We can now recalibrate the predictions and reproduce the calibration plot for the validation set.
+```{R}
+dev_data$pred <- predict.glm(reg, type = 'response')
+val_data$pred <- predict.glm(reg, newdata = val_data, type = 'response')
+
+val_data$odds_adj <- (val_data$pred / (1 - val_data$pred)) * odds_correction_factor
+val_data$pred_adj <- val_data$odds_adj / (1 + val_data$odds_adj)
+
+calibration_plot(data = val_data, obs = "y_alt", pred_1 = "pred_adj",
+                 title = "Calibration plot for development data - after recalibration")
+calibration_plot(data = val_data, obs = "y_alt", pred_1 = "pred", pred_2 = "pred_adj",
+                 model_label_1 = "Premitive", model_label_2 = "Adjusted",
+                 , title = "Calibration plot for development data - before and after recalibration")
+```
+
