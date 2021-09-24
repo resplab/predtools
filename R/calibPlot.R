@@ -17,7 +17,12 @@
 #' @param points_col_list Points' color on the calibration plot.
 #' @param data_summary Logical indicates whether a summary of the predicted and observed outcomes.
 #' needs to be included in the output.
-#'
+#' @examples 
+#' library(predtools)
+#' x <- rnorm(100, 10, 2)
+#' y <- x + rnorm(100,0, 1)
+#' data <- tibble(x,y)
+#' calibration_plot(data, obs = x, pred_1 = y)
 #' @return Returns calibration plot (a ggplot object) and a dataset including summary statistics of
 #' the predicted and observed outcomes (if data_summary set to be TRUE).
 #' @export

@@ -2,7 +2,7 @@
 title: "Intercept Adjustment"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{howtouse}
+  %\VignetteIndexEntry{Intercept Adjustment}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -28,7 +28,7 @@ library(ggplot2)
 In clinical prediction modeling, model updating refers to the practice of modifying a prediction model before it is used in a new setting to improve its performance. One of the simplest updating methods for risk predication models is a fixed odds-ratio transformation of predicted risks to improve the model’s calibration-in-the-large.
 
 
-‘interceptAdj’ function uses an approximate equation for recovering the conditional odds-ratio from the observed mean and predicted variance of risks in validation and development sets, respectively.
+`interceptAdj` function uses an approximate equation for recovering the conditional odds-ratio from the observed mean and predicted variance of risks in validation and development sets, respectively.
 
 
 ## A step-by-step guide.

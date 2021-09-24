@@ -54,7 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/mROC.html">howtouse</a>
+      <a href="articles/interceptAdj.html">Intercept Adjustment</a>
+    </li>
+    <li>
+      <a href="articles/mROC.html">Model-based ROC</a>
     </li>
   </ul>
 </li>
@@ -83,9 +86,9 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#additional-tools-for-predictive-analytics" class="anchor"></a>Additional Tools for Predictive Analytics</h1></div>
 </div>
-<div id="predtools" class="section level1">
+<div id="overview" class="section level1">
 <h1 class="hasAnchor">
-<a href="#predtools" class="anchor"></a>predtools</h1>
+<a href="#overview" class="anchor"></a>Overview</h1>
 <!-- badges: starts -->
 
 <div id="installation" class="section level2">
@@ -102,180 +105,6 @@
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-</div>
-<div id="what-is-predtools" class="section level2">
-<h2 class="hasAnchor">
-<a href="#what-is-predtools" class="anchor"></a>What is predtools?</h2>
-<p>Imagine you have developed a risk prediction model using some development dataset. The risk prediction model takes in some predictors (e.g., sex, age, previous disease history) and returns the risk of an event (e.g., risk of disease relapse in the next 12 months). You would like to evaluate the performance of the risk model in a new (external) validation sample. Among other things, you typically evaluate the Receiver Operating Characteristic (ROC) curve of the risk prediciton model in the new sample.</p>
-<p>Now, model-based ROC (mROC) curve is the ROC curve that should be observed if the prediction model is calibrated in the external population. Comparing the empirical ROC and mROC curves in the new sample can be informative on if the model is calibrated in the new sample.</p>
-</div>
-<div id="how-the-package-works" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-the-package-works" class="anchor"></a>How the package works</h2>
-<p>The package provides simple functions for mROC-related methods. It also comes with exemplary datasets. Below we provide a step-by-step illustration</p>
-</div>
-<div id="a-step-by-step-guide" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-step-by-step-guide" class="anchor"></a>A step-by-step guide</h2>
-<p>Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient’s age, disease severity level, sex, and whether the patient has comorbidity.</p>
-<p>The package comes with two exemplary datasets. dev_data and val_data. We use the dev_data as the development sample and the val_data as the external validation sample.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/resplab/predtools">predtools</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dev_data</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">val_data</span><span class="op">)</span></code></pre></div>
-<p>dev_data has 500 rows. val_data has 400 rows.</p>
-<p>Here are the first few rows of dev_data:</p>
-<table class="table">
-<thead><tr class="header">
-<th align="right">age</th>
-<th align="right">severity</th>
-<th align="right">sex</th>
-<th align="right">comorbidity</th>
-<th align="right">y</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">55</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="right">52</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">63</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">61</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="right">58</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">54</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="right">45</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-</tbody>
-</table>
-<p>We use the development data to fit a logistic regression model as our risk prediction model:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">reg</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">sex</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">severity</span><span class="op">+</span><span class="va">comorbidity</span>,data<span class="op">=</span><span class="va">dev_data</span>,family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link<span class="op">=</span><span class="st">"logit"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">reg</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; glm(formula = y ~ sex + age + severity + comorbidity, family = binomial(link = "logit"), </span>
-<span class="co">#&gt;     data = dev_data)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Deviance Residuals: </span>
-<span class="co">#&gt;     Min       1Q   Median       3Q      Max  </span>
-<span class="co">#&gt; -1.2904  -0.8272  -0.6373   1.1570   2.1050  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;              Estimate Std. Error z value Pr(&gt;|z|)    </span>
-<span class="co">#&gt; (Intercept) -1.728929   0.565066  -3.060  0.00222 ** </span>
-<span class="co">#&gt; sex          0.557178   0.223631   2.492  0.01272 *  </span>
-<span class="co">#&gt; age          0.005175   0.010654   0.486  0.62717    </span>
-<span class="co">#&gt; severity    -0.557335   0.227587  -2.449  0.01433 *  </span>
-<span class="co">#&gt; comorbidity  1.091936   0.209944   5.201 1.98e-07 ***</span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; (Dispersion parameter for binomial family taken to be 1)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     Null deviance: 602.15  on 499  degrees of freedom</span>
-<span class="co">#&gt; Residual deviance: 560.41  on 495  degrees of freedom</span>
-<span class="co">#&gt; AIC: 570.41</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></code></pre></div>
-<p>Given this, our risk prediction model can be written as:</p>
-<p><em>l<strong>o</strong>g<strong>i</strong>t</em>(<em>p</em>) =  − 1.7289 + 0.5572 * <em>s<strong>e</strong>x</em> + 0.0052 * <em>a<strong>g</strong>e</em> − 0.5573 * *s<strong>e</strong>v<strong>e</strong>r<strong>i</strong>t<strong>y<em> + 1.0919 * </em>c</strong>o<strong>m</strong>o<strong>r</strong>b<strong>i</strong>d<strong>i</strong>t**y*.</p>
-<p>First, let’s compare the ROC and mROC in the development data</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pred</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, type<span class="op">=</span><span class="st">'response'</span><span class="op">)</span>
-
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://expasy.org/tools/pROC/">pROC</a></span><span class="op">)</span>
-<span class="co">#&gt; Type 'citation("pROC")' for a citation.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'pROC'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     cov, smooth, var</span>
-<span class="va">dev_roc</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/pROC/man/roc.html">roc</a></span><span class="op">(</span>response<span class="op">=</span><span class="va">dev_data</span><span class="op">[</span>,<span class="st">'y'</span><span class="op">]</span>, predictor<span class="op">=</span><span class="va">pred</span><span class="op">)</span>
-<span class="co">#&gt; Setting levels: control = 0, case = 1</span>
-<span class="co">#&gt; Setting direction: controls &lt; cases</span>
-<span class="fu"><a href="https://rdrr.io/pkg/pROC/man/plot.roc.html">plot</a></span><span class="op">(</span><span class="va">dev_roc</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span><span class="st">"ROC in the development dataset"</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
-<p>And now the much-awaited mROC using these data. Note that we use the line function to add the mROC on top</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dev_mroc</span><span class="op">&lt;-</span><span class="fu"><a href="reference/mROC.html">mROC</a></span><span class="op">(</span>p<span class="op">=</span><span class="va">pred</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/pROC/man/plot.roc.html">plot</a></span><span class="op">(</span><span class="va">dev_roc</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">dev_mroc</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
-<div id="important-note-the-statistical-inference-on-comparing-mroc-and-roc-cannot-be-used-for-internal-validation-such-a-test-is-made-for-external-validation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#important-note-the-statistical-inference-on-comparing-mroc-and-roc-cannot-be-used-for-internal-validation-such-a-test-is-made-for-external-validation" class="anchor"></a>Important note: the statistical inference on comparing mROC and ROC cannot be used for internal validation. Such a test is made for external validation.</h3>
-<p>Now lets calculate the predicted probabilities for each subject in the validation dataset given the prediction equation.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pred</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>,newdata <span class="op">=</span> <span class="va">val_data</span>, type<span class="op">=</span><span class="st">"response"</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span>
-<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="co">#&gt;  0.1008  0.1853  0.2794  0.2891  0.4053  0.5714</span></code></pre></div>
-<p>Using the package pROC, let’s draw the validation ROC curve</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">val_roc</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/pROC/man/roc.html">roc</a></span><span class="op">(</span>response<span class="op">=</span><span class="va">val_data</span><span class="op">[</span>,<span class="st">'y'</span><span class="op">]</span>, predictor<span class="op">=</span><span class="va">pred</span><span class="op">)</span>
-<span class="co">#&gt; Setting levels: control = 0, case = 1</span>
-<span class="co">#&gt; Setting direction: controls &lt; cases</span>
-<span class="fu"><a href="https://rdrr.io/pkg/pROC/man/plot.roc.html">plot</a></span><span class="op">(</span><span class="va">val_roc</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>
-<p>And now the much-awaited mROC using these data. Note that we use the line function to add the mROC on top</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">val_mroc</span><span class="op">&lt;-</span><span class="fu"><a href="reference/mROC.html">mROC</a></span><span class="op">(</span>p<span class="op">=</span><span class="va">pred</span><span class="op">)</span></code></pre></div>
-<p>Notice that the mROC function only requires the vector of predicted probabilities.</p>
-<p>To compare the ROC and mROC plots, we juxtapose them next to each other:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/pROC/man/plot.roc.html">plot</a></span><span class="op">(</span><span class="va">val_roc</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">val_mroc</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="100%"></p>
-<p>Here, it is obvious that the mROC and ROC curve are not compatible, indicating that the model is not calibrated.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span><span class="op">&lt;-</span><span class="fu"><a href="reference/mROC_inference.html">mROC_inference</a></span><span class="op">(</span><span class="va">val_data</span><span class="op">[</span>,<span class="st">'y'</span><span class="op">]</span>,<span class="va">pred</span><span class="op">)</span>
-
-<span class="va">res</span>
-<span class="co">#&gt; Mean calibration statistic (A):0.00835868(Obs&gt;Pred) (p:0.72403)</span>
-<span class="co">#&gt; mROC/ROC equality statsitic (B):0.05910898 (p:0.04724)</span>
-<span class="co">#&gt; Unified statistic:6.769447 (df:4.00412,p:0.1489155)</span></code></pre></div>
-</div>
 </div>
 </div>
 

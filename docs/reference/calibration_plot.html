@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Main eRoc analysis that plots ROC and eROC — mROC_analysis • predtools</title>
+<title>Title Create calibration plot based on observed and predicted outcomes. — calibration_plot • predtools</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Main eRoc analysis that plots ROC and eROC — mROC_analysis" />
-<meta property="og:description" content="Main eRoc analysis that plots ROC and eROC" />
+<meta property="og:title" content="Title Create calibration plot based on observed and predicted outcomes. — calibration_plot" />
+<meta property="og:description" content="Title Create calibration plot based on observed and predicted outcomes." />
 
 
 
@@ -123,46 +123,116 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Main eRoc analysis that plots ROC and eROC</h1>
-    <small class="dont-index">Source: <a href='https://github.com/resplab/predtools/blob/master/R/mROC.R'><code>R/mROC.R</code></a></small>
-    <div class="hidden name"><code>mROC_analysis.Rd</code></div>
+    <h1>Title Create calibration plot based on observed and predicted outcomes.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/resplab/predtools/blob/master/R/calibPlot.R'><code>R/calibPlot.R</code></a></small>
+    <div class="hidden name"><code>calibration_plot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Main eRoc analysis that plots ROC and eROC</p>
+    <p>Title Create calibration plot based on observed and predicted outcomes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mROC_analysis</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>p</span>, inference <span class='op'>=</span> <span class='fl'>0</span>, <span class='va'>n_sim</span>, fast <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>calibration_plot</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>obs</span>,
+  follow_up <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>pred_1</span>,
+  pred_2 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nTiles <span class='op'>=</span> <span class='fl'>10</span>,
+  legendPosition <span class='op'>=</span> <span class='st'>"right"</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  x_lim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  y_lim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  model_label_1 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  model_label_2 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  xlab <span class='op'>=</span> <span class='st'>"Prediction"</span>,
+  ylab <span class='op'>=</span> <span class='st'>"Observation"</span>,
+  points_col_list <span class='op'>=</span> <span class='cn'>NULL</span>,
+  data_summary <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>y</th>
-      <td><p>y vector of observed responses.</p></td>
+      <th>data</th>
+      <td><p>Data include observed and predicted outcomes.</p></td>
     </tr>
     <tr>
-      <th>p</th>
-      <td><p>p vector of predicted probabilities (the same length as observed rsponses)</p></td>
+      <th>obs</th>
+      <td><p>Name of observed outcome in the input data.</p></td>
     </tr>
     <tr>
-      <th>inference</th>
-      <td><p>0 for no inference, 1 for p-value only, and 2 for p-value and 95 percent CI.</p></td>
+      <th>follow_up</th>
+      <td><p>Name of follow-up time (if applicable) in the input data.</p></td>
     </tr>
     <tr>
-      <th>n_sim</th>
-      <td><p>number of simulations</p></td>
+      <th>pred_1</th>
+      <td><p>Name of first predicted outcome in the input data.</p></td>
     </tr>
     <tr>
-      <th>fast</th>
-      <td><p>defaults to true</p></td>
+      <th>pred_2</th>
+      <td><p>Name of second (if applicable) predicted outcome in the input data.</p></td>
+    </tr>
+    <tr>
+      <th>nTiles</th>
+      <td><p>Number of tiles (e.g., 10 for deciles) in the calibration plot.</p></td>
+    </tr>
+    <tr>
+      <th>legendPosition</th>
+      <td><p>Legend position on the calibration plot.</p></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><p>Title on the calibration plot.</p></td>
+    </tr>
+    <tr>
+      <th>x_lim</th>
+      <td><p>Limits of x-axis on the calibration plot.</p></td>
+    </tr>
+    <tr>
+      <th>y_lim</th>
+      <td><p>Limits of y-axis on the calibration plot.</p></td>
+    </tr>
+    <tr>
+      <th>model_label_1</th>
+      <td><p>Label of the first prediction set.</p></td>
+    </tr>
+    <tr>
+      <th>model_label_2</th>
+      <td><p>Label of the first prediction set.</p></td>
+    </tr>
+    <tr>
+      <th>xlab</th>
+      <td><p>Label of x-axis on the calibration plot.</p></td>
+    </tr>
+    <tr>
+      <th>ylab</th>
+      <td><p>Label of y-axis on the calibration plot.</p></td>
+    </tr>
+    <tr>
+      <th>points_col_list</th>
+      <td><p>Points' color on the calibration plot.</p></td>
+    </tr>
+    <tr>
+      <th>data_summary</th>
+      <td><p>Logical indicates whether a summary of the predicted and observed outcomes.
+needs to be included in the output.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>returns a list containing the results of mROC analysis.</p>
+    <p>Returns calibration plot (a ggplot object) and a dataset including summary statistics of
+the predicted and observed outcomes (if data_summary set to be TRUE).</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/resplab/predtools'>predtools</a></span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>10</span>, <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='va'>x</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span>,<span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span><span class='va'>x</span>,<span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in tibble(x, y): could not find function "tibble"</span></div><div class='input'><span class='fu'>calibration_plot</span><span class='op'>(</span><span class='va'>data</span>, obs <span class='op'>=</span> <span class='va'>x</span>, pred_1 <span class='op'>=</span> <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("mutate"): no applicable method for 'mutate' applied to an object of class "function"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

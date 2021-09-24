@@ -64,3 +64,10 @@ the predicted and observed outcomes (if data_summary set to be TRUE).
 \description{
 Title Create calibration plot based on observed and predicted outcomes.
 }
+\examples{
+library(predtools)
+x <- rnorm(100, 10, 2)
+y <- x + rnorm(100,0, 1)
+data <- tibble(x,y)
+calibration_plot(data, obs = x, pred_1 = y)
+}

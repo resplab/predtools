@@ -2,7 +2,7 @@
 title: "Model-based ROC"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{mROC}
+  %\VignetteIndexEntry{Model-based ROC}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
