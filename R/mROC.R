@@ -57,7 +57,7 @@ lines.mROC<-function(x,...)
 
 
 #' @title Calculates mROC from the vector of predicted risks
-#' Takes in a vector of probabilities and returns mROC values (TPs,FPs in an object of class mROC)
+#' Takes in a vector of probabilities and returns mROC values (True positives, False Positives in an object of class mROC)
 #' @param p A numeric vector of probabilities.
 #' @param ordered Optional, if the vector p is ordered from small to large (if not the function will do it; TRUE is to facilitate fast computations).
 #' @return This function returns an object of class mROC. It has three vectors: thresholds on predicted risks (which is the ordered vector of input probabilities), false positive rates (FPs), and true positive rates (TPs). You can directly call the plot function on this object to draw the mROC

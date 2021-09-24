@@ -3,7 +3,7 @@
 \name{mROC}
 \alias{mROC}
 \title{Calculates mROC from the vector of predicted risks
-Takes in a vector of probabilities and returns mROC values (TPs,FPs in an object of class mROC)}
+Takes in a vector of probabilities and returns mROC values (True positives, False Positives in an object of class mROC)}
 \usage{
 mROC(p, ordered = F)
 }
@@ -17,5 +17,5 @@ This function returns an object of class mROC. It has three vectors: thresholds 
 }
 \description{
 Calculates mROC from the vector of predicted risks
-Takes in a vector of probabilities and returns mROC values (TPs,FPs in an object of class mROC)
+Takes in a vector of probabilities and returns mROC values (True positives, False Positives in an object of class mROC)
 }
