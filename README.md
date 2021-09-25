@@ -42,10 +42,11 @@ a prediction model and uses ggplot2 to produce a calibration plot:
     data <- tibble(x,y)
     calibration_plot(data, obs = "x", pred_1 = "y")
 
-See vignettes for more advanced functions, including [model-based
-ROC](https://resplab.github.io/predtools/articles/mROC.html) and
-[intercept
-adjustment](https://resplab.github.io/predtools/articles/interceptAdj.html).
+See vignettes for more advanced functionalities, including [model-based
+ROC](https://resplab.github.io/predtools/articles/mROC.html), [intercept
+adjustment](https://resplab.github.io/predtools/articles/interceptAdj.html),
+and [calibration
+plot](https://resplab.github.io/predtools/articles/calibPlot.html).
 
 You can also access the vignettes from R:
 
