@@ -8,10 +8,12 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
 ```
 
 ```{r setup}
@@ -39,8 +41,10 @@ The package comes with two exemplary datasets. `dev_data` and `val_data`. We use
 Model updating matters when there is a considerable difference between mean of the observed risks in development and validation sets. The average of y in the above two datasets are almost identical. Therefore, to have a meaningful scenario, we create a secondary (arbitrary) outcome (y_alt) in `val_data` with a lower average (by ~ 50%).
 
 ```{R}
+
 data(dev_data)
 data(val_data)
+
 ```
 
 ```{R echo=FALSE}
@@ -60,7 +64,9 @@ val_data %>%
 Here are the first few rows of `dev_data`:
 
 ```{R echo=FALSE}
+
 knitr::kable(dev_data[1:7,])
+
 ```
 
 
@@ -68,16 +74,20 @@ We use the development data to fit a logistic regression model as our risk predi
 
 
 ```{R}
+
 reg<-glm(y~sex+age+severity+comorbidity,data=dev_data,family=binomial(link="logit"))
 summary(reg)
+
 ```
 
 Given this, our risk prediction model can be written as:
 
 ```{R echo=FALSE}
+
 cfs <- coefficients(reg)
 str<-paste0(round(cfs[1],4),"+",paste0(round(cfs[-1],4),"*",names(cfs[-1]),collapse="+"))
 str_risk_model <- gsub("+-", "-", str, fixed = T)
+
 ```
 
 $\bf{ logit(p)=`r str_risk_model`}$.
@@ -85,11 +95,12 @@ $\bf{ logit(p)=`r str_risk_model`}$.
 
 First, let's see the calibration plot in development and validation datasets. We use `calibration_plot` from our package to create calibration plots.
 ```{R}
+
 dev_data$pred <- predict.glm(reg, type = 'response')
 val_data$pred <- predict.glm(reg, newdata = val_data, type = 'response')
 
-calibration_plot(data = dev_data, obs = "y", pred_1 = "pred", title = "Calibration plot for development data")
-calibration_plot(data = val_data, obs = "y_alt", pred_1 = "pred", y_lim = c(0, 0.6),
+calibration_plot(data = dev_data, obs = "y", pred = "pred", title = "Calibration plot for development data")
+calibration_plot(data = val_data, obs = "y_alt", pred = "pred", y_lim = c(0, 0.6),
                  title = "Calibration plot for validation data")
 
 ```
@@ -97,22 +108,28 @@ calibration_plot(data = val_data, obs = "y_alt", pred_1 = "pred", y_lim = c(0, 0
 
 To adjust the predicted risks for the validation set, we estimate the correction factor by using function `odds_adjust`:
 ```{R}
+
 odds_correction_factor <- odds_adjust(p0 = mean(dev_data$y), p1 = mean(val_data$y_alt), v = var(dev_data$pred))
 odds_correction_factor
+
 ```
 
 We can now recalibrate the predictions and reproduce the calibration plot for the validation set.
 ```{R}
+
 dev_data$pred <- predict.glm(reg, type = 'response')
 val_data$pred <- predict.glm(reg, newdata = val_data, type = 'response')
 
 val_data$odds_adj <- (val_data$pred / (1 - val_data$pred)) * odds_correction_factor
 val_data$pred_adj <- val_data$odds_adj / (1 + val_data$odds_adj)
 
-calibration_plot(data = val_data, obs = "y_alt", pred_1 = "pred_adj",
+val_data$id <- c(1 : nrow(val_data))
+val_data_long <- reshape(data = val_data, direction = "long", varying = c("pred", "pred_adj"), v.name = "preds",
+                         idvar = "id", timevar = "Method", times = c("Premitive", "Adjusted"))
+
+calibration_plot(data = val_data, obs = "y_alt", pred = "pred_adj",
                  title = "Calibration plot for development data - after recalibration")
-calibration_plot(data = val_data, obs = "y_alt", pred_1 = "pred", pred_2 = "pred_adj",
-                 model_label_1 = "Premitive", model_label_2 = "Adjusted",
+calibration_plot(data = val_data_long, obs = "y_alt", pred = "preds", group = "Method",
                  title = "Calibration plot for development data - before and after recalibration")
 ```
 
