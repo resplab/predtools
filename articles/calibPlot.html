@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Intercept Adjustment • predtools</title>
+<title>Calibration Plot • predtools</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Intercept Adjustment">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Calibration Plot">
 <meta property="og:description" content="predtools">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -85,14 +85,14 @@
 
       
 
-      </header><script src="interceptAdj_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="calibPlot_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Intercept Adjustment</h1>
+      <h1 data-toc-skip>Calibration Plot</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/resplab/predtools/blob/master/vignettes/interceptAdj.Rmd"><code>vignettes/interceptAdj.Rmd</code></a></small>
-      <div class="hidden name"><code>interceptAdj.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/resplab/predtools/blob/master/vignettes/calibPlot.Rmd"><code>vignettes/calibPlot.Rmd</code></a></small>
+      <div class="hidden name"><code>calibPlot.Rmd</code></div>
 
     </div>
 
@@ -111,60 +111,20 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></code></pre></div>
-<div id="what-is-intercept-adjustment" class="section level2">
+<div id="what-is-calibration-plot" class="section level2">
 <h2 class="hasAnchor">
-<a href="#what-is-intercept-adjustment" class="anchor"></a>What is intercept adjustment?</h2>
-<p>In clinical prediction modeling, model updating refers to the practice of modifying a prediction model before it is used in a new setting to improve its performance. One of the simplest updating methods for risk predication models is a fixed odds-ratio transformation of predicted risks to improve the model’s calibration-in-the-large.</p>
-<p><code>interceptAdj</code> function uses an approximate equation for recovering the conditional odds-ratio from the observed mean and predicted variance of risks in validation and development sets, respectively.</p>
+<a href="#what-is-calibration-plot" class="anchor"></a>What is calibration plot?</h2>
+<p>Calibration plot is a visual tool to assess the agreement between predictions and observations in different percentiles (mostly deciles) of the predicted values.</p>
+<p><code>calibration_plot</code> function constructs calibration plots based on provided predictions and observations columns of a given dataset. Among other options implemented in the function, one can evaluate prediction calibration according to a grouping factor (or even from multiple prediction models) in one calibration plot.</p>
 </div>
 <div id="a-step-by-step-guide-" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-step-by-step-guide-" class="anchor"></a>A step-by-step guide.</h2>
 <p>Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient’s age, disease severity level, sex, and whether the patient has a comorbidity.</p>
 <p>The package comes with two exemplary datasets. <code>dev_data</code> and <code>val_data</code>. We use the dev_data as the development sample and the <code>val_data</code> as the external validation sample.</p>
-<p>Model updating matters when there is a considerable difference between mean of the observed risks in development and validation sets. The average of y in the above two datasets are almost identical. Therefore, to have a meaningful scenario, we create a secondary (arbitrary) outcome (y_alt) in <code>val_data</code> with a lower average (by ~ 50%).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dev_data</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">val_data</span><span class="op">)</span></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="left"></th>
-<th align="left">y</th>
-<th align="left">y_alt</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">Min. :0.0000</td>
-<td align="left">Min. :0.00</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">1st Qu.:0.0000</td>
-<td align="left">1st Qu.:0.00</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">Median :0.0000</td>
-<td align="left">Median :0.00</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">Mean :0.2975</td>
-<td align="left">Mean :0.12</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">3rd Qu.:1.0000</td>
-<td align="left">3rd Qu.:0.00</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">Max. :1.0000</td>
-<td align="left">Max. :1.00</td>
-</tr>
-</tbody>
-</table>
 <p><code>dev_data</code> has 500 rows. <code>val_data</code> has 400 rows.</p>
 <p>Here are the first few rows of <code>dev_data</code>:</p>
 <table class="table">
@@ -229,7 +189,7 @@
 </table>
 <p>We use the development data to fit a logistic regression model as our risk prediction model:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">reg</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">sex</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">severity</span><span class="op">+</span><span class="va">comorbidity</span>,data<span class="op">=</span><span class="va">dev_data</span>,family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link<span class="op">=</span><span class="st">"logit"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">sex</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">severity</span><span class="op">+</span><span class="va">comorbidity</span>,data<span class="op">=</span><span class="va">dev_data</span>,family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link<span class="op">=</span><span class="st">"logit"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">reg</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
@@ -259,45 +219,20 @@
 <span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></code></pre></div>
 <p>Given this, our risk prediction model can be written as:</p>
 <p><span class="math inline">\(\bf{ logit(p)=-1.7289+0.5572*sex+0.0052*age-0.5573*severity+1.0919*comorbidity}\)</span>.</p>
-<p>First, let’s see the calibration plot in development and validation datasets. We use <code>calibration_plot</code> from our package to create calibration plots.</p>
+<p>Now, we can create the calibration plot in development and validation datasets by using <code>calibration_plot</code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dev_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, type <span class="op">=</span> <span class="st">'response'</span><span class="op">)</span>
 <span class="va">val_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, newdata <span class="op">=</span> <span class="va">val_data</span>, type <span class="op">=</span> <span class="st">'response'</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/calibration_plot.html">calibration_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dev_data</span>, obs <span class="op">=</span> <span class="st">"y"</span>, pred <span class="op">=</span> <span class="st">"pred"</span>, title <span class="op">=</span> <span class="st">"Calibration plot for development data"</span><span class="op">)</span>
 <span class="co">#&gt; $calibration_plot</span></code></pre></div>
-<p><img src="interceptAdj_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="calibPlot_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/calibration_plot.html">calibration_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_data</span>, obs <span class="op">=</span> <span class="st">"y_alt"</span>, pred <span class="op">=</span> <span class="st">"pred"</span>, y_lim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.6</span><span class="op">)</span>,
-                 title <span class="op">=</span> <span class="st">"Calibration plot for validation data"</span><span class="op">)</span>
-<span class="co">#&gt; $calibration_plot</span></code></pre></div>
-<p><img src="interceptAdj_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
-<p>To adjust the predicted risks for the validation set, we estimate the correction factor by using function <code>odds_adjust</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">odds_correction_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/odds_adjust.html">odds_adjust</a></span><span class="op">(</span>p0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dev_data</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>, p1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">val_data</span><span class="op">$</span><span class="va">y_alt</span><span class="op">)</span>, v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">dev_data</span><span class="op">$</span><span class="va">pred</span><span class="op">)</span><span class="op">)</span>
-<span class="va">odds_correction_factor</span>
-<span class="co">#&gt; [1] 0.3116119</span></code></pre></div>
-<p>We can now recalibrate the predictions and reproduce the calibration plot for the validation set.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dev_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, type <span class="op">=</span> <span class="st">'response'</span><span class="op">)</span>
-<span class="va">val_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, newdata <span class="op">=</span> <span class="va">val_data</span>, type <span class="op">=</span> <span class="st">'response'</span><span class="op">)</span>
-
-<span class="va">val_data</span><span class="op">$</span><span class="va">odds_adj</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">val_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">val_data</span><span class="op">$</span><span class="va">pred</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="va">odds_correction_factor</span>
-<span class="va">val_data</span><span class="op">$</span><span class="va">pred_adj</span> <span class="op">&lt;-</span> <span class="va">val_data</span><span class="op">$</span><span class="va">odds_adj</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">val_data</span><span class="op">$</span><span class="va">odds_adj</span><span class="op">)</span>
-
-<span class="va">val_data</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">:</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">val_data</span><span class="op">)</span><span class="op">)</span>
-<span class="va">val_data_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_data</span>, direction <span class="op">=</span> <span class="st">"long"</span>, varying <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"pred"</span>, <span class="st">"pred_adj"</span><span class="op">)</span>, v.name <span class="op">=</span> <span class="st">"preds"</span>,
-                         idvar <span class="op">=</span> <span class="st">"id"</span>, timevar <span class="op">=</span> <span class="st">"Method"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Premitive"</span>, <span class="st">"Adjusted"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/calibration_plot.html">calibration_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_data</span>, obs <span class="op">=</span> <span class="st">"y_alt"</span>, pred <span class="op">=</span> <span class="st">"pred_adj"</span>,
-                 title <span class="op">=</span> <span class="st">"Calibration plot for development data - after recalibration"</span><span class="op">)</span>
-<span class="co">#&gt; $calibration_plot</span></code></pre></div>
-<p><img src="interceptAdj_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/calibration_plot.html">calibration_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_data_long</span>, obs <span class="op">=</span> <span class="st">"y_alt"</span>, pred <span class="op">=</span> <span class="st">"preds"</span>, group <span class="op">=</span> <span class="st">"Method"</span>,
-                 title <span class="op">=</span> <span class="st">"Calibration plot for development data - before and after recalibration"</span><span class="op">)</span>
-<span class="co">#&gt; $calibration_plot</span></code></pre></div>
-<p><img src="interceptAdj_files/figure-html/unnamed-chunk-9-2.png" width="700"></p>
+<code class="sourceCode R"><span class="fu"><a href="../reference/calibration_plot.html">calibration_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_data</span>, obs <span class="op">=</span> <span class="st">"y"</span>, pred <span class="op">=</span> <span class="st">"pred"</span>, y_lim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.6</span><span class="op">)</span>,
+                 title <span class="op">=</span> <span class="st">"Calibration plot for validation data"</span>, group <span class="op">=</span> <span class="st">"sex"</span><span class="op">)</span>
+<span class="co">#&gt; $calibration_plot</span>
+<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre></div>
+<p><img src="calibPlot_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
 </div>
   </div>
 

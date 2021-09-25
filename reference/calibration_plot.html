@@ -95,6 +95,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/calibPlot.html">Calibration Plot</a>
+    </li>
+    <li>
       <a href="../articles/interceptAdj.html">Intercept Adjustment</a>
     </li>
     <li>
@@ -139,15 +142,13 @@
   <span class='va'>data</span>,
   <span class='va'>obs</span>,
   follow_up <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>pred_1</span>,
-  pred_2 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>pred</span>,
+  group <span class='op'>=</span> <span class='cn'>NULL</span>,
   nTiles <span class='op'>=</span> <span class='fl'>10</span>,
   legendPosition <span class='op'>=</span> <span class='st'>"right"</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
   x_lim <span class='op'>=</span> <span class='cn'>NULL</span>,
   y_lim <span class='op'>=</span> <span class='cn'>NULL</span>,
-  model_label_1 <span class='op'>=</span> <span class='cn'>NULL</span>,
-  model_label_2 <span class='op'>=</span> <span class='cn'>NULL</span>,
   xlab <span class='op'>=</span> <span class='st'>"Prediction"</span>,
   ylab <span class='op'>=</span> <span class='st'>"Observation"</span>,
   points_col_list <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -170,12 +171,12 @@
       <td><p>Name of follow-up time (if applicable) in the input data.</p></td>
     </tr>
     <tr>
-      <th>pred_1</th>
+      <th>pred</th>
       <td><p>Name of first predicted outcome in the input data.</p></td>
     </tr>
     <tr>
-      <th>pred_2</th>
-      <td><p>Name of second (if applicable) predicted outcome in the input data.</p></td>
+      <th>group</th>
+      <td><p>Name of grouping column (if  applicable) in the input data.</p></td>
     </tr>
     <tr>
       <th>nTiles</th>
@@ -196,14 +197,6 @@
     <tr>
       <th>y_lim</th>
       <td><p>Limits of y-axis on the calibration plot.</p></td>
-    </tr>
-    <tr>
-      <th>model_label_1</th>
-      <td><p>Label of the first prediction set.</p></td>
-    </tr>
-    <tr>
-      <th>model_label_2</th>
-      <td><p>Label of the first prediction set.</p></td>
     </tr>
     <tr>
       <th>xlab</th>
@@ -239,8 +232,8 @@ the predicted and observed outcomes (if data_summary set to be TRUE).</p>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>10</span>, <span class='fl'>2</span><span class='op'>)</span>
 <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='va'>x</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span>,<span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span><span class='va'>x</span>,<span class='va'>y</span><span class='op'>)</span>
-<span class='fu'>calibration_plot</span><span class='op'>(</span><span class='va'>data</span>, obs <span class='op'>=</span> <span class='st'>"x"</span>, pred_1 <span class='op'>=</span> <span class='st'>"y"</span><span class='op'>)</span>
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>
+<span class='fu'>calibration_plot</span><span class='op'>(</span><span class='va'>data</span>, obs <span class='op'>=</span> <span class='st'>"x"</span>, pred <span class='op'>=</span> <span class='st'>"y"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $calibration_plot</div><div class='img'><img src='calibration_plot-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
