@@ -16,8 +16,8 @@ prediction models.
 
 # Table of Contents
 
--   [Installation](##installation)
--   [Example](##example)
+-   [Installation](#installation)
+-   [Example](#example)
 -   [Model-based
     ROC](https://resplab.github.io/predtools/articles/mROC.html)
 -   [Intercept
