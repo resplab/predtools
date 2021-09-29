@@ -14,6 +14,17 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 `predtools` provides miscellaneous tools for developing and evaluating
 prediction models.
 
+# Table of Contents
+
+-   [Installation](##installation)
+-   [Example](##example)
+-   [Model-based
+    ROC](https://resplab.github.io/predtools/articles/mROC.html)
+-   [Intercept
+    Adjustment](https://resplab.github.io/predtools/articles/interceptAdj.html)
+-   [Calibration
+    Plot](https://resplab.github.io/predtools/articles/calibPlot.html)
+
 ## Installation
 
 You can install the released version of predtools from
