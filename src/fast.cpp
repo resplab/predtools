@@ -137,14 +137,18 @@ mROC_stats calc_mROC_stats(int n, double *M, int *Y)
 std::vector<double> Ccalc_mROC_stats(NumericVector M, NumericVector Y)
 {
   int n=M.size();
-  double m[n];
-  int y[n];
+  double *m = new double[n];
+  int *y = new int[n];
   READ_R_VECTOR(M,m);
   READ_R_VECTOR(Y,y);
   mROC_stats out=calc_mROC_stats(n,m,y);
   double tmp[2];
   tmp[0]=out.A;
   tmp[1]=out.B;
+  
+  delete[] m;
+  delete[] y;
+  
   return(AS_VECTOR_DOUBLE_SIZE(tmp,2));
 }
 
@@ -160,7 +164,7 @@ std::vector<double> Ccalc_mROC_stats(NumericVector M, NumericVector Y)
 //Conditionaly samples from vector pof probabilities p, such that m individuals are selected.
 int *conditional_sample(int n, double *p, int size)
 {
-  double odds[n];
+  double *odds = new double[n];
   double sum_odds=0;
 
   for(int i=0;i<n;i++)
@@ -184,6 +188,8 @@ int *conditional_sample(int n, double *p, int size)
     sum_odds=sum_odds-odds[j];
   }
 
+  delete[] odds;
+  
   return(int_buffer);
 }
 
@@ -204,7 +210,7 @@ int *conditional_sample(int n, double *p, int size)
 
 mROC_stats *simulate_null_mROC_stats_unconditional(int n, double *M, int n_sim)
 {
-  int y[n];
+  int *y = new int[n];
   for(int i=0;i<n_sim;i++)
   {
     for(int j=0;j<n;j++)
@@ -213,6 +219,9 @@ mROC_stats *simulate_null_mROC_stats_unconditional(int n, double *M, int n_sim)
     }
     mROC_stats_buffer[i]=calc_mROC_stats(n,M,y);
   }
+  
+  delete[] y;
+  
   return(mROC_stats_buffer);
 }
 
@@ -224,7 +233,7 @@ mROC_stats *simulate_null_mROC_stats_unconditional(int n, double *M, int n_sim)
 NumericMatrix Csimulate_null_mROC_stats_unconditional(NumericVector M, int n_sim)
 {
   int n=M.size();
-  double m[n];
+  double *m = new double[n];
   std::copy(M.begin(),M.end(),m);
 
   mROC_stats *tmp=simulate_null_mROC_stats_unconditional(n,m,n_sim);
@@ -235,6 +244,9 @@ NumericMatrix Csimulate_null_mROC_stats_unconditional(NumericVector M, int n_sim
     out(i,0)=tmp[i].A;
     out(i,1)=tmp[i].B;
   }
+  
+  delete[] m;
+  
   return(out);
 }
 
