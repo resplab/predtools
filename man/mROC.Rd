@@ -5,7 +5,7 @@
 \title{Calculates mROC from the vector of predicted risks
 Takes in a vector of probabilities and returns mROC values (True positives, False Positives in an object of class mROC)}
 \usage{
-mROC(p, ordered = F)
+mROC(p, ordered = FALSE)
 }
 \arguments{
 \item{p}{A numeric vector of probabilities.}

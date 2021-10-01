@@ -4,7 +4,7 @@
 \alias{calc_mROC_stats}
 \title{Calculates the absolute surface between the empirical and expected ROCs}
 \usage{
-calc_mROC_stats(y, p, ordered = F, fast = T)
+calc_mROC_stats(y, p, ordered = FALSE, fast = TRUE)
 }
 \arguments{
 \item{y}{y vector of binary responses}

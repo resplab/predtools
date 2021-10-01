@@ -62,7 +62,7 @@ lines.mROC<-function(x,...)
 #' @param ordered Optional, if the vector p is ordered from small to large (if not the function will do it; TRUE is to facilitate fast computations).
 #' @return This function returns an object of class mROC. It has three vectors: thresholds on predicted risks (which is the ordered vector of input probabilities), false positive rates (FPs), and true positive rates (TPs). You can directly call the plot function on this object to draw the mROC
 #' @export
-mROC<-function(p, ordered=F)
+mROC<-function(p, ordered=FALSE)
 {
   if(min(p)<0 || max(p)>1) {stop("Error: invalid probability vector."); return(-1); }
   if(!ordered) p<-p[order(p)]
@@ -116,7 +116,7 @@ mAUC<-function(mROC_obj)
 #' @param ordered defaults to false
 #' @param fast defaults to true
 #' @export
-calc_mROC_stats<-function(y, p, ordered=F, fast=T)
+calc_mROC_stats<-function(y, p, ordered=FALSE, fast=TRUE)
 {
   if(!ordered)
   {
