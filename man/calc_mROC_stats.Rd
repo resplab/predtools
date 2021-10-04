@@ -15,6 +15,9 @@ calc_mROC_stats(y, p, ordered = FALSE, fast = TRUE)
 
 \item{fast}{defaults to true}
 }
+\value{
+Returns a list with the A (mean calibration statistic) and B (mROC/ROC equality statistic) as well as the direction of poential miscalibration (sign of the difference between the ctual and predicted mean risk)
+}
 \description{
 Calculates the absolute surface between the empirical and expected ROCs
 }

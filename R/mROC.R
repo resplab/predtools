@@ -115,6 +115,7 @@ mAUC<-function(mROC_obj)
 #' @param p p vector of predicted probabilities (same length as y)
 #' @param ordered defaults to false
 #' @param fast defaults to true
+#' @return Returns a list with the A (mean calibration statistic) and B (mROC/ROC equality statistic) as well as the direction of poential miscalibration (sign of the difference between the ctual and predicted mean risk)
 #' @export
 calc_mROC_stats<-function(y, p, ordered=FALSE, fast=TRUE)
 {
