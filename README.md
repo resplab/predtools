@@ -2,6 +2,7 @@
 <!-- badges: starts -->
 
 [![R-CMD-check](https://github.com/resplab/predtools/workflows/R-CMD-check/badge.svg)](https://github.com/resplab/predtools/actions)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/predtools)](https://cran.r-project.org/package=predtools)
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/predtools)](https://cran.r-project.org/package=predtools)
 [![Project Status: Active – The project has reached a stable, usable
