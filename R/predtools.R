@@ -2,6 +2,7 @@
 #' @import pROC
 #' @import ggplot2
 #' @import dplyr
+#' @import mvtnorm
 #' @import magrittr
 #' @importFrom graphics lines par
 #' @importFrom RConics cubic
