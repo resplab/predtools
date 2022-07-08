@@ -125,7 +125,7 @@ val_data$pred_adj <- val_data$odds_adj / (1 + val_data$odds_adj)
 
 val_data$id <- c(1 : nrow(val_data))
 val_data_long <- reshape(data = val_data, direction = "long", varying = c("pred", "pred_adj"), v.name = "preds",
-                         idvar = "id", timevar = "Method", times = c("Premitive", "Adjusted"))
+                         idvar = "id", timevar = "Method", times = c("Primitive", "Adjusted"))
 
 calibration_plot(data = val_data, obs = "y_alt", pred = "pred_adj",
                  title = "Calibration plot for development data - after recalibration")
