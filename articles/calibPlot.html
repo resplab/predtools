@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">predtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -70,7 +66,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/resplab/predtools/">
+  <a href="https://github.com/resplab/predtools/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -91,7 +87,7 @@
       <h1 data-toc-skip>Calibration Plot</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/resplab/predtools/blob/master/vignettes/calibPlot.Rmd"><code>vignettes/calibPlot.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/resplab/predtools/blob/HEAD/vignettes/calibPlot.Rmd" class="external-link"><code>vignettes/calibPlot.Rmd</code></a></small>
       <div class="hidden name"><code>calibPlot.Rmd</code></div>
 
     </div>
@@ -99,34 +95,34 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/resplab/predtools">predtools</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></code></pre></div>
-<div id="what-is-calibration-plot" class="section level2">
-<h2 class="hasAnchor">
-<a href="#what-is-calibration-plot" class="anchor"></a>What is calibration plot?</h2>
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/resplab/predtools" class="external-link">predtools</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="what-is-calibration-plot">What is calibration plot?<a class="anchor" aria-label="anchor" href="#what-is-calibration-plot"></a>
+</h2>
 <p>Calibration plot is a visual tool to assess the agreement between predictions and observations in different percentiles (mostly deciles) of the predicted values.</p>
 <p><code>calibration_plot</code> function constructs calibration plots based on provided predictions and observations columns of a given dataset. Among other options implemented in the function, one can evaluate prediction calibration according to a grouping factor (or even from multiple prediction models) in one calibration plot.</p>
 </div>
-<div id="a-step-by-step-guide-" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-step-by-step-guide-" class="anchor"></a>A step-by-step guide.</h2>
+<div class="section level2">
+<h2 id="a-step-by-step-guide-">A step-by-step guide.<a class="anchor" aria-label="anchor" href="#a-step-by-step-guide-"></a>
+</h2>
 <p>Imagine the variable y indicates risk of disease recurrence in a unit of time. We have a prediction model that quantifies this risk given a patient’s age, disease severity level, sex, and whether the patient has a comorbidity.</p>
 <p>The package comes with two exemplary datasets. <code>dev_data</code> and <code>val_data</code>. We use the dev_data as the development sample and the <code>val_data</code> as the external validation sample.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dev_data</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">val_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dev_data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">val_data</span><span class="op">)</span></span></code></pre></div>
 <p><code>dev_data</code> has 500 rows. <code>val_data</code> has 400 rows.</p>
 <p>Here are the first few rows of <code>dev_data</code>:</p>
 <table class="table">
@@ -191,51 +187,51 @@
 </table>
 <p>We use the development data to fit a logistic regression model as our risk prediction model:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">sex</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">severity</span><span class="op">+</span><span class="va">comorbidity</span>,data<span class="op">=</span><span class="va">dev_data</span>,family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link<span class="op">=</span><span class="st">"logit"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">reg</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; glm(formula = y ~ sex + age + severity + comorbidity, family = binomial(link = "logit"), </span>
-<span class="co">#&gt;     data = dev_data)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Deviance Residuals: </span>
-<span class="co">#&gt;     Min       1Q   Median       3Q      Max  </span>
-<span class="co">#&gt; -1.2904  -0.8272  -0.6373   1.1570   2.1050  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;              Estimate Std. Error z value Pr(&gt;|z|)    </span>
-<span class="co">#&gt; (Intercept) -1.728929   0.565066  -3.060  0.00222 ** </span>
-<span class="co">#&gt; sex          0.557178   0.223631   2.492  0.01272 *  </span>
-<span class="co">#&gt; age          0.005175   0.010654   0.486  0.62717    </span>
-<span class="co">#&gt; severity    -0.557335   0.227587  -2.449  0.01433 *  </span>
-<span class="co">#&gt; comorbidity  1.091936   0.209944   5.201 1.98e-07 ***</span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; (Dispersion parameter for binomial family taken to be 1)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     Null deviance: 602.15  on 499  degrees of freedom</span>
-<span class="co">#&gt; Residual deviance: 560.41  on 495  degrees of freedom</span>
-<span class="co">#&gt; AIC: 570.41</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">sex</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">severity</span><span class="op">+</span><span class="va">comorbidity</span>,data<span class="op">=</span><span class="va">dev_data</span>,family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span>link<span class="op">=</span><span class="st">"logit"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">reg</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; glm(formula = y ~ sex + age + severity + comorbidity, family = binomial(link = "logit"), </span></span>
+<span><span class="co">#&gt;     data = dev_data)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Deviance Residuals: </span></span>
+<span><span class="co">#&gt;     Min       1Q   Median       3Q      Max  </span></span>
+<span><span class="co">#&gt; -1.2904  -0.8272  -0.6373   1.1570   2.1050  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;              Estimate Std. Error z value Pr(&gt;|z|)    </span></span>
+<span><span class="co">#&gt; (Intercept) -1.728929   0.565066  -3.060  0.00222 ** </span></span>
+<span><span class="co">#&gt; sex          0.557178   0.223631   2.492  0.01272 *  </span></span>
+<span><span class="co">#&gt; age          0.005175   0.010654   0.486  0.62717    </span></span>
+<span><span class="co">#&gt; severity    -0.557335   0.227587  -2.449  0.01433 *  </span></span>
+<span><span class="co">#&gt; comorbidity  1.091936   0.209944   5.201 1.98e-07 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; (Dispersion parameter for binomial family taken to be 1)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     Null deviance: 602.15  on 499  degrees of freedom</span></span>
+<span><span class="co">#&gt; Residual deviance: 560.41  on 495  degrees of freedom</span></span>
+<span><span class="co">#&gt; AIC: 570.41</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
 <p>Given this, our risk prediction model can be written as:</p>
 <p><span class="math inline">\(\bf{ logit(p)=-1.7289+0.5572*sex+0.0052*age-0.5573*severity+1.0919*comorbidity}\)</span>.</p>
 <p>Now, we can create the calibration plot in development and validation datasets by using <code>calibration_plot</code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">dev_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, type <span class="op">=</span> <span class="st">'response'</span><span class="op">)</span>
-<span class="va">val_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, newdata <span class="op">=</span> <span class="va">val_data</span>, type <span class="op">=</span> <span class="st">'response'</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/calibration_plot.html">calibration_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dev_data</span>, obs <span class="op">=</span> <span class="st">"y"</span>, pred <span class="op">=</span> <span class="st">"pred"</span>, title <span class="op">=</span> <span class="st">"Calibration plot for development data"</span><span class="op">)</span>
-<span class="co">#&gt; $calibration_plot</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">dev_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html" class="external-link">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, type <span class="op">=</span> <span class="st">'response'</span><span class="op">)</span></span>
+<span><span class="va">val_data</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.glm.html" class="external-link">predict.glm</a></span><span class="op">(</span><span class="va">reg</span>, newdata <span class="op">=</span> <span class="va">val_data</span>, type <span class="op">=</span> <span class="st">'response'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/calibration_plot.html">calibration_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dev_data</span>, obs <span class="op">=</span> <span class="st">"y"</span>, pred <span class="op">=</span> <span class="st">"pred"</span>, title <span class="op">=</span> <span class="st">"Calibration plot for development data"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $calibration_plot</span></span></code></pre></div>
 <p><img src="calibPlot_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/calibration_plot.html">calibration_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_data</span>, obs <span class="op">=</span> <span class="st">"y"</span>, pred <span class="op">=</span> <span class="st">"pred"</span>, y_lim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.6</span><span class="op">)</span>,
-                 title <span class="op">=</span> <span class="st">"Calibration plot for validation data"</span>, group <span class="op">=</span> <span class="st">"sex"</span><span class="op">)</span>
-<span class="co">#&gt; $calibration_plot</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/calibration_plot.html">calibration_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_data</span>, obs <span class="op">=</span> <span class="st">"y"</span>, pred <span class="op">=</span> <span class="st">"pred"</span>, y_lim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.6</span><span class="op">)</span>,</span>
+<span>                 title <span class="op">=</span> <span class="st">"Calibration plot for validation data"</span>, group <span class="op">=</span> <span class="st">"sex"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $calibration_plot</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
 <p><img src="calibPlot_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
 </div>
   </div>
@@ -251,11 +247,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Mohsen Sadatsafavi, Amin Adibi, Abdollah Safari.</p>
+  <p></p>
+<p>Developed by Mohsen Sadatsafavi, Amin Adibi, Abdollah Safari, Tae Yoon Lee.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
@@ -263,6 +261,8 @@
 
   
 
+
+  
 
   </body>
 </html>

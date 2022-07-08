@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">predtools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -70,7 +66,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/resplab/predtools/">
+  <a href="https://github.com/resplab/predtools/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -89,35 +85,35 @@
   <div class="contents col-md-9">
 
 
-<div id="overview" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h1></div>
 <p><code>predtools</code> provides miscellaneous tools for developing and evaluating prediction models.</p>
 </div>
-<div id="table-of-contents" class="section level1">
-<h1 class="hasAnchor">
-<a href="#table-of-contents" class="anchor"></a>Table of Contents</h1>
+<div class="section level1">
+<h1 id="table-of-contents">Table of Contents<a class="anchor" aria-label="anchor" href="#table-of-contents"></a>
+</h1>
 <ul>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#example">Example</a></li>
-<li><a href="https://resplab.github.io/predtools/articles/mROC.html">Model-based ROC</a></li>
-<li><a href="https://resplab.github.io/predtools/articles/interceptAdj.html">Intercept Adjustment</a></li>
-<li><a href="https://resplab.github.io/predtools/articles/calibPlot.html">Calibration Plot</a></li>
+<li><a href="https://resplab.github.io/predtools/articles/mROC.html" class="external-link">Model-based ROC</a></li>
+<li><a href="https://resplab.github.io/predtools/articles/interceptAdj.html" class="external-link">Intercept Adjustment</a></li>
+<li><a href="https://resplab.github.io/predtools/articles/calibPlot.html" class="external-link">Calibration Plot</a></li>
 </ul>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of predtools from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the released version of predtools from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"predtools"</span><span class="op">)</span></code></pre></div>
-<p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"predtools"</span><span class="op">)</span></span></code></pre></div>
+<p>And the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"resplab/predtools"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"resplab/predtools"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>The function <code>calibration_plot</code> takes observed and predicted values from a prediction model and uses ggplot2 to produce a calibration plot:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(predtools)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="kw">library</span>(dplyr)</span>
@@ -125,7 +121,7 @@
 <span id="cb3-4"><a href="#cb3-4"></a>y &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb3-5"><a href="#cb3-5"></a>data &lt;-<span class="st"> </span><span class="kw">tibble</span>(x,y)</span>
 <span id="cb3-6"><a href="#cb3-6"></a><span class="kw">calibration_plot</span>(data, <span class="dt">obs =</span> <span class="st">"x"</span>, <span class="dt">pred_1 =</span> <span class="st">"y"</span>)</span></code></pre></div>
-<p>See vignettes for more advanced functionalities, including <a href="https://resplab.github.io/predtools/articles/mROC.html">model-based ROC</a>, <a href="https://resplab.github.io/predtools/articles/interceptAdj.html">intercept adjustment</a>, and <a href="https://resplab.github.io/predtools/articles/calibPlot.html">calibration plot</a>.</p>
+<p>See vignettes for more advanced functionalities, including <a href="https://resplab.github.io/predtools/articles/mROC.html" class="external-link">model-based ROC</a>, <a href="https://resplab.github.io/predtools/articles/interceptAdj.html" class="external-link">intercept adjustment</a>, and <a href="https://resplab.github.io/predtools/articles/calibPlot.html" class="external-link">calibration plot</a>.</p>
 <p>You can also access the vignettes from R:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">browseVignettes</span>(<span class="st">"predtools"</span>)</span></code></pre></div>
 </div>
@@ -135,50 +131,61 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=predtools">https://​cloud.r-project.org/​package=predtools</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/resplab/predtools/">https://​github.com/​resplab/​predtools/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/resplab/predtools/issues">https://​github.com/​resplab/​predtools/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=predtools" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/resplab/predtools/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/resplab/predtools/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>GPL</li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Mohsen Sadatsafavi <br><small class="roles"> Author, copyright holder </small> <a href="https://orcid.org/0000-0002-0419-7862" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Amin Adibi <br><small class="roles"> Maintainer </small> <a href="https://orcid.org/0000-0003-2748-4781" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Abdollah Safari <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html#citation">Citing predtools</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/resplab/predtools/actions"><img src="https://github.com/resplab/predtools/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://cran.r-project.org/package=predtools"><img src="https://www.r-pkg.org/badges/version/predtools" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://cran.r-project.org/package=predtools"><img src="https://cranlogs.r-pkg.org/badges/predtools" alt="metacran downloads"></a></li>
-<li><a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
+<li>Mohsen Sadatsafavi <br><small class="roles"> Author, copyright holder </small> <a href="https://orcid.org/0000-0002-0419-7862" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Amin Adibi <br><small class="roles"> Maintainer </small> <a href="https://orcid.org/0000-0003-2748-4781" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Abdollah Safari <br><small class="roles"> Author </small>  </li>
+<li>Tae Yoon Lee <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/resplab/predtools/actions" class="external-link"><img src="https://github.com/resplab/predtools/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://cran.r-project.org/package=predtools" class="external-link"><img src="https://www.r-pkg.org/badges/version/predtools" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://cran.r-project.org/package=predtools" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/predtools" alt="metacran downloads"></a></li>
+<li><a href="https://www.repostatus.org/#active" class="external-link"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Mohsen Sadatsafavi, Amin Adibi, Abdollah Safari.</p>
+  <p></p>
+<p>Developed by Mohsen Sadatsafavi, Amin Adibi, Abdollah Safari, Tae Yoon Lee.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
@@ -186,6 +193,8 @@
 
   
 
+
+  
 
   </body>
 </html>
