@@ -11,7 +11,7 @@ mu_max_trunc_bvn <-
     mu2 <- mu[2]
     sig1 <- sqrt(sigma[1,1])
     sig2 <- sqrt(sigma[2,2])
-    rho <- sigma[1,2]/sig1*sig2
+    rho <- sigma[1,2]/(sig1*sig2)
     
     f1 <-  function(mu1, mu2, sig1, sig2, rho) {
       tmp1 <- sig1 - rho * sig2
