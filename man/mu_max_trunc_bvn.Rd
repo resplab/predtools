@@ -5,12 +5,18 @@
 \title{Calculates the expected value of the maximum of two random variables with zero-truncated bivariate normal distirbution
 Takes a vector of mean and a 2X2 covariance matrix}
 \usage{
-mu_max_trunc_bvn(mu, sigma)
+mu_max_trunc_bvn(mu1, mu2, sd1, sd2, rho)
 }
 \arguments{
-\item{mu}{A vector of means (of length 2)}
+\item{mu1}{Mean of the first distribution}
 
-\item{sigma}{A 2X2 covariance matrix.}
+\item{mu2}{Mean of the second distribution}
+
+\item{sd1}{SD of the first distribution}
+
+\item{sd2}{SD of the second distribution}
+
+\item{rho}{Correlation coefficient of the two random variables}
 }
 \value{
 A scalar value for the expected value
