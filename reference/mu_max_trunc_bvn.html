@@ -74,17 +74,29 @@ Takes a vector of mean and a 2X2 covariance matrix</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mu_max_trunc_bvn</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mu_max_trunc_bvn</span><span class="op">(</span><span class="va">mu1</span>, <span class="va">mu2</span>, <span class="va">sd1</span>, <span class="va">sd2</span>, <span class="va">rho</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>mu</dt>
-<dd><p>A vector of means (of length 2)</p></dd>
+    <dl><dt>mu1</dt>
+<dd><p>Mean of the first distribution</p></dd>
 
 
-<dt>sigma</dt>
-<dd><p>A 2X2 covariance matrix.</p></dd>
+<dt>mu2</dt>
+<dd><p>Mean of the second distribution</p></dd>
+
+
+<dt>sd1</dt>
+<dd><p>SD of the first distribution</p></dd>
+
+
+<dt>sd2</dt>
+<dd><p>SD of the second distribution</p></dd>
+
+
+<dt>rho</dt>
+<dd><p>Correlation coefficient of the two random variables</p></dd>
 
 </dl></div>
     <div id="value">
