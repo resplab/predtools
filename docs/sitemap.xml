@@ -31,12 +31,6 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/calc_mROC_stats.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calibration_plot.html</loc>
-  </url>
-  <url>
     <loc>/reference/Cb.cox.html</loc>
   </url>
   <url>
@@ -47,6 +41,12 @@
   </url>
   <url>
     <loc>/reference/Cb.simple.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_mROC_stats.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calibration_plot.html</loc>
   </url>
   <url>
     <loc>/reference/dev_data.html</loc>
