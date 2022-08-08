@@ -45,13 +45,12 @@ calibration_plot <- function(data,
   
   n_groups <- length(unique(data[ , group]))
   
-  data %<>%
-    mutate(decile = ntile(!!sym(pred), nTiles))
-  
   if (is.null(follow_up)) data$follow_up <- 1
 
   if (! is.null(group)) {
     data %>%
+      group_by(!!sym(group)) %>%
+      mutate(decile = ntile(!!sym(pred), nTiles)) %>%
       group_by(.data$decile, !!sym(group)) %>%
       summarise(obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
                 obsRate_SE = sd(!!sym(obs) / follow_up, na.rm = T) / sqrt(n()),
@@ -61,6 +60,7 @@ calibration_plot <- function(data,
   }
   else {
     data %>%
+      mutate(decile = ntile(!!sym(pred), nTiles)) %>%
       group_by(.data$decile) %>%
       summarise(obsRate = mean(!!sym(obs) / follow_up, na.rm = T),
                 obsRate_SE = sd(!!sym(obs) / follow_up, na.rm = T) / sqrt(n()),
