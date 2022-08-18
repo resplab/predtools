@@ -8,7 +8,7 @@
 #' @param weights (optional) observation weights 
 #' @return Returns a data frame containing thresholds, EVPIs, and some auxilary output.
 #' @export
-evpi_val <- function(Y, pi, method=c("bootstrap","bayesian bootstrap","asymptotic"), n_sim=1000, zs=(0:99)/100, weights=NULL)
+evpi_val <- function(Y, pi, method=c("bootstrap","bayesian_bootstrap","asymptotic"), n_sim=1000, zs=(0:99)/100, weights=NULL)
 {
   n <- length(Y)
   
