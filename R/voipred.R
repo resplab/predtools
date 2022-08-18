@@ -74,7 +74,13 @@ evpi_val <- function(Y, pi, method=c("bootstrap","bayesian bootstrap","asymptoti
 
 
 
-
+#' @title Calculates the first two moments of the bivariate distribution of NB_model and NB_all 
+#' @param Y Vector of the binary response variable
+#' @param pi Vector of predicted risks
+#' @param z Decision threshold at which the NBs are calculated
+#' @param weights Optinal - observation weights
+#' @return Two means, two SDs, and one correlation coefficient. First element is for the model and second is for treating all
+#' @export
 calc_NB_moments <- function(Y,pi,z,weights=NULL){
   # set up
   n <- length(Y)
@@ -109,7 +115,7 @@ calc_NB_moments <- function(Y,pi,z,weights=NULL){
   # mean of NB_model, mean of NB_all,
   # var of NB_model, var of NB_all,
   # correlation of NB_model and NB_all
-  return(c(mu1=mu[1],mu2=mu[2],sig1=sqrt(sig11),sig2=sqrt(sig22),rho=cor_coefficient))
+  return(c(mu1=mu[1],mu2=mu[2],sd1=sqrt(sig11),sd2=sqrt(sig22),rho=cor_coefficient))
 }
 
 
