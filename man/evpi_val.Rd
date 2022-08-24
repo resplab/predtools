@@ -8,7 +8,7 @@ Takes a vector of mean and a 2X2 covariance matrix}
 evpi_val(
   Y,
   pi,
-  method = c("bootstrap", "bayesian bootstrap", "asymptotic"),
+  method = c("bootstrap", "bayesian_bootstrap", "asymptotic"),
   n_sim = 1000,
   zs = (0:99)/100,
   weights = NULL
