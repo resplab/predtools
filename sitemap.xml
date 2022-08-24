@@ -25,6 +25,9 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/calc_NB_moments.html</loc>
+  </url>
+  <url>
     <loc>/reference/calc_mROC_stats.html</loc>
   </url>
   <url>
@@ -32,6 +35,9 @@
   </url>
   <url>
     <loc>/reference/dev_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/evpi_val.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
