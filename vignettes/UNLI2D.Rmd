@@ -1,0 +1,90 @@
+---
+title: "Unit Normal Loss Integral in Two Dimensions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{UNLI2D}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(predtools)
+```
+
+This document provides background information and step-wise tutorial for using the `predtools` R package for the two-dimensional Unit Normal Loss Integral (UNLI) methodology with applications in Value of Information (VoI) analysis.
+
+# Background
+
+## What is UNLI?
+
+UNLI is closely related to the mean of the truncated normal distribution. Suppose $Y$ has a normal distribution with mean $\mu$ and variance $\sigma^2$. With $\phi$ and $\Phi$ denoting the probability density and cumulative distribution functions of the standard normal distribution, the UNLI can be defined as:
+
+$$ 
+UNLI = E(\max(Y,0)) = \int_{0}^{\inf}\frac{y}{\sigma}\phi(\frac{y-\mu}{\sigma})dy = \mu[1-\Phi(-\frac{\mu}{\sigma})] + \sigma \phi(-\frac{\mu}{\sigma}).
+$$
+
+## UNLI with Application in VoI Analysis
+
+UNLI has emerged in various ways in VoI analysis. Wilson (PharmacoEconomics, 2015) provides a comprehensive overview of VoI metrics and UNLI-based computations. A typical instance in which the UNLI is used in VoI is the computation of the Expected Value of Perfect Information (EVPI). EVPI is the expected gain in net benefit when uncertainty in the evidence underlying the decision is completely resolved. When comparing two strategies (e.g., use of a new medication versus continuing with standard of care), the outcome of a probabilistic decision analysis can be summarized as a distribution of the incremental net benefit (INB) between the two strategies.
+
+If this quantity has a normal distribution, then the EVPI can be expressed as a closed-form solution using the one-dimensional UNLI. This approach for EVPI calculation is applicable to both model-based and data-driven evaluations. The UNLI method has been extended to other VoI metrics, such as Expected Value of Partial Perfect Information and Expected Value of Sample Information. Such solutions are computationally feasible and free from Monte Carlo errors.
+
+## 2D UNLI
+
+However, in many practical decision analyses, there are more than two strategies that are compared, making the closed-form UNLI not readily applicable. Here, we have implemented the closed form solution for the UNLI for two dimensions based on Lee et al. (2022). This allows extension of the UNLI methodology to comparisons of three strategies.
+
+# Tutorial
+
+We demonstrate the utility of the 2D UNLI method in computation of EVPI using a simulated dataset.
+
+## Installation
+
+You can install the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("resplab/predtools")
+```
+
+## Set-up
+
+Suppose we have three strategies of interest, with one labelled as the reference strategy (the choice of which strategy being designated as the reference has no bearing on the computation). The INBs of the two alternative strategies compared with the reference strategy at a given Willingness-To-Pay value are denoted by $Y_1$ and $Y_2$. Further suppose that our knowledge of $\left( Y_1,Y_2 \right)$ can be expressed as a bivariate normal (BVN) distribution with mean $\left(\mu_1,\mu_2 \right)$, variance $\left( \sigma_1^2,\sigma_2^2 \right)$, and correlation coefficient $\rho$. The expected NB under perfect information is the expectation of $\max \left(Y_1,Y_2,0 \right)$.
+
+## Simulated data
+
+Suppose $Y_1,Y_2 \sim BVN(\mu_1=-2,\mu_2=3,\sigma^2_1 = 2, \sigma^2_2=4, \rho = 0.7)$, and we generate $n=1,000$ samples.
+
+```{R}
+library(mvtnorm)
+n <- 1000
+mus <- c(-2,3)
+sigmas <- c(2,4)
+rho <- 0.7
+Sigma <- matrix(c(sigmas[1],rho*sqrt(sigmas[1]*sigmas[2]),rho*sqrt(sigmas[1]*sigmas[2]),
+                  sigmas[2]),nrow=2)
+sim_data <- rmvnorm(n,mean=c(-2,3),sigma = Sigma)
+```
+
+## EVPI calculation
+
+We first calculate the sample estimates of the parameters and use the 2D UNLI method to calculate the EVPI.
+
+```{R}
+sample_mus <- apply(sim_data,2,mean)
+sample_Sigma <- cov(sim_data)
+sample_rho <- sample_Sigma[1,2]/sqrt(sample_Sigma[1,1]*sample_Sigma[2,2])
+EVPI <- predtools::mu_max_trunc_bvn(sample_mus[1],
+                            sample_mus[2],
+                            sqrt(sample_Sigma[1,1]),
+                            sqrt(sample_Sigma[2,2]),sample_rho) -
+  max(c(0,sample_mus))
+```
+
+Here the EVPI is `r EVPI`.

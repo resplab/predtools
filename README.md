@@ -25,6 +25,7 @@ prediction models.
     Adjustment](https://resplab.github.io/predtools/articles/interceptAdj.html)
 -   [Calibration
     Plot](https://resplab.github.io/predtools/articles/calibPlot.html)
+-   [Unit Normal Loss Integral in Two Dimensions](https://resplab.github.io/predtools/articles/UNLI2D.html)
 
 ## Installation
 
@@ -56,9 +57,8 @@ a prediction model and uses ggplot2 to produce a calibration plot:
 
 See vignettes for more advanced functionalities, including [model-based
 ROC](https://resplab.github.io/predtools/articles/mROC.html), [intercept
-adjustment](https://resplab.github.io/predtools/articles/interceptAdj.html),
-and [calibration
-plot](https://resplab.github.io/predtools/articles/calibPlot.html).
+adjustment](https://resplab.github.io/predtools/articles/interceptAdj.html), [calibration
+plot](https://resplab.github.io/predtools/articles/calibPlot.html), and [unit normal loss integral in two dimensions](https://resplab.github.io/predtools/articles/UNLI2D.html).
 
 You can also access the vignettes from R:
 
