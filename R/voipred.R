@@ -211,9 +211,9 @@ calc_NB_moments <- function(Y,pi,z,weights=NULL){
   }
   else
   {
-    rho <- weighted.mean(Y,w = weights)
-    TPR <- weighted.mean(Y*a, w = weights)/rho
-    FPR <- weighted.mean(a*(1-Y), w=weights)/(1-rho) 
+    rho <- stats::weighted.mean(Y,w = weights)
+    TPR <- stats::weighted.mean(Y*a, w = weights)/rho
+    FPR <- stats::weighted.mean(a*(1-Y), w=weights)/(1-rho) 
   }
   tz <- z/(1-z)
   
