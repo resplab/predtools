@@ -4,6 +4,9 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/articles/UNLI2D.html</loc>
+  </url>
+  <url>
     <loc>/articles/calibPlot.html</loc>
   </url>
   <url>
@@ -43,6 +46,9 @@
     <loc>/reference/Cb.simple.html</loc>
   </url>
   <url>
+    <loc>/reference/calc_NB_moments.html</loc>
+  </url>
+  <url>
     <loc>/reference/calc_mROC_stats.html</loc>
   </url>
   <url>
@@ -50,6 +56,12 @@
   </url>
   <url>
     <loc>/reference/dev_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/evpi_val.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gusti.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>

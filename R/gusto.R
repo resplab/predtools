@@ -12,6 +12,6 @@
 #' }
 #' @docType data
 #' @keywords datasets
-#' @name gusti
+#' @name gusto
 #' @source Internet
 NULL
