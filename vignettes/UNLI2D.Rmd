@@ -27,7 +27,7 @@ This document provides background information and step-wise tutorial for using t
 UNLI is closely related to the mean of the truncated normal distribution. Suppose $Y$ has a normal distribution with mean $\mu$ and variance $\sigma^2$. With $\phi$ and $\Phi$ denoting the probability density and cumulative distribution functions of the standard normal distribution, the UNLI can be defined as:
 
 $$ 
-UNLI = E(\max(Y,0)) = \int_{0}^{\inf}\frac{y}{\sigma}\phi(\frac{y-\mu}{\sigma})dy = \mu[1-\Phi(-\frac{\mu}{\sigma})] + \sigma \phi(-\frac{\mu}{\sigma}).
+UNLI = E(\max(Y,0)) = \int_{0}^{\infty}\frac{y}{\sigma}\phi(\frac{y-\mu}{\sigma})dy = \mu[1-\Phi(-\frac{\mu}{\sigma})] + \sigma \phi(-\frac{\mu}{\sigma}).
 $$
 
 ## UNLI with Application in VoI Analysis
