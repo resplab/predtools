@@ -90,104 +90,86 @@ evpi_val <- function(Y, pi, method=c("bootstrap","bayesian_bootstrap","asymptoti
 #' @param sd1 SD of the first distribution
 #' @param sd2 SD of the second distribution
 #' @param rho Correlation coefficient of the two random variables
+#' @param precision Numerical precision value
 #' @return A scalar value for the expected value
 #' @export
-mu_max_trunc_bvn <-
-  function(mu1, mu2, sd1, sd2, rho) {
-    
-    f1 <-  function(mu1, mu2, sd1, sd2, rho) {
-      tmp1 <- sd1 - rho * sd2
-      tmp2 <-
-        (-sd1 * mu2 + rho * sd2 * mu1) / (sd1 * sd2 * sqrt(1 - rho ^
-                                                             2))
-      mu1 * (as.numeric(tmp1 > 0) +  0 * as.numeric(tmp1 == 0) * pnorm(tmp2)) -
-        pnorm(tmp2) * (-sd1 * dnorm(-mu1 / sd1) + mu1 * pnorm(-mu1 / sd1))
-    }
-    
-    f2 <- function(mu1, mu2, sd1, sd2, rho) {
-      tmp1 <- (sd1 - rho * sd2)
-      alpha_num <- (sd1 * mu2 - rho * sd2 * mu1)
-      beta_num <- sd1 * sd2 * sqrt(1 - rho ^ 2)
-      alpha <- alpha_num / tmp1
-      beta <- beta_num / tmp1
-      
-      if (tmp1 > 0) {
-        a <- (tmp1 * mu1 - alpha_num) / beta_num
-        b <- tmp1 * sd1 / beta_num
-        T1_rho <- -1 / sqrt(1 + b ^ 2)
-        
-        if (tmp1 < 1e-10) {
-          T1_1 <- pnorm(alpha_num / beta_num)
-        } else{
-          T1_1 <-  pnorm((-a / b) / sqrt(1 + (1 / b) ^ 2))
-        }
-        
-        T1 <-
-          mu1 * (T1_1  - as.numeric(pmvnorm(
-            lower = c(-Inf,-Inf),
-            upper = c(-a / sqrt(1 + b ^ 2),-alpha_num / beta_num),
-            mean =
-              c(0, 0),
-            sigma = matrix(c(1, T1_rho, T1_rho, 1), 2)
-          )[[1]]))
-        a <- (alpha - mu1) / sd1
-        b <- beta / sd1
-        T2_t <- sqrt(1 + b ^ 2)
-        
-        if (tmp1 < 1e-10) {
-          T2 <-
-            -sd1 / b * dnorm(alpha_num / beta_num) * (1 - pnorm(-mu1 / sd1))
-        } else{
-          T2 <-
-            -sd1 / T2_t * dnorm(a / T2_t) *
-            (1 - pnorm(-T2_t * alpha_num / beta_num + a * b / T2_t))
-        }
-        
-        return(T1 + T2)
-      }
-      else{
-        beta <- abs(beta)
-        
-        a <- (abs(tmp1) * mu1 + alpha_num) / beta_num
-        b <- abs(tmp1) * sd1 / beta_num
-        T1_rho <- -1 / sqrt(1 + b ^ 2)
-        
-        if (abs(tmp1) < 1e-10) {
-          T1_1 <- pnorm(-alpha_num / beta_num)
-        } else{
-          T1_1 <-  pnorm((-a / b) / sqrt(1 + (1 / b) ^ 2))
-        }
-        
-        T1 <-
-          -mu1 * (T1_1  - as.numeric(pmvnorm(
-            lower = c(-Inf,-Inf),
-            upper = c(-a / sqrt(1 + b ^ 2), alpha_num / beta_num),
-            mean =
-              c(0, 0),
-            sigma = matrix(c(1, T1_rho, T1_rho, 1), 2)
-          )[[1]]))
-        
-        a <- (alpha - mu1) / sd1
-        b <- beta / sd1
-        T2_t <- sqrt(1 + b ^ 2)
-        
-        if (abs(tmp1) < 1e-10) {
-          T2 <-
-            sd1 / b * dnorm(-alpha_num / beta_num) * (1 - pnorm(-mu1 / sd1))
-        } else{
-          T2 <-
-            sd1 / T2_t * dnorm(a / T2_t) * (1 - pnorm(T2_t * alpha_num / beta_num +
-                                                        a * b / T2_t))
-        }
-        
-        return(T1 + T2)
-        
-      }
-    }
-    
-    f1(mu1, mu2, sd1, sd2, rho) + f1(mu2, mu1, sd2, sd1, rho) -
-      f2(mu1, mu2, sd1, sd2, rho) - f2(mu2, mu1, sd2, sd1, rho)
+mu_max_trunc_bvn <-function(mu1, mu2, sigma1, sigma2, rho,precision=.Machine$double.eps) {
+  
+  # indicator function:
+  # returns 1 if the condition is true
+  #         0 otherwise
+  indicator <- function(condition){
+    as.numeric(condition)
   }
+  
+  # To deal with numerical precision,
+  # we test whether abs(Q) < precision
+  # instead of testing for Q=0
+  # Machine precision is 2.220446e-16
+  
+  # the first term of the integral:
+  # uv evaluated at infinity - uv evaluated at 0
+  uv <-  function(mu1, mu2, sigma1, sigma2, rho) {
+    # two commonly used quantities
+    tmp1 <- sigma1 - rho * sigma2
+    tmp2 <- (rho * sigma2 * mu1 - sigma1 * mu2 ) / (sigma1 * sigma2 * sqrt(1 - rho ^2))
+    
+    # compute [uv|_0^\infinity
+    mu1 * (indicator(tmp1 > precision) +  indicator(abs(tmp1) < precision) * pnorm(tmp2)) -
+      pnorm(tmp2) * (-sigma1 * dnorm(-mu1 / sigma1) + mu1 * pnorm(-mu1 / sigma1))
+  }
+  
+  # the second term of the integral:
+  # integral of vdu from 0 to infinity
+  vdu <- function(mu1, mu2, sigma1, sigma2, rho) {
+    # quantities used many times
+    tmp1 <- (sigma1 - rho * sigma2)
+    delta <- sign(tmp1)
+    alpha <- (sigma1 * mu2 - rho * sigma2 * mu1)
+    beta <- sigma1 * sigma2 * sqrt(1 - rho ^ 2)
+    
+    # the first case:
+    # sigma1 - rho * sigma2 = 0
+    if(abs(tmp1)<precision){
+      return(0)
+    } 
+    # the second case:
+    # sigma1 - rho * sigma2 \not = 0
+    else{
+      
+      # a term used multiple times as the denominator
+      denom <- sqrt(sigma1^2+sigma2^2-2*rho*sigma1*sigma2)
+      
+      # correlation for the standard bivariate normal term
+      sBVN_rho <- -sigma2*sqrt(1-rho^2)/denom
+      
+      # first term T1
+      T1 <- delta*mu1*(pnorm(delta*(mu2-mu1)/denom) - as.numeric(pmvnorm(
+        lower = c(-Inf,-Inf),
+        upper = c(delta*(mu2-mu1)/denom,-delta*alpha / beta),
+        mean =
+          c(0, 0),
+        sigma = matrix(c(1, sBVN_rho, sBVN_rho, 1), 2)
+      )[[1]]) )
+      
+      # quantities for T2
+      a <- (mu2-mu1)/tmp1
+      b <- (beta/abs(tmp1))/sigma1
+      t <- sqrt(1 + b ^ 2)
+      
+      # second term T2
+      T2 <- -delta*sigma1 / t * dnorm(a / t) *
+        (1 - pnorm(-delta * t * alpha / beta + a * b / t))
+      
+      return(T1+T2)
+    }
+  }
+  
+  # compute E(max(Y,0))
+  uv(mu1, mu2, sigma1, sigma2, rho) + uv(mu2, mu1, sigma2, sigma1, rho) -
+    vdu(mu1, mu2, sigma1, sigma2, rho) - vdu(mu2, mu1, sigma2, sigma1, rho)
+}
+
 
 
 
