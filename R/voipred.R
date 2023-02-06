@@ -30,8 +30,7 @@ evpi_val <- function(Y, pi, method=c("bootstrap","bayesian_bootstrap","asymptoti
         
         
         tryCatch(
-          {ENB_perfect[j] <- mu_max_trunc_bvn(parms[1],parms[2],parms[3],parms[4],parms[5])
-          , error=function(cond) {
+          {ENB_perfect[j] <- mu_max_trunc_bvn(parms[1],parms[2],parms[3],parms[4],parms[5])}, error=function(cond) {
             return(NULL)
           })
         ENB_current[j] <- max(0,NB_model,NB_all)
