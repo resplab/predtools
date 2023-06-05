@@ -1,6 +1,4 @@
-
 <!-- badges: starts -->
-
 [![R-CMD-check](https://github.com/resplab/predtools/workflows/R-CMD-check/badge.svg)](https://github.com/resplab/predtools/actions)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/predtools)](https://cran.r-project.org/package=predtools)
 [![metacran
