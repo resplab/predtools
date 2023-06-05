@@ -77,7 +77,14 @@ Takes a vector of mean and a 2X2 covariance matrix</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mu_max_trunc_bvn</span><span class="op">(</span><span class="va">mu1</span>, <span class="va">mu2</span>, <span class="va">sd1</span>, <span class="va">sd2</span>, <span class="va">rho</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mu_max_trunc_bvn</span><span class="op">(</span></span>
+<span>  <span class="va">mu1</span>,</span>
+<span>  <span class="va">mu2</span>,</span>
+<span>  <span class="va">sigma1</span>,</span>
+<span>  <span class="va">sigma2</span>,</span>
+<span>  <span class="va">rho</span>,</span>
+<span>  precision <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -90,16 +97,20 @@ Takes a vector of mean and a 2X2 covariance matrix</p>
 <dd><p>Mean of the second distribution</p></dd>
 
 
+<dt>rho</dt>
+<dd><p>Correlation coefficient of the two random variables</p></dd>
+
+
+<dt>precision</dt>
+<dd><p>Numerical precision value</p></dd>
+
+
 <dt>sd1</dt>
 <dd><p>SD of the first distribution</p></dd>
 
 
 <dt>sd2</dt>
 <dd><p>SD of the second distribution</p></dd>
-
-
-<dt>rho</dt>
-<dd><p>Correlation coefficient of the two random variables</p></dd>
 
 </dl></div>
     <div id="value">
@@ -121,7 +132,7 @@ Takes a vector of mean and a 2X2 covariance matrix</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
