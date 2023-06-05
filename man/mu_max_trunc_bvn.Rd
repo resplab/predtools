@@ -19,13 +19,13 @@ mu_max_trunc_bvn(
 
 \item{mu2}{Mean of the second distribution}
 
+\item{sigma1}{SD of the first distribution}
+
+\item{sigma2}{SD of the second distribution}
+
 \item{rho}{Correlation coefficient of the two random variables}
 
 \item{precision}{Numerical precision value}
-
-\item{sd1}{SD of the first distribution}
-
-\item{sd2}{SD of the second distribution}
 }
 \value{
 A scalar value for the expected value

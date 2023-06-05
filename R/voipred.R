@@ -78,21 +78,17 @@ evpi_val <- function(Y, pi, method=c("bootstrap","bayesian_bootstrap","asymptoti
 
 
 
-
-
-
-
 #' @title Calculates the expected value of the maximum of two random variables with zero-truncated bivariate normal distirbution
 #' Takes a vector of mean and a 2X2 covariance matrix
 #' @param mu1 Mean of the first distribution
 #' @param mu2 Mean of the second distribution
-#' @param sd1 SD of the first distribution
-#' @param sd2 SD of the second distribution
+#' @param sigma1 SD of the first distribution
+#' @param sigma2 SD of the second distribution
 #' @param rho Correlation coefficient of the two random variables
 #' @param precision Numerical precision value
 #' @return A scalar value for the expected value
 #' @export
-mu_max_trunc_bvn <-function(mu1, mu2, sigma1, sigma2, rho,precision=.Machine$double.eps) {
+mu_max_trunc_bvn <-function(mu1, mu2, sigma1, sigma2, rho, precision=.Machine$double.eps) {
   
   # indicator function:
   # returns 1 if the condition is true
