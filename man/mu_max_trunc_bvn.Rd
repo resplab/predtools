@@ -2,7 +2,7 @@
 % Please edit documentation in R/voipred.R
 \name{mu_max_trunc_bvn}
 \alias{mu_max_trunc_bvn}
-\title{Calculates the expected value of the maximum of two random variables with zero-truncated bivariate normal distirbution
+\title{Calculates the expected value of the maximum of two random variables with zero-truncated bivariate normal distribution
 Takes a vector of mean and a 2X2 covariance matrix}
 \usage{
 mu_max_trunc_bvn(
@@ -31,6 +31,6 @@ mu_max_trunc_bvn(
 A scalar value for the expected value
 }
 \description{
-Calculates the expected value of the maximum of two random variables with zero-truncated bivariate normal distirbution
+Calculates the expected value of the maximum of two random variables with zero-truncated bivariate normal distribution
 Takes a vector of mean and a 2X2 covariance matrix
 }

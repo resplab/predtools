@@ -78,7 +78,7 @@ evpi_val <- function(Y, pi, method=c("bootstrap","bayesian_bootstrap","asymptoti
 
 
 
-#' @title Calculates the expected value of the maximum of two random variables with zero-truncated bivariate normal distirbution
+#' @title Calculates the expected value of the maximum of two random variables with zero-truncated bivariate normal distribution
 #' Takes a vector of mean and a 2X2 covariance matrix
 #' @param mu1 Mean of the first distribution
 #' @param mu2 Mean of the second distribution
