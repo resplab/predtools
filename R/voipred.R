@@ -210,7 +210,7 @@ calc_NB_moments <- function(Y,pi,z,weights=NULL){
   # mean of NB_model, mean of NB_all,
   # var of NB_model, var of NB_all,
   # correlation of NB_model and NB_all
-  return(c(mu1=mu[1],mu2=mu[2],sd1=sqrt(sig11),sd2=sqrt(sig22),rho=cor_coefficient))
+  return(c(mu1=mu[1],mu2=mu[2],sigma1=sqrt(sig11),sigma2=sqrt(sig22),rho=cor_coefficient))
 }
 
 
